@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="./bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="./bower_components/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet">
+    <link href="./css/mobile.css" rel="stylesheet">
+    <link rel="stylesheet" href="./bower_components/bootstrap-offcanvas/dist/css/bootstrap.offcanvas.min.css"/>
+</head>
+<body>
+
+<div id="wrapper">
+
+    <!-- Sidebar -->
+    <div id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+            <li class="sidebar-brand">
+                <a href="#">
+                    Olcc - Mobile Edition
+                </a>
+            </li>
+            <li>
+                <a href="#">Configuration</a>
+            </li>
+            <li>
+                <a>Tribunes <span class="glyphicon glyphicon-plus"></span></a>
+                <ul>
+                    <li>
+                        <a><span class="glyphicon glyphicon-ok"></span> euromussels</a>
+                    </li>
+                    <li>
+                        <a><span class="glyphicon glyphicon-remove"></span>dlfp</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">Filtres</a>
+                <ul>
+                    <li><a><span class="glyphicon glyphicon-ok"></span> Mes posts</a></li>
+                    <li><a><span class="glyphicon glyphicon-remove"></span> Réponses</a></li>
+                    <li><a><span class="glyphicon glyphicon-remove"></span> Bigorno<</a></li>
+                    <li><a><span class="glyphicon glyphicon-remove"></span> Nouveaux</a></li>
+                    <li><a><span class="glyphicon glyphicon-remove"></span> Plonk</a></li>
+                    <li><a><span class="glyphicon glyphicon-off"></span> Reset</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">Actions</a>
+                <ul class="list-inline">
+                    <li>
+                        <a href=""><span class="glyphicon glyphicon-transfer"></span></a>
+                    </li>
+                    <li>
+                        <a href=""><span class="glyphicon glyphicon-refresh"></span></a>
+                    </li>
+                    <li>
+                        <a href=""><span class="glyphicon glyphicon-stop"></span></a>
+                    </li>
+                    <li>
+                        <a href=""><span class="glyphicon glyphicon-eye-open"></span></a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <!-- /#sidebar-wrapper -->
+
+
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+        <button type="button" id="menu-toggle" class="navbar-toggle fixed-top-left">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div id="pinnipede">
+                    </div>
+                </div>
+
+                <div class="col-xs-12">
+                    <div class="fixed-bottom">
+                        <form class="form-inline">
+                            <div class="form-group col-xs-6">
+                                <div class="input-group input-wide">
+                                    <input type="text" class="form-control input-sm" id="message" placeholder="\_o<">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-sm btn-default" type="button">Go!</button>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group col-xs-3">
+                                <label class="hidden-xs hidden-sm" for="tribune">Tribune :</label>
+                                <div class="input-group">
+                                    <div class="input-group-addon hidden-md hidden-lg"><span class="glyphicon glyphicon-console"></span></div>
+                                    <select class="form-control input-sm" id="tribune">
+                                        <option>euromussels</option>
+                                        <option>2</option>
+                                        <option>3</option>
+                                        <option>4</option>
+                                        <option>5</option>
+                                    </select>
+                                </div>
+
+                            </div>
+                            <div class="form-group col-xs-3">
+                                <label class="hidden-xs hidden-sm" for="totoz">Totoz : </label>
+                                <div class="input-group">
+                                    <div class="input-group-addon hidden-md hidden-lg"><span class="glyphicon glyphicon-picture"></span></div>
+                                    <input type="text" id="totoz" class="form-control input-sm">
+                                    </div>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+
+
+    <!-- /#page-content-wrapper -->
+
+</div>
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="./bower_components/jquery/dist/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="./bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- Menu Toggle Script -->
+<script>
+    $("#menu-toggle").click(function(e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+    });
+</script>
+</body>
+</html>

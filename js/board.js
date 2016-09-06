@@ -44,7 +44,7 @@ Board.prototype.removeView = function (view) {
 Board.prototype.notify = function () {
     var args = arguments;
     for(var i=this.views.length; i--;) {
-        this.views[i].notified.apply(this.views[i], args);
+        //this.views[i].notified.apply(this.views[i], args);
     }
 }
 
@@ -396,11 +396,12 @@ function BoardTabAddTab (boardTab) {
     // Mise à jour de l'état
     board.setState(STATE_STOP);
     // Ajout de la tribune dans la liste du palmipède
-    var palmilist = document.getElementById('palmi-list');
+    var palmilist = document.getElementById('tribune');
     var opt = document.createElement('option');
     opt.setAttribute("value", board.name);
     opt.innerHTML = board.name;
     palmilist.appendChild(opt);
+    console.log('tes');
 }
 BoardTab.prototype.addTab = function () { BoardTabAddTab(this); };
 
@@ -551,8 +552,8 @@ function BoardConfigPanel(board) {
     var head = document.createElement('div');
     head.className = 'panel-header'; // setAttribute('class', "panel-header");
     head.innerHTML = 'Paramètres pour la tribune '+board.name;
-    head.innerHTML += ' <img src="img/closeok.png" title="Enregistrer les changements et fermer" onclick="saveBoardConfig('+"'"+board.name+"'"+')" />';
-    head.innerHTML += ' <img src="img/cancel.png" title="Annuler les changements et fermer" onclick="cancelBoardConfig('+"'"+board.name+"'"+')" />';
+    head.innerHTML += ' <img src="../img/closeok.png" title="Enregistrer les changements et fermer" onclick="saveBoardConfig('+"'"+board.name+"'"+')" />';
+    head.innerHTML += ' <img src="../img/cancel.png" title="Annuler les changements et fermer" onclick="cancelBoardConfig('+"'"+board.name+"'"+')" />';
     panel.appendChild(head);
     var subpanelw = document.createElement('table');
     subpanelw.style.width = "100%";

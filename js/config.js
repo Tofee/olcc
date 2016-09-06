@@ -258,20 +258,20 @@ function addConfigLine(board, subpanel) {
     // Cellule bouton start
     td = document.createElement('td');
     icon = (board.state == STATE_STOP) ? "start.png" : "greystart.png";
-    td.innerHTML = '<img id="but-start-'+board.name+'" src="img/'+icon+'" alt="[Démarrer]" title="Démarrer" onclick="BoardStart(GlobalBoards['+"'"+board.name+"'"+'])" />';
+    td.innerHTML = '<img id="but-start-'+board.name+'" src='+icon+'"../img" alt="[Démarrer]" title="Démarrer" onclick="BoardStart(GlobalBoards['+"'"+board.name+"'"+'])" />';
     tr.appendChild(td);
     // Cellule bouton stop
     td = document.createElement('td');
     icon = (board.state == STATE_STOP) ? "greystop.png" : "stop.png";
-    td.innerHTML = '<img id="but-stop-'+board.name+'" src="img/'+icon+'" alt="[Arrêter]" title="Arrêter" onclick="BoardStop(GlobalBoards['+"'"+board.name+"'"+'])" />';
+    td.innerHTML = '<img id="but-stop-'+board.name+'" src='+icon+'"../img" alt="[Arrêter]" title="Arrêter" onclick="BoardStop(GlobalBoards['+"'"+board.name+"'"+'])" />';
     tr.appendChild(td);
     // Cellule bouton config
     td = document.createElement('td');
-    td.innerHTML = '<img id="but-config-'+board.name+'" src="img/bconfig.png" alt="[Paramètres]" title="Paramètres" onclick="configBoard('+"'"+board.name+"'"+')" />';
+    td.innerHTML = '<img id="but-config-'+board.name+'" src="../img/bconfig.png" alt="[Paramètres]" title="Paramètres" onclick="configBoard('+"'"+board.name+"'"+')" />';
     tr.appendChild(td);
     // Cellule bouton remove
     td = document.createElement('td');
-    td.innerHTML = '<img id="but-remove-'+board.name+'" src="img/remove.png" alt="[Supprimer]" title="Supprimer" onclick="configRemove('+"'"+board.name+"'"+')" />';
+    td.innerHTML = '<img id="but-remove-'+board.name+'" src="../img/remove.png" alt="[Supprimer]" title="Supprimer" onclick="configRemove('+"'"+board.name+"'"+')" />';
     tr.appendChild(td);
     // Cellule nombre de posts
     td = document.createElement('td');
@@ -328,8 +328,8 @@ function createConfigTabs(panel) {
     var head1 = document.createElement('div');
     head1.className = 'panel-header'; // setAttribute('class', "panel-header");
     head1.innerHTML = 'OnlineCoinCoin '+VERSION+' - Configuration';
-    head1.innerHTML += ' <img src="img/closeok.png" alt="[Ok]" title="Enregistrer les changements et fermer" onclick="saveConfig()" />';
-    head1.innerHTML += ' <img src="img/cancel.png" alt="[Annuler]" title="Annuler les changements et fermer" onclick="closeConfig()" />';
+    head1.innerHTML += ' <img src="../img/closeok.png" alt="[Ok]" title="Enregistrer les changements et fermer" onclick="saveConfig()" />';
+    head1.innerHTML += ' <img src="../img/cancel.png" alt="[Annuler]" title="Annuler les changements et fermer" onclick="closeConfig()" />';
     panel.appendChild(head1);
     var tabbar = document.createElement('div');
     tabbar.className = "panel-tabs";
@@ -342,7 +342,7 @@ function createConfigTabs(panel) {
         var tab = document.createElement('div');
         tab.className = "panel-tab";
         tab.setAttribute('id', "config-tab-but-"+i);
-        tab.innerHTML = '<img src="img/'+config_sections[i].img+'" alt="['+config_sections[i].name+']" title="'+config_sections[i].descr+'" /><br />'+config_sections[i].name;
+        tab.innerHTML = '<img src='+config_sections[i].img+'"../img" alt="['+config_sections[i].name+']" title="'+config_sections[i].descr+'" /><br />'+config_sections[i].name;
         /* var coin = function() {alert(i);setConfigTab(i)}; */
         addEvent(tab, "click", coin(i), false);
         tabbar.appendChild(tab);
@@ -456,7 +456,7 @@ function createConfigPanel(cpanel) {
     panel.appendChild(head3);
     subpanel = document.createElement('div');
     subpanel.appendChild(triblist);
-    subpanel.innerHTML += '<img src="img/addboard.png" alt="[+]" title="Ajouter cette tribune" onclick="addNewBoard()" />';
+    subpanel.innerHTML += '<img src="../img/addboard.png" alt="[+]" title="Ajouter cette tribune" onclick="addNewBoard()" />';
     subpanel.innerHTML += '<p><a href="#" onclick="addPersoBoard()">Définir une nouvelle tribune perso</a></p>';
     panel.appendChild(subpanel);
     

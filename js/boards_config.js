@@ -24,7 +24,7 @@ var euro = new Board('euromussels', false);
 //euro.postUrl = 'http://euromussels.eu/?q=tribune/post';
 euro.getUrl = 'http://faab.euromussels.eu:80//data/backend.xml';
 euro.postUrl = 'http://faab.euromussels.eu:80//add.php';
-batavie.slip = SLIP_TAGS_RAW;
+euro.slip = SLIP_TAGS_RAW;
 euro.color = '#d0d0ff';
 euro.alias = "euro,euroxers";
 GlobalBoards['euromussels'] = euro;

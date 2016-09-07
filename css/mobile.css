@@ -16,6 +16,7 @@ body > .container-fluid {
     bottom: 40px;
     overflow-x: scroll;
     margin-left: -35px;
+    width: 100%;
 }
 
 @media(max-width: 767px) {

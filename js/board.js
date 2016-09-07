@@ -374,34 +374,34 @@ function BoardTabAddTab (boardTab) {
     // Ajout de l'onglet
     board.loadConfig();
     board.updateCSS();
-    var tab = document.createElement("div");
-    tab.setAttribute("id", "tab-"+board.name);
-    tab.className = "tab tab-"+board.name;
-    addEvent(tab, "click", function (e) { clickBoard(board.name, e); }, false);
-    var icon = document.createElement("img");
-    icon.src = "img/stop.png";
-    tab.appendChild(icon);
-    var name = document.createElement("span");
-    name.className = "tab-name";
-    name.innerHTML = board.name;
-    tab.appendChild(name);
-    var text = document.createElement("span");
-    text.setAttribute("id", "tab-notif-"+board.name);
-    addClass(text, "tab-notif");
-    tab.appendChild(text);
-    document.getElementById("tabs-boards").appendChild(tab);
+    var tab = $('<li id="'+"tab-"+board.name+'" class="'+"tab tab-"+board.name+'"> '+board.name+' </li>');
+    //TODO gérer ailleurs
+    addEvent(tab[0], "click", function (e) { clickBoard(board.name, e); }, false);
+    //visible
     boardTab.visible = true;
+    var select = $('<span class="glyphicon glyphicon-check"></span>');
+    tab.prepend(select);
+
+
+    var icon = $('<img src="img/stop.png">');
+    tab.append(icon);
+
+    var notif = $('<span class="tab-notif" id="tab-notif-"'+board.name+'></span>');
+    tab.append(notif);
+
+    $("#tabs-boards").append(tab);
+
     board.addView(boardTab);
     board.addView(window);
     // Mise à jour de l'état
     board.setState(STATE_STOP);
     // Ajout de la tribune dans la liste du palmipède
+
     var palmilist = document.getElementById('tribune');
     var opt = document.createElement('option');
     opt.setAttribute("value", board.name);
     opt.innerHTML = board.name;
     palmilist.appendChild(opt);
-    console.log('tes');
 }
 BoardTab.prototype.addTab = function () { BoardTabAddTab(this); };
 

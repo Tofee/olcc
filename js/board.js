@@ -51,8 +51,8 @@ Board.prototype.notify = function () {
 // Mise à jour de la css de la board (couleur de fond)
 function BoardUpdateCSS(board) {
     var bclass = "background: "+board.color+";";
-    var css = addCSSClass("tab-"+board.name, bclass);
-    css.style.background = board.color;
+    /*var css = addCSSClass("tab-"+board.name, bclass);
+    css.style.background = board.color;*/
     if (is_ie) {
         var bcolor = board.color;
     }
@@ -374,20 +374,22 @@ function BoardTabAddTab (boardTab) {
     // Ajout de l'onglet
     board.loadConfig();
     board.updateCSS();
-    var tab = $('<li id="'+"tab-"+board.name+'" class="'+"tab tab-"+board.name+'"> '+board.name+' </li>');
+    var tab = $('<li id="'+"tab-"+board.name+'" class="'+"tab tab-"+board.name+'"><a href="#"><span class="glyphicon glyphicon-check"></span> '+board.name+' </a></li>');
+
     //TODO gérer ailleurs
     addEvent(tab[0], "click", function (e) { clickBoard(board.name, e); }, false);
     //visible
     boardTab.visible = true;
-    var select = $('<span class="glyphicon glyphicon-check"></span>');
-    tab.prepend(select);
-
 
     var icon = $('<img src="img/stop.png">');
-    tab.append(icon);
+    tab.find('a').append(icon);
 
     var notif = $('<span class="tab-notif" id="tab-notif-"'+board.name+'></span>');
-    tab.append(notif);
+    tab.find('a').append(notif);
+
+    var tabtab = $('<span class="tab-color">&nbsp;</span>');
+    tabtab.css('background-color', board.color);
+    tab.find('a').append(tabtab);
 
     $("#tabs-boards").append(tab);
 

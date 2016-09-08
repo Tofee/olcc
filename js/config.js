@@ -546,38 +546,38 @@ function configRemove(name) {
 // Sauvegarde la configuration de la tribune "name" et ferme son panneau de config
 function saveBoardConfig(name) {
     var board = GlobalBoards[name];
-    board.color = document.getElementById('config-color').value;
+    board.color = '#'+$("#colorTribune").val();
     board.updateCSS(); // change couleur style de la board
     onChangeTrib(); // pour forcer la couleur du palmipède au cas où
-    board.alias = document.getElementById('config-alias').value;
-    board.login = document.getElementById('config-login').value;
-    board.ua = document.getElementById('config-ua').value;
-    board.cookie = document.getElementById('config-cookie').value;
+    board.alias = $('#aliasTribune').val();
+    board.login = $('#loginTribune').val();
+    board.ua = $("#useragentTribune").val();
+    board.cookie = $("#cookieTribune").val();
     if (board.tmpcookieback != board.cookie) { board.tmpcookie = false; }
     // board.plonk = document.getElementById('config-plonk').value;
-    board.delay = parseInt(document.getElementById('config-delay').value)*1000;
-    if (board.perso) {
-        board.getUrl = document.getElementById('config-getUrl').value;
-        if (!board.getUrl) {
-            alert("L'URL de backend ne doit pas être vide !");
-            return;
-        }
-        board.postUrl = document.getElementById('config-postUrl').value;
-        board.postData = document.getElementById('config-postData').value;
-        board.slip = document.getElementById('config-slip').value;
+    //board.delay = parseInt(document.getElementById('config-delay').value)*1000;
+    //if (board.perso) {
+    board.getUrl = $("#backendTribune").val();
+    if (!board.getUrl) {
+        alert("L'URL de backend ne doit pas être vide !");
+        return;
     }
+    board.postUrl = $("#postTribune").val();
+    board.postData = $("#datapostTribune").val();
+    board.slip = $('#slipTribune option:selected').val() == 1 ? SLIP_TAGS_RAW : SLIP_TAGS_ENCODED;
+    //}
     board.saveConfig();
-    if (GlobalIsDefiningPersoBoard) {
+    //if (GlobalIsDefiningPersoBoard) {
         addTabToPinni(name);
-        var subpanel = document.getElementById("boardsZone");
-        addConfigLine(board, subpanel);
-        GlobalIsDefiningPersoBoard = false;
-    }
-    cancelBoardConfig(name);
+        //var subpanel = document.getElementById("boardsZone");
+        //addConfigLine(board, subpanel);
+        //GlobalIsDefiningPersoBoard = false;
+    //}
+    //cancelBoardConfig(name);
 }
 
 // Ferme le panneau de config de la tribune "name"
-function cancelBoardConfig(name) {
+/*function cancelBoardConfig(name) {
     if (GlobalIsDefiningPersoBoard) {
         delete GlobalBoards[name];
         GlobalIsDefiningPersoBoard = false;
@@ -586,4 +586,4 @@ function cancelBoardConfig(name) {
     if (panel) {
         document.getElementsByTagName("body")[0].removeChild(panel);
     }
-}
+}*/

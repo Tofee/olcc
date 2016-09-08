@@ -177,7 +177,7 @@ function initPage() {
     GlobalPinni = document.getElementById("pinnipede");
     //GlobalPopup = document.getElementById("popup");
     var boards = settings.value('active_boards');
-    console.log(boards);
+
     for (var i=boards.length; i--;) {
         var name = boards[i];
         if (!GlobalBoards[name]) {
@@ -220,6 +220,36 @@ function initPage() {
 
 
 $(document).ready(function(){
+
+    $(".pick-a-color").pickAColor();
+
+    for (var name in GlobalBoards) {
+        $("#preconfTribune").append('<option value="'+name+'">'+name+'</option>');
+    }
+
+    $("#preconfTribune").on("change", function(){
+        var name = $(this).val();
+        var board = GlobalBoards[name];
+        $("#backendTribune").val(board.getUrl);
+        $("#colorTribune").val(board.color.substr(1)).trigger('blur');
+        $("#aliasTribune").val(board.alias);
+        $("#nameTribune").val(board.name);
+        $("#postTribune").val(board.postUrl);
+        if(board.slip == SLIP_TAGS_RAW) {
+            $("#slipTribune option[value=1]").prop('selected', true);
+        } else {
+            $("#slipTribune option[value=2]").prop('selected', true);
+        }
+        $("#datapostTribune").val(board.postData);
+
+    });
+
+    $("#confTribune").on('submit', function(e){
+        e.preventDefault();
+        saveBoardConfig($("#nameTribune").val());
+        $("#confTribuneModal").modal('hide');
+        console.log('test');
+    });
 
     getSoundList();
     settings.setDefault();

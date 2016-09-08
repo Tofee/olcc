@@ -6,6 +6,7 @@
     <title>Olcc - Mobile Edition</title>
     <link href="./bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="./bower_components/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet">
+    <link href="./bower_components/pick-a-color/build/1.2.3/css/pick-a-color-1.2.3.min.css" rel="stylesheet">
     <link href="./css/mobile.css" rel="stylesheet">
 </head>
 <body>
@@ -24,7 +25,7 @@
                 <a href="#" data-toggle="modal" data-target="#confModal">Configuration</a>
             </li>
             <li>
-                <a>Tribunes <span class="glyphicon glyphicon-plus"></span></a>
+                <a href="#" data-toggle="modal" data-target="#confTribuneModal">Tribunes <span class="glyphicon glyphicon-plus"></span></a>
                 <ul id="tabs-boards">
 
                 </ul>
@@ -132,10 +133,117 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Configuration</h4>
+                <h4 class="modal-title">Configuration</h4>
             </div>
             <div class="modal-body">
-                <form class="form-horizontal"></form>
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label for="maxposts" class="col-sm-4 control-label">Nombre max de posts</label>
+                        <div class="col-sm-8">
+                            <input type="number" class="form-control" id="maxposts" placeholder="1000">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-4 col-sm-8">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" id="myposts"> Ne jamais effacer mes posts et leurs réponses
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="useragent" class="col-sm-4 control-label">User-agent</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="useragent">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="totozserver" class="col-sm-4 control-label">Serveur de totoz</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="totozserver">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="totozdisplay" class="col-sm-4 control-label">Affichage des totoz</label>
+                        <div class="col-sm-8">
+                            <select class="form-control" id="totozdisplay">
+                                <option>popup</option>
+                                <option>inline</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="defaultlogin" class="col-sm-4 control-label">Login par défaut</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="defaultlogin">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="titlewindow" class="col-sm-4 control-label">Titre de la fenêtre</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="titlewindow">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="iconwindow" class="col-sm-4 control-label">Icone de la fenêtre</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="iconwindow">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="bossmode" class="col-sm-4 control-label">Boss-mode</label>
+                        <div class="col-sm-8">
+                            <select class="form-control" id="bossmode">
+                                <option>Aléatoire</option>
+                                <option>Pierre Tramo</option>
+                                <option>J. Kerviel</option>
+                                <option>pBpG</option>
+                                <option>Diçaïdor</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="plonklist" class="col-sm-4 control-label">Plonk-list</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="plonklist" placeholder="deeplop,pendu">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-4 col-sm-8">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" id="balltrap"> Balltrap
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="maxducks" class="col-sm-4 control-label">Nombre max de canards</label>
+                        <div class="col-sm-8">
+                            <input type="number" class="form-control" id="maxducks" placeholder="15">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="huntingmode" class="col-sm-4 control-label">Mode de chasse</label>
+                        <div class="col-sm-8">
+                            <select class="form-control" id="huntingmode">
+                                <option>Launch on click</option>
+                                <option>Auto launch</option>
+                                <option>Kill on click</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-4 col-sm-8">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" id="silenthunt"> Chasse silencieuse
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
@@ -145,10 +253,108 @@
     </div>
 </div>
 
+<div class="modal fade" id="confTribuneModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Configuration <span id="confTribuneName"></span></h4>
+            </div>
+            <form class="form-horizontal" id="confTribune">
+            <div class="modal-body">
+                    <div class="form-group">
+                        <label for="preconfTribune" class="col-sm-4 control-label">Tribunes préconfigurées</label>
+                        <div class="col-sm-8">
+                            <select class="form-control" id="preconfTribune">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="nameTribune" class="col-sm-4 control-label">Nom</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="nameTribune">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="colorTribune" class="col-sm-4 control-label">Couleur</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control pick-a-color" id="colorTribune">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="aliasTribune" class="col-sm-4 control-label">Alias</label>
+                        <div class="col-sm-8">
+                            <input id="aliasTribune" class="form-control" type="text">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="freqTribune" class="col-sm-4 control-label">Fréquence</label>
+                        <div class="col-sm-8">
+                            <input id="freqTribune" class="form-control" type="text" value="30">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="loginTribune" class="col-sm-4 control-label">Login</label>
+                        <div class="col-sm-8">
+                            <input id="loginTribune" class="form-control" type="text">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="useragentTribune" class="col-sm-4 control-label">User-agent</label>
+                        <div class="col-sm-8">
+                            <input id="useragentTribune" class="form-control" type="text">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="cookieTribune" class="col-sm-4 control-label">Cookie</label>
+                        <div class="col-sm-8">
+                            <input id="cookieTribune" class="form-control" type="text">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="backendTribune" class="col-sm-4 control-label">URL du backend</label>
+                        <div class="col-sm-8">
+                            <input id="backendTribune" class="form-control" type="text">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="postTribune" class="col-sm-4 control-label">URL du post</label>
+                        <div class="col-sm-8">
+                            <input id="postTribune" class="form-control" type="text">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="datapostTribune" class="col-sm-4 control-label">Données de post</label>
+                        <div class="col-sm-8">
+                            <input id="datapostTribune" class="form-control" type="text">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="slipTribune" class="col-sm-4 control-label">Type de slip</label>
+                        <div class="col-sm-8">
+                            <select class="form-control" id="slipTribune">
+                                <option value="1">Raw tags</option>
+                                <option value="2">Tags encoded</option>
+                            </select>
+                        </div>
+                    </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+                <button type="submit" class="btn btn-primary">Enregistrer</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script type="text/javascript" src="./bower_components/jquery/dist/jquery.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script type="text/javascript" src="./bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="./bower_components/tinycolor/dist/tinycolor-min.js"></script>
+<script type="text/javascript" src="./bower_components/pick-a-color/build/1.2.3/js/pick-a-color-1.2.3.min.js"></script>
 <script type="text/javascript" src="js/utils.js"></script>
 <script type="text/javascript" src="js/board.js"></script>
 <script type="text/javascript" src="js/config.js"></script>

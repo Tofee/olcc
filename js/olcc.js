@@ -333,6 +333,15 @@ function onMouseOver(event) {
     }
 }
 
+function onMouseOut(event) {
+    var target = event.target || event.srcElement;
+    var targetClass = target.className; // getAttribute('class');
+    var targetId = target.getAttribute('id');
+    if (!targetClass) return;
+    if (targetClass.indexOf('totoz') != -1) {
+        document.getElementById('totozImg[' + targetId + ']').style.display = 'none';
+    }
+}
 
 function onClick(event) {
     var target = event.target || event.srcElement;
@@ -399,10 +408,117 @@ function onClick(event) {
     // Click sur la norloge d'un post
     else if (nodeClass.indexOf('clock') != -1) {
         var nodeId = target.parentNode.parentNode.getAttribute('id');
+        console.log(nodeId.substr(13));
         setPalmiTrib(nodeId.substr(13));
-        insertInPalmi(getCtxtClock(nodeId)+' ');
+        insertInPalmi(getCtxtClock(document.getElementById('tribune'), nodeId)+' ');
     }
 }
+
+function setPalmiTrib(trib) {
+    var list = document.getElementById('tribune');
+    console.log(list.value);
+    if (trib == list.value) return;
+    console.log('pouet');
+    for (var i=list.options.length; i--;) {
+        if (trib == list.options[i].value) {
+            list.selectedIndex = i;
+            onChangeTrib();
+            break;
+        }
+    }
+}
+
+function insertInPalmi(text, pos) {
+    var palmi = document.getElementById('message');
+    if (pos) {
+        insertTextAtCursor(palmi, text, pos);
+    }
+    else {
+        insertTextAtCursor(palmi, text, text.length);
+    }
+}
+
+function insertTextAtCursor(element, text, pos) {
+    if (!pos) {
+        pos = text.length;
+    }
+    var selectionEnd = element.selectionStart + pos;
+    element.value = element.value.substring(0, element.selectionStart) + text +
+        element.value.substr(element.selectionEnd);
+    element.focus();
+    element.setSelectionRange(selectionEnd, selectionEnd);
+}
+
+function onKeyDown(event) {
+    var target = event.target || event.srcElement ;
+    /*if (event.keyCode == 27) {
+        bossMode();
+    }*/
+    else if (target.id == 'message') {
+        if (event.altKey) {
+            var keychar = String.fromCharCode(event.keyCode).toLowerCase();
+            switch(keychar) {
+                case 'o':
+                    insertInPalmi('_o/* <b>BLAM</b>! ');
+                    break;
+                case 'm':
+                    insertInPalmi('====> <b>Moment ' + getSelectedText() +'</b> <====', 16);
+                    break;
+                case 'f':
+                    insertInPalmi('#fortune ');
+                    break;
+                case 'b':
+                    insertInPalmi('<b>' + getSelectedText()+'</b>', 3);
+                    break;
+                case 'i':
+                    insertInPalmi('<i>' + getSelectedText()+'</i>', 3);
+                    break;
+                case 'u':
+                    insertInPalmi('<u>' + getSelectedText()+'</u>', 3);
+                    break;
+                case 's':
+                    insertInPalmi('<s>' + getSelectedText()+'</s>', 3);
+                    break;
+                case 't':
+                    insertInPalmi('<tt>' + getSelectedText()+'</tt>', 4);
+                    break;
+                case 'p':
+                    insertInPalmi('_o/* <b>paf!</b> ');
+                    break;
+//              case 'c':
+//                insertInPalmi('\\o/ chauvounet \\o/');
+//                break;
+                case 'n':
+                    insertInPalmi('ounet');
+                    break;
+                case 'g':
+                    insertInPalmi('Ta gueule pwet');
+                    break;
+                case 'z':
+                    insertInPalmi('Daubian is dying');
+                    break;
+            }
+            switch(keychar) {
+                case 'o':
+                case 'm':
+                case 'f':
+                case 'b':
+                case 'i':
+                case 'u':
+                case 's':
+                case 't':
+                case 'p':
+//              case 'c':
+                case 'n':
+                case 'g':
+                case 'z':
+                    event.stopPropagation();
+                    event.preventDefault();
+            }
+        }
+    }
+}
+
 $(document).ready(function(){
 
     $(".pick-a-color").pickAColor();
@@ -455,9 +571,9 @@ $(document).ready(function(){
     favicon.change(settings.value('favicon'), settings.value('window_title'));
 
     addEvent(GlobalPinni, 'mouseover', onMouseOver, false);
-    //addEvent(GlobalPinni, 'mouseout', onMouseOut, false);
+    addEvent(GlobalPinni, 'mouseout', onMouseOut, false);
     addEvent(GlobalPinni, 'click', onClick, false);
-    //addEvent(document, 'keydown', onKeyDown, false);
+    addEvent(document, 'keydown', onKeyDown, false);
     $("#form-message").on('submit', function(e){
         e.preventDefault();
         sendPost();

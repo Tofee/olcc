@@ -190,6 +190,9 @@ function formatLogin(login, info) {
     einfo = einfo.replace(/>/g, "&gt;");
     einfo = einfo.replace(/"/g, "&quot;");
     if (login == '' || login == 'Anonyme') {
+        if(einfo.length == 0) {
+            einfo = "&nbsp;";
+        }
         return '<span class="ua" title="' + einfo + '">' + einfo.substr(0,12) + '</span>'
     }
     else {
@@ -206,21 +209,10 @@ function unhilight(node) {
 }
 
 function hilightRef(ref) {
-    if (is_ie || no_xpath) {
-        var allposts = new Array();
-        var boardposts = IE_selectNodes(["pinni-"+ref.substr(16)]);
-        var refbeg = ref.substr(3,8);
-        for (var i=boardposts.length; i--;) {
-            var curpost = boardposts[i];
-            if (curpost.getAttribute('id').substr(0,8) == refbeg) {
-                allposts.push(curpost);
-            }
-        }
-    }
-    else {
-        var query = "//div[contains(@class,'pinni-"+ref.substr(16)+"') and starts-with(@id,'"+ref.substr(3,8)+"')]";
-        var allposts = evalexp(query);
-    }
+
+    var query = "//div[contains(@class,'pinni-"+ref.substr(16)+"') and starts-with(@id,'"+ref.substr(3,8)+"')]";
+    var allposts = evalexp(query);
+
     var curDiv = null;
     var curId = null;
     for (var i=0, l=getLength(allposts); i<l; i++) {
@@ -254,22 +246,68 @@ function hilightClocksPointingTo(postid) {
         allrefs.push("ref"+postid.substr(0,10)+"01"+postid.substr(12));
     }
     for (var i=allrefs.length; i--;) {
-        if (is_ie || no_xpath) {
-            var allClocks = new Array();
-            var all = GlobalPinni.getElementsByTagName('span') || [];
-            for (var j=all.length; j--;) {
-                var cur = all[j];
-                if (cur.className.indexOf('clockref') != -1 && cur.getAttribute('id') == allrefs[i]) {
-                    allClocks.push(cur);
-                }
-            }
-        }
-        else {
-            var query = "//span[contains(@class,'clockref') and contains(@id,'"+allrefs[i]+"')]";
-            var allClocks = evalexp(query);
-        }
+
+        var query = "//span[contains(@class,'clockref') and contains(@id,'"+allrefs[i]+"')]";
+        var allClocks = evalexp(query);
+
         for (var j=getLength(allClocks); j--;) {
             hilight(getItem(allClocks, j));
         }
     }
+}
+
+function getCtxtClock(dest, postid) {
+    var month = parseInt(postid.substr(0,2),10);
+    var day = parseInt(postid.substr(2,2),10);
+    var today = new Date();
+    var res = "";
+    if (month != (today.getMonth()+1) || day != today.getDate()) {
+        res = pad0(month)+"/"+pad0(day)+"#";
+    }
+    res += postid.substr(4,2)+":"+postid.substr(6,2)+":"+postid.substr(8,2);
+    var i = parseInt(postid.substr(10,2),10);
+    switch (i) {
+        case 0:
+            break;
+        case 1:
+            res += String.fromCharCode(185);
+            break;
+        case 2:
+        case 3:
+            res += String.fromCharCode(176+i);
+            break;
+        default:
+            res += "^"+i;
+            break;
+    }
+    var trib = postid.substr(13, postid.length);
+    if (dest.value != trib) {
+        res += "@"+trib;
+    }
+    return res;
+}
+
+function getTotoz(totoz) {
+    var img = document.getElementById('totozImg[' + totoz + ']');
+    if (!img) {
+        img = document.createElement('img');
+        img.style.display = 'none';
+        img.setAttribute('src', settings.value('totoz_server') + '/img/' + totoz);
+        img.className = 'totoz'; // setAttribute('class','totoz');
+        img.setAttribute('id','totozImg[' + totoz + ']');
+        document.getElementsByTagName('body')[0].appendChild(img);
+    }
+    return img;
+}
+
+function showTotoz(element, x, y) {
+    element.style.top = (y + 10 + document.documentElement.scrollTop) + 'px';
+    element.style.left = x + 'px';
+    element.style.visibility = 'hidden';
+    element.style.display = '';
+    var final_y = y + 10 + element.clientHeight;
+    if (final_y > window.innerHeight) {
+        element.style.top = y + document.documentElement.scrollTop - 10 - element.clientHeight + 'px';
+    }
+    element.style.visibility = '';
 }

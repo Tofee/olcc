@@ -71,14 +71,6 @@ var NOTIF_ANSWER = 'new answer';
 var NOTIF_BIGORNO = 'bigorno';
 var NOTIF_BIGORNO_ALL = 'bigorno all';
 
-var is_ie = true;
-try {
-  var plop = new ActiveXObject('Microsoft.XMLHTTP');
-}
-catch (err) {
-  is_ie = false;
-}
-
 var favicon = {
     change: function(iconURL, optionalDocTitle) {
         if (optionalDocTitle) { document.title = optionalDocTitle; }
@@ -619,103 +611,55 @@ String.prototype.strip = function () {
 
 // Evenements cross-browser
 function addEvent(object, event, callback, flag) {
-    if (is_ie) {
-        object.attachEvent("on"+event, callback);
-    }
-    else {
-        object.addEventListener(event, callback, flag);
-    }
+    object.attachEvent("on"+event, callback);
 }
 // Evenements cross-browser
 function removeEvent(object, event, callback, flag) {
-    if (is_ie) {
-        object.detachEvent("on"+event, callback);
-    }
-    else {
-        object.removeEventListener(event, callback, flag);
-    }
+    object.removeEventListener(event, callback, flag);
 }
 
 // Divers ajouts pour compatibilité IE/reste du monde
 var srz = null;
 var no_xpath = false;
-if (is_ie) {
-    // Array.prototype.snapshotItem = function (i) { return this[i]; };
-    window.XMLHttpRequest = function () {
-        return new ActiveXObject('Microsoft.XMLHTTP');
-    }
+try {
+    XPathResult.prototype.__defineGetter__('length', function () { return this.snapshotLength; });
 }
-else {
-    try {
-        XPathResult.prototype.__defineGetter__('length', function () { return this.snapshotLength; });
-    }
-    catch (err) {
-        no_xpath = true;
-    }
-    srz = new XMLSerializer();
+catch (err) {
+    no_xpath = true;
 }
+srz = new XMLSerializer();
+
 
 // Retourne un objet xml dom, fonction cross-browser
 function loadXML(text) {
-    if (is_ie) {
-        var xmlDoc = new ActiveXObject("Microsoft.XMLDOM");
-        xmlDoc.async = "false";
-        xmlDoc.setProperty("SelectionLanguage", "XPath");
-        // xmlDoc.evaluate = function (query) { return this.selectNodes(query); };
-        xmlDoc.loadXML(text);
-    }
-    else {
-        var parser = new DOMParser();
-        var xmlDoc = parser.parseFromString(text, "text/xml");
-    }
+    var parser = new DOMParser();
+    var xmlDoc = parser.parseFromString(text, "text/xml");
+
     return xmlDoc;
 }
 
 function evalXPath(node, query) {
-    if (is_ie) {
-        return node.selectNodes(query);
+    var target = (node == document) ? GlobalPinni : node;
+    try {
+        return node.evaluate(query, target, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
     }
-    else {
-        var target = (node == document) ? GlobalPinni : node;
-        try {
-            return node.evaluate(query, target, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
-        }
-        catch (err) {
-            return [];
-        }
+    catch (err) {
+        return [];
     }
 }
 
 function getItem(nodes, i) {
-    if (is_ie || no_xpath) {
-        return nodes[i];
-    }
-    else {
-        return nodes.snapshotItem(i);
-    }
+    return nodes.snapshotItem(i);
 }
 
 function getLength(nodes) {
-    if (is_ie || no_xpath) {
-        return nodes.length;
-    }
-    else {
-        return nodes.snapshotLength;
-    }
+    return nodes.snapshotLength;
 }
 
 function serializeNodes(node, tag) {
     var content = "";
-    if (is_ie || no_xpath) {
-        content = node.xml || node.innerHTML;
-        // return content.replace(new RegExp('<'+tag+'>(.*)<\/'+tag+'>'), "$1");
-    }
-    else {
-        /*
-        node.childNodes.map = map;
-        return node.childNodes.map(function(x){return srz.serializeToString(x);}).join(""); */
-        content = srz.serializeToString(node)
-    }
+    content = srz.serializeToString(node)
+
     return content.replace(new RegExp('<'+tag+'>(.*)<\/'+tag+'>'), "$1");
     /* try {
         node.childNodes.map = map;
@@ -728,17 +672,8 @@ function serializeNodes(node, tag) {
 }
 
 function getNodeText(node) {
-    if (is_ie) {
-        if (node.firstChild) {
-            return node.firstChild.nodeValue.strip();
-        }
-        else {
-            return '';
-        }
-    }
-    else {
-        return node.textContent.strip();
-    }
+    return node.textContent.strip();
+
     // AFR: webkit utilise probablement innerHTML
 }
 

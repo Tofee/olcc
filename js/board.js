@@ -516,12 +516,8 @@ function BoardTabRemoveTab(boardTab) {
         boardTab.board.removeView(boardTab);
         boardTab.board.removeView(window);
         document.getElementById("tabs-boards").removeChild(boardTab.tab());
-        if (is_ie || no_xpath) {
-            var posts = IE_selectNodes(["pinni-"+boardTab.board.name]);
-        }
-        else {
-            var posts = evalexp("//div[contains(@class,'pinni-"+boardTab.board.name+"')]");
-        }
+        var posts = evalexp("//div[contains(@class,'pinni-"+boardTab.board.name+"')]");
+
         for (var i=getLength(posts); i--;) {
             GlobalPinni.removeChild(getItem(posts, i));
         }

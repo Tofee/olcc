@@ -196,3 +196,80 @@ function formatLogin(login, info) {
         return '<span class="login" title="' + einfo + '">' + login + '</span>'
     }
 }
+
+function hilight(node) {
+    addClass(node, 'hilight');
+}
+
+function unhilight(node) {
+    removeClass(node, 'hilight');
+}
+
+function hilightRef(ref) {
+    if (is_ie || no_xpath) {
+        var allposts = new Array();
+        var boardposts = IE_selectNodes(["pinni-"+ref.substr(16)]);
+        var refbeg = ref.substr(3,8);
+        for (var i=boardposts.length; i--;) {
+            var curpost = boardposts[i];
+            if (curpost.getAttribute('id').substr(0,8) == refbeg) {
+                allposts.push(curpost);
+            }
+        }
+    }
+    else {
+        var query = "//div[contains(@class,'pinni-"+ref.substr(16)+"') and starts-with(@id,'"+ref.substr(3,8)+"')]";
+        var allposts = evalexp(query);
+    }
+    var curDiv = null;
+    var curId = null;
+    for (var i=0, l=getLength(allposts); i<l; i++) {
+        curDiv = getItem(allposts, i);
+        curId = curDiv.getAttribute("id");
+        if (curId.substr(0,8) != ref.substr(3,8)) break;
+        if (pointsTo(curId, ref)) {
+            hilightPost(curId, curDiv);
+        }
+    }
+}
+
+function hilightPost(postid, post) {
+    hilight(post);
+    var clone = post.cloneNode(true);
+    clone.style.display = 'block'; // le highlight toujours affiché
+    //GlobalPopup.appendChild(clone);
+    removeClass(clone, "hilight");
+    //if (GlobalPopup.style.display != 'block') {
+    //    GlobalPopup.style.display = 'block';
+    //}
+    hilightClocksPointingTo(postid);
+}
+
+function hilightClocksPointingTo(postid) {
+    var allrefs = new Array();
+    allrefs.push("ref"+postid);
+    allrefs.push("ref"+postid.substr(0,10)+"--"+postid.substr(12));
+    allrefs.push("ref"+postid.substr(0,8)+"----"+postid.substr(12));
+    if (postid.substr(10,2) == "00") {
+        allrefs.push("ref"+postid.substr(0,10)+"01"+postid.substr(12));
+    }
+    for (var i=allrefs.length; i--;) {
+        if (is_ie || no_xpath) {
+            var allClocks = new Array();
+            var all = GlobalPinni.getElementsByTagName('span') || [];
+            for (var j=all.length; j--;) {
+                var cur = all[j];
+                if (cur.className.indexOf('clockref') != -1 && cur.getAttribute('id') == allrefs[i]) {
+                    allClocks.push(cur);
+                }
+            }
+        }
+        else {
+            var query = "//span[contains(@class,'clockref') and contains(@id,'"+allrefs[i]+"')]";
+            var allClocks = evalexp(query);
+        }
+        for (var j=getLength(allClocks); j--;) {
+            hilight(getItem(allClocks, j));
+        }
+    }
+}

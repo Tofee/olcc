@@ -101,18 +101,19 @@ img.totoz {
 }
 DIV.post {
   margin-left: 20px;
-  padding: 0px 4px 0px 12px;
+  padding: 0px 4px 0px 8px;
   background-color: #EFEFEF!important;
   border-bottom: 1px solid transparent;
-  border-top: 1px solid transparent; 
+  border-top: 1px solid transparent;
   opacity: 0.85;
 }
+
 SPAN.clock {
   cursor: default;
   display: block;
   float: left;
-  width: 75px;
   font-weight: bold;
+  margin-right: 0.5rem;
 }
 SPAN.clock:before {
   content: "[";
@@ -141,11 +142,12 @@ SPAN.ua {
 .message:before {
   content: "- ";
 }
-DIV.newpost {
+/*DIV.newpost {
    border-left: 4px solid #FA0!important;
-}
+}*/
 .newpost .post {
   /* background-color: #FCFCDA!important; */
+  border-left: 4px solid #FA0!important;
 }
 .newpost .message {
   font-weight: normal;

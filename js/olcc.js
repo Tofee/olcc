@@ -11,6 +11,49 @@ var GlobalFilters = new Array();
 
 var norloge_exp = new RegExp("((?:1[0-2]|0[1-9])/(?:3[0-1]|[1-2][0-9]|0[1-9])#)?((?:2[0-3]|[0-1][0-9])):([0-5][0-9])(:[0-5][0-9])?([¹²³]|[:\^][1-9]|[:\^][1-9][0-9])?(@[A-Za-z0-9_]+)?", "");
 
+window.notified = function (notif) {
+    if (GlobalWindowFocus) return;
+    var titre = document.title.substr(0,1);
+    switch (notif) {
+        case NOTIF_NEW_POST:
+            if (titre != "#" && titre != "@" && titre != "<") {
+                favicon.change("../img/ico_new.png", "* " + settings.value('window_title'));
+            }
+            break;
+        case NOTIF_ANSWER:
+            favicon.change("../img/ico_reply.png", "# " + settings.value('window_title'));
+            //if (settings.value('sound_enabled')) {
+                // alert("coin");
+            //    sound_play("../sound/"+settings.value('sound_reply'));
+            //}
+            break;
+        case NOTIF_BIGORNO_ALL:
+            if (titre != "@") {
+                favicon.change("../img/ico_bigoall.png", "< " + settings.value('window_title'));
+            }
+            //if (settings.value('sound_enabled')) {
+                // alert("meuh");
+            //    sound_play("../sound/"+settings.value('sound_bigorno'));
+            //}
+            break;
+        case NOTIF_BIGORNO:
+            favicon.change("../img/ico_bigorno.png", "@< " + settings.value('window_title'));
+            //if (settings.value('sound_enabled')) {
+                // alert("meuh");
+            //    sound_play("../sound/"+settings.value('sound_bigorno'));
+            //}
+            break;
+    }
+}
+
+function onBlur(event) {
+    var target = event.target || event.srcElement;
+    if (target == window || target == document) {
+        GlobalWindowFocus = false;
+    }
+}
+addEvent(window, 'blur', onBlur, false);
+
 function pointsToMyPost(ref) {
     for (var i=GlobalMyPosts.length; i--;) {
         if (pointsTo(GlobalMyPosts[i], ref)) {
@@ -118,8 +161,6 @@ function getBoardFromAlias(alias) {
 function onChangeTrib() {
     var trib = $("#tribune").val(); //TODO remplir
     var palmi = $('#message')[0];
-    console.log(trib);
-    console.log(GlobalBoards);
     palmi.style.background = GlobalBoards[trib].color;
     // update des @tribune des horloges dans le palmi
     var message = palmi.value;
@@ -254,7 +295,6 @@ function pointsTo(postid, ref) {
 }
 
 function dispAll() {
-    console.log(GlobalBoardTabs);
     for (var name in GlobalBoardTabs) {
         var boardTab = GlobalBoardTabs[name];
         if (boardTab.board.state != STATE_LOADED) {
@@ -264,6 +304,105 @@ function dispAll() {
     toPinniBottom();
 }
 
+function onMouseOver(event) {
+    // Enlève le hilight
+    var allhi = evalexp("//*[contains(@class,'hilight')]");
+
+    for (var i=getLength(allhi); i--;) {
+        unhilight(getItem(allhi, i));
+    }
+    //GlobalPopup.style.display = 'none';
+    //GlobalPopup.innerHTML = '';
+
+    var target = event.target || event.srcElement;
+    // var name = target.nodeName.toLowerCase();
+    var targetClass = target.className; // getAttribute('class');
+    var targetId = target.getAttribute('id');
+    if (!targetClass) return;
+    if (targetClass.indexOf('clockref') != -1) {
+        hilightRef(targetId);
+    }
+    else if (targetClass.indexOf('clock') != -1) {
+        hilightPost(target.parentNode.parentNode.getAttribute('id'), target.parentNode.parentNode);
+    }
+    else if (targetClass.indexOf('totoz') != -1) {
+        if (settings.value('totoz_mode') != TOTOZ_INLINE) {
+            var totoz = getTotoz(targetId);
+            showTotoz(totoz, event.clientX, event.clientY);
+        }
+    }
+}
+
+
+function onClick(event) {
+    var target = event.target || event.srcElement;
+    var nodeClass = target.className;
+
+    // Enlève la marque de notification
+    GlobalWindowFocus = true;
+    // document.title = settings.value('window_title');
+    favicon.change(settings.value('favicon'), settings.value('window_title'));
+
+    // Enlève le style newpost sur les DIVs
+    var allDivs = evalexp("//div[contains(@class,'newpost')]");
+
+    for (var i=getLength(allDivs); i--;) {
+        var curdiv = getItem(allDivs, i);
+        var dclass = getStyleClass('pinni-'+curdiv.getAttribute('id').split("@")[1]);
+        if (curdiv.style.display != 'none' && (dclass && dclass.style.display != 'none')) {
+            removeClass(curdiv, 'newpost');
+        }
+    }
+
+    // Click sur un canard
+    if (nodeClass.indexOf('canard') != -1) {
+        var root = target.parentNode;
+        while (root && root.nodeName.toLowerCase() != 'div') root = root.parentNode;
+        // alert(root.getAttribute('id') + "\n" + root.parentNode.getAttribute('id'));
+        // alert(settings.value('balltrap_mode'));
+        switch (settings.value('balltrap_mode')) {
+            case BALLTRAP_ONCLICK:
+                // alert(root.parentNode.getAttribute('id'));
+                launchDuck(root.parentNode.getAttribute('id'), (nodeClass.indexOf('table') != -1));
+                break;
+            case BALLTRAP_KILL:
+                balltrap_kill(root.parentNode.getAttribute('id'));
+                break;
+        }
+    }
+
+    // Click sur un login
+    else if (nodeClass.indexOf('login') != -1) {
+        insertInPalmi(target.innerHTML.strip()+"< ");
+    }
+
+    // Click sur une norloge-référence
+    else if (nodeClass.indexOf('clockref') != -1) {
+        var ref = target.getAttribute('id');
+
+        var query = "//div[contains(@class,'pinni-"+ref.substr(16)+"') and starts-with(@id,'"+ref.substr(3,8)+"')]";
+        var allposts = evalexp(query);
+
+        var curDiv = null;
+        var curId = null;
+        for (var i=getLength(allposts); i--;) {
+            curDiv = getItem(allposts, i);
+            curId = curDiv.getAttribute("id");
+            if (pointsTo(curId, ref)) {
+                GlobalPinni.scrollTop = document.getElementById(curId).offsetTop-event.clientY+GlobalPinni.offsetTop+6;
+                //flash(document.getElementById(curId));
+                break;
+            }
+        }
+    }
+
+    // Click sur la norloge d'un post
+    else if (nodeClass.indexOf('clock') != -1) {
+        var nodeId = target.parentNode.parentNode.getAttribute('id');
+        setPalmiTrib(nodeId.substr(13));
+        insertInPalmi(getCtxtClock(nodeId)+' ');
+    }
+}
 $(document).ready(function(){
 
     $(".pick-a-color").pickAColor();
@@ -292,7 +431,6 @@ $(document).ready(function(){
     $("#confTribune").on('submit', function(e){
         e.preventDefault();
         saveBoardConfig($("#nameTribune").val());
-        console.log(GlobalBoards);
         saveConfig();
         $("#confTribuneModal").modal('hide');
     });
@@ -303,6 +441,10 @@ $(document).ready(function(){
         $(this).closest('.modal').modal('hide');
     });
 
+    $("#confModal").on('show.bs.modal', function(e){
+        loadConfig();
+    });
+
     getSoundList();
     settings.setDefault();
     settings.load();
@@ -311,9 +453,10 @@ $(document).ready(function(){
     initPage();
     //applyGlobalCSS();
     favicon.change(settings.value('favicon'), settings.value('window_title'));
-    //addEvent(GlobalPinni, 'mouseover', onMouseOver, false);
+
+    addEvent(GlobalPinni, 'mouseover', onMouseOver, false);
     //addEvent(GlobalPinni, 'mouseout', onMouseOut, false);
-    //addEvent(GlobalPinni, 'click', onClick, false);
+    addEvent(GlobalPinni, 'click', onClick, false);
     //addEvent(document, 'keydown', onKeyDown, false);
     $("#form-message").on('submit', function(e){
         e.preventDefault();
@@ -325,4 +468,32 @@ $(document).ready(function(){
     // window.onresize = balltrap_init;
     //addEvent(window, 'resize', balltrap_init, false);
 
+    /** Smartphones specificities */
+    //PreventGhostClick(GlobalPinni);
+    //allow text selection
+    delete Hammer.defaults.cssProps.userSelect;
+    var mc = new Hammer.Manager(GlobalPinni);
+
+    // Tap recognizer with minimal 2 taps
+    mc.add( new Hammer.Tap({ event: 'doubletap', taps: 2 }) );
+    // Single tap recognizer
+    mc.add( new Hammer.Tap({ event: 'singletap' }) );
+
+
+    // we want to recognize this simulatenous, so a quadrupletap will be detected even while a tap has been recognized.
+    mc.get('doubletap').recognizeWith('singletap');
+    // we only want to trigger a tap, when we don't have detected a doubletap
+    mc.get('singletap').requireFailure('doubletap');
+
+
+    /* Single tap on post : highlight ref post */
+    mc.on('singletap', function(ev) {
+        var target = $(ev.target);
+        if(!target.hasClass('clockref')) {//évite la double sélection
+            var parent = target.closest('.post-container');
+            hilightPost(parent.attr('id'), parent[0]);
+        }
+    });
+    mc.on('doubletap', function(ev) {
+    });
 });

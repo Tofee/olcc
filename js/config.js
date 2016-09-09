@@ -159,6 +159,9 @@ var settings = {
                 }
                 opt.value = val;
             }
+        } else {
+            this.setDefault();
+            this.save();
         }
     }
 }
@@ -198,7 +201,6 @@ function closeConfig() {
 function saveConfig() {
     for (var opt in settings.options) {
         var cur_opt = settings.options[opt];
-        console.log(opt);
         var opt_elem = document.getElementById('config-'+opt);
         switch (cur_opt.type) {
           case TYPE_INT:
@@ -244,6 +246,48 @@ function saveConfig() {
     //closeConfig();
 }
 
+function loadConfig() {
+    console.log('load');
+    for (var opt in settings.options) {
+        var cur_opt = settings.options[opt];
+        var opt_elem = $('#config-'+opt);
+        console.log(cur_opt);
+        switch (cur_opt.type) {
+            case TYPE_INT:
+                opt_elem.val(cur_opt.value);
+                break;
+            case TYPE_BOOL:
+                opt_elem.prop('checked', cur_opt.value);
+                break;
+            case TYPE_CHOICE:
+                opt_elem.find('option[name="'+cur_opt.value+'"]').prop('selected', true);
+                break;
+            case TYPE_STR:
+                opt_elem.val(cur_opt.value);
+                break;
+            case TYPE_SOUND:
+                /*cur_opt.value = opt_elem.value;
+                if (opt == 'window_title') {
+                    document.title = cur_opt.value;
+                }
+                else if (opt == 'favicon') {
+                    favicon.change(cur_opt.value);
+                }*/
+                break;
+            case TYPE_MULTI_CHOICE:
+                /*if (opt == 'active_boards') {
+                    var res = new Array();
+                    for (var name in GlobalBoards) {
+                        if (GlobalBoards[name].state != STATE_LOADED) {
+                            res.push(name);
+                        }
+                    }
+                    cur_opt.value = res;
+                }*/
+                break;
+        }
+    }
+}
 
 // Ajoute une ligne dans le tableau de configuration des tribunes actives
 function addConfigLine(board, subpanel) {

@@ -44,7 +44,7 @@ Board.prototype.removeView = function (view) {
 Board.prototype.notify = function () {
     var args = arguments;
     for(var i=this.views.length; i--;) {
-        //this.views[i].notified.apply(this.views[i], args);
+        this.views[i].notified.apply(this.views[i], args);
     }
 }
 
@@ -244,7 +244,8 @@ function BoardProcessBackend(board, xhr) {
                     var postid = timestamp.substr(4, timestamp.length)+'99@'+board.name;
                     post.setAttribute("id", postid);
                     addClass(post, "pinni-"+board.name);
-                    addClass(post, "newpost")
+                    addClass(post, "newpost");
+                    addClass(post, "post-container");
                     insertToPinni(post, postid, board, clock, login, info, message, currentId);
                     board.nbPosts++;
                     board.lastId = currentId;
@@ -255,10 +256,10 @@ function BoardProcessBackend(board, xhr) {
             if (toScroll) {
                 toPinniBottom();
             }
-            if (!GlobalWindowFocus && hasNews && settings.value('sound_enabled')) {
+            /*if (!GlobalWindowFocus && hasNews && settings.value('sound_enabled')) {
                 // alert(GlobalIsPlaying);
                 sound_play("sound/"+settings.value('sound_new'));
-            }
+            }*/
             board.setState(STATE_IDLE);
         }
     }
@@ -381,7 +382,7 @@ function BoardTabAddTab (boardTab) {
     var icon = $('<img src="img/stop.png">');
     tab.find('a').append(icon);
 
-    var notif = $('<span class="tab-notif" id="tab-notif-"'+board.name+'></span>');
+    var notif = $('<span class="tab-notif" id="tab-notif-'+board.name+'"></span>');
     tab.find('a').append(notif);
 
     var tabtab = $('<span class="tab-color">&nbsp;</span>');

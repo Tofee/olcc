@@ -453,8 +453,8 @@ function onKeyDown(event) {
     var target = event.target || event.srcElement ;
     /*if (event.keyCode == 27) {
         bossMode();
-    }*/
-    else if (target.id == 'message') {
+    }
+    else */if (target.id == 'message') {
         if (event.altKey) {
             var keychar = String.fromCharCode(event.keyCode).toLowerCase();
             switch(keychar) {

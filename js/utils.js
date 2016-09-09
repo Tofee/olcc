@@ -611,7 +611,7 @@ String.prototype.strip = function () {
 
 // Evenements cross-browser
 function addEvent(object, event, callback, flag) {
-    object.attachEvent("on"+event, callback);
+    object.addEventListener(event, callback, flag);
 }
 // Evenements cross-browser
 function removeEvent(object, event, callback, flag) {

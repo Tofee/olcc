@@ -129,19 +129,46 @@ SPAN.clock:after {
 SPAN.login {
   display: block;
   float: left;
-  width: 100px;
+  width: 90px;
   color: #833;
+    text-overflow: ellipsis;
+    overflow-x: hidden;
+    margin-right: 2px;
+    padding-left: 2px;
+    height: 18px;
 }
 SPAN.ua {
   font-style: italic;
   display: block;
   float: left;
-  width: 100px;
+  width: 90px;
   color: #533;
+    text-overflow: ellipsis;
+    overflow-x: hidden;
+    margin-right: 2px;
+    padding-left: 2px;
+    height: 18px;
 }
+
+@media(max-width: 767px) {
+    span.ua {
+        width: 70px;
+    }
+    span.login {
+        width: 70px;
+    }
+}
+
 .message:before {
   content: "- ";
 }
+
+@media(min-width: 768px) {
+    span.message {
+        display: table-cell;
+    }
+}
+
 /*DIV.newpost {
    border-left: 4px solid #FA0!important;
 }*/

@@ -193,7 +193,7 @@ function formatLogin(login, info) {
         if(einfo.length == 0) {
             einfo = "&nbsp;";
         }
-        return '<span class="ua" title="' + einfo + '">' + einfo.substr(0,12) + '</span>'
+        return '<span class="ua" title="' + einfo + '">' + einfo + '</span>'
     }
     else {
         return '<span class="login" title="' + einfo + '">' + login + '</span>'

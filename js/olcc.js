@@ -595,6 +595,7 @@ $(document).ready(function(){
     // Single tap recognizer
     mc.add( new Hammer.Tap({ event: 'singletap' }) );
 
+    mc.add( new Hammer.Swipe({event: 'swipe'}));
 
     // we want to recognize this simulatenous, so a quadrupletap will be detected even while a tap has been recognized.
     mc.get('doubletap').recognizeWith('singletap');
@@ -611,5 +612,23 @@ $(document).ready(function(){
         }
     });
     mc.on('doubletap', function(ev) {
+    });
+
+    mc.on('swipe', function(ev) {
+        if(ev.direction == Hammer.DIRECTION_LEFT && $("#wrapper").hasClass("toggled")) {
+            $("#menu-toggle").trigger('click');
+        } else if(ev.direction == Hammer.DIRECTION_RIGHT && !$("#wrapper").hasClass("toggled")) {
+            $("#menu-toggle").trigger('click');
+        }
+    });
+
+    var mc2 = new Hammer.Manager(document.getElementById("sidebar-wrapper"));
+    mc2.add( new Hammer.Swipe({event: 'swipe'}));
+    mc2.on('swipe', function(ev) {
+        if(ev.direction == Hammer.DIRECTION_LEFT && $("#wrapper").hasClass("toggled")) {
+            $("#menu-toggle").trigger('click');
+        } else if(ev.direction == Hammer.DIRECTION_RIGHT && !$("#wrapper").hasClass("toggled")) {
+            $("#menu-toggle").trigger('click');
+        }
     });
 });

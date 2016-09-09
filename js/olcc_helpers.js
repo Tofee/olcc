@@ -311,3 +311,8 @@ function showTotoz(element, x, y) {
     }
     element.style.visibility = '';
 }
+
+function getSelectedText(){
+    base = document.getElementById("message");
+    return base.value.substring(base.selectionStart, base.selectionEnd);
+}

@@ -58,11 +58,11 @@ var settings = {
         'boss_mode': {
             descr: "Boss-mode",
             type: TYPE_CHOICE
-        },
+        },/*
         'style': {
             descr: "Style",
             type: TYPE_CHOICE
-        },
+        },*/
         'plonk': {
             descr: "Plonk-list",
             type: TYPE_STR
@@ -82,7 +82,7 @@ var settings = {
         'balltrap_silent': {
             descr: "Chasse silencieuse",
             type: TYPE_BOOL
-        },
+        },/*
         'sound_enabled': {
             descr: "Sons activés",
             type: TYPE_BOOL
@@ -106,7 +106,7 @@ var settings = {
         'sound_zoo': {
             descr: "Zoodvinssen activé",
             type: TYPE_BOOL
-        }
+        }*/
     },
     setDefault: function () {
         for (var opt in this.options) {
@@ -198,6 +198,7 @@ function closeConfig() {
 function saveConfig() {
     for (var opt in settings.options) {
         var cur_opt = settings.options[opt];
+        console.log(opt);
         var opt_elem = document.getElementById('config-'+opt);
         switch (cur_opt.type) {
           case TYPE_INT:
@@ -236,11 +237,11 @@ function saveConfig() {
         }
     }
     settings.save();
-    if (GlobalBufStyle != settings.value('style')) {
-        applyGlobalCSS();
-        GlobalBufStyle = settings.value('style');
-    }
-    closeConfig();
+    //if (GlobalBufStyle != settings.value('style')) {
+    //    applyGlobalCSS();
+    //   GlobalBufStyle = settings.value('style');
+    //}
+    //closeConfig();
 }
 
 
@@ -548,7 +549,6 @@ function saveBoardConfig(name) {
     var board = GlobalBoards[name];
     board.color = '#'+$("#colorTribune").val();
     board.updateCSS(); // change couleur style de la board
-    onChangeTrib(); // pour forcer la couleur du palmipède au cas où
     board.alias = $('#aliasTribune').val();
     board.login = $('#loginTribune').val();
     board.ua = $("#useragentTribune").val();
@@ -568,7 +568,8 @@ function saveBoardConfig(name) {
     //}
     board.saveConfig();
     //if (GlobalIsDefiningPersoBoard) {
-        addTabToPinni(name);
+    addTabToPinni(name);
+    onChangeTrib(); // pour forcer la couleur du palmipède au cas où
         //var subpanel = document.getElementById("boardsZone");
         //addConfigLine(board, subpanel);
         //GlobalIsDefiningPersoBoard = false;

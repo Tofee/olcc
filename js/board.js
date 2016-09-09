@@ -53,12 +53,9 @@ function BoardUpdateCSS(board) {
     var bclass = "background: "+board.color+";";
     /*var css = addCSSClass("tab-"+board.name, bclass);
     css.style.background = board.color;*/
-    if (is_ie) {
-        var bcolor = board.color;
-    }
-    else {
-        var bcolor = "transparent";
-    }
+
+    var bcolor = "transparent";
+
     bclass += "border-color:"+bcolor+";";
     css = addCSSClass("pinni-"+board.name, bclass);
     css.style.background = board.color;
@@ -493,7 +490,7 @@ function BoardTabDisplay(boardTab) {
         removeClass(boardTab.tab(), "tab-hidden");
     }
     boardTab.visible = true;
-    boardTab.text().innerHTML = '';
+    //boardTab.text().innerHTML = '';
 }
 BoardTab.prototype.display = function () { BoardTabDisplay(this); };
 
@@ -545,42 +542,3 @@ function BoardTabRemoveTab(boardTab) {
 }
 BoardTab.prototype.removeTab = function () { return BoardTabRemoveTab(this); };
 
-
-// Affichage du panneau de config
-function BoardConfigPanel(board) {
-    var panel = document.createElement("div");
-    panel.setAttribute('id', "config-panel-"+board.name);
-    panel.className = 'config-panel'; // setAttribute('class', "config-panel");
-    var head = document.createElement('div');
-    head.className = 'panel-header'; // setAttribute('class', "panel-header");
-    head.innerHTML = 'Paramètres pour la tribune '+board.name;
-    head.innerHTML += ' <img src="../img/closeok.png" title="Enregistrer les changements et fermer" onclick="saveBoardConfig('+"'"+board.name+"'"+')" />';
-    head.innerHTML += ' <img src="../img/cancel.png" title="Annuler les changements et fermer" onclick="cancelBoardConfig('+"'"+board.name+"'"+')" />';
-    panel.appendChild(head);
-    var subpanelw = document.createElement('table');
-    subpanelw.style.width = "100%";
-    var subpanel = document.createElement('tbody');
-    subpanelw.appendChild(subpanel);
-    subpanel.className = 'subpanel'; // setAttribute('class', "subpanel");
-    subpanel.appendChild(TextBox('config-color', "Couleur", board.color, 10));
-    subpanel.appendChild(TextBox('config-alias', "Alias", board.alias, -1));
-    subpanel.appendChild(TextBox('config-delay', "Fréquence", board.delay/1000, 3));
-    subpanel.appendChild(TextBox('config-login', "Login", board.login, -1));
-    subpanel.appendChild(TextBox('config-ua', "User-agent", board.ua, -1));
-    subpanel.appendChild(TextBox('config-cookie', "Cookie", board.cookie, -1));
-    if (board.perso) {
-        subpanel.appendChild(TextBox('config-getUrl', "URL du backend", board.getUrl, -1));
-        subpanel.appendChild(TextBox('config-postUrl', "URL de post", board.postUrl, -1));
-        subpanel.appendChild(TextBox('config-postData', "Données de post", board.postData, -1));
-        subpanel.appendChild(SelectBox('config-slip', "Type de slip", [SLIP_TAGS_RAW, SLIP_TAGS_ENCODED], board.slip, 10));
-    }
-    else {
-        subpanel.appendChild(InfoBox("URL du backend", '<a href="'+board.getUrl+'">'+board.getUrl+'</a>'));
-        subpanel.appendChild(InfoBox("URL de post", board.postUrl));
-        subpanel.appendChild(InfoBox("Données de post", board.postData));
-        subpanel.appendChild(InfoBox("Type de slip", board.slip));
-    }
-    panel.appendChild(subpanelw);
-    return panel;
-}
-Board.prototype.configPanel = function() { return BoardConfigPanel(this); };

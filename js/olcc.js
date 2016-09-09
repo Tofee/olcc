@@ -116,8 +116,10 @@ function getBoardFromAlias(alias) {
 }
 
 function onChangeTrib() {
-    var trib = $("#tribune").val();
+    var trib = $("#tribune").val(); //TODO remplir
     var palmi = $('#message')[0];
+    console.log(trib);
+    console.log(GlobalBoards);
     palmi.style.background = GlobalBoards[trib].color;
     // update des @tribune des horloges dans le palmi
     var message = palmi.value;
@@ -158,6 +160,16 @@ function onChangeTrib() {
     GlobalCurTrib = trib;
 }
 
+function toPinniBottom() {
+    var test1 = GlobalPinni.scrollHeight;
+    if (test1 > 0) {
+        GlobalPinni.scrollTop = GlobalPinni.scrollHeight;
+    }
+    else {
+        GlobalPinni.scrollTop = GlobalPinni.offsetHeight;
+    }
+}
+
 function addTabToPinni(name) {
     var board = GlobalBoards[name];
     if (!board.getUrl) {
@@ -187,6 +199,8 @@ function initPage() {
         }
         addTabToPinni(name);
     }
+    dispAll();
+
     // Ajout des onglets spéciaux
 /*    var filters = {
         'mypost': "mes posts",
@@ -218,6 +232,37 @@ function initPage() {
     }
 }
 
+function sendPost() {
+    var dest = $("#tribune").val();
+    var palmi = document.getElementById('message');
+    GlobalBoards[dest].post(palmi.value);
+    palmi.value = '';
+}
+
+function pointsTo(postid, ref) {
+    if (postid.substr(13) != ref.substr(16)) return false;
+    if (postid.substr(0,8) != ref.substr(3,8)) return false;
+    var postsec = postid.substr(8,2);
+    var refsec = ref.substr(11,2);
+    if (refsec == "--") return true;
+    if (postsec != refsec) return false;
+    var posti = postid.substr(10,2);
+    var refi = ref.substr(13,2);
+    if (refi == "--" || (refi == "01" && posti == "00")) return true;
+    if (posti != refi) return false;
+    return true;
+}
+
+function dispAll() {
+    console.log(GlobalBoardTabs);
+    for (var name in GlobalBoardTabs) {
+        var boardTab = GlobalBoardTabs[name];
+        if (boardTab.board.state != STATE_LOADED) {
+            boardTab.display();
+        }
+    }
+    toPinniBottom();
+}
 
 $(document).ready(function(){
 
@@ -247,8 +292,15 @@ $(document).ready(function(){
     $("#confTribune").on('submit', function(e){
         e.preventDefault();
         saveBoardConfig($("#nameTribune").val());
+        console.log(GlobalBoards);
+        saveConfig();
         $("#confTribuneModal").modal('hide');
-        console.log('test');
+    });
+
+    $("#config-form").on('submit', function(e){
+        e.preventDefault();
+        saveConfig();
+        $(this).closest('.modal').modal('hide');
     });
 
     getSoundList();
@@ -263,6 +315,10 @@ $(document).ready(function(){
     //addEvent(GlobalPinni, 'mouseout', onMouseOut, false);
     //addEvent(GlobalPinni, 'click', onClick, false);
     //addEvent(document, 'keydown', onKeyDown, false);
+    $("#form-message").on('submit', function(e){
+        e.preventDefault();
+        sendPost();
+    });
     //addEvent(document.getElementById('post-form'), 'submit', onSubmit, false);
     //addEvent(document.getElementById('totoz-form'), 'submit', onSubmit, false);
     //balltrap_init();

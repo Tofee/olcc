@@ -67,7 +67,7 @@ body > .container-fluid {
 }
 
 .input-wide .input-group-btn {
-    width: 0 !important;
+    width: 1% !important;
 }
 
 form.form-inline .col-xs-3 label {

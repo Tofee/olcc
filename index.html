@@ -7,7 +7,8 @@
     <link href="./bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="./bower_components/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet">
     <link href="./bower_components/pick-a-color/build/1.2.3/css/pick-a-color-1.2.3.min.css" rel="stylesheet">
-    <link href="./css/mobile.css" rel="stylesheet">
+    <link href="css/layout.css" rel="stylesheet">
+    <link href="css/pinnipede.css" rel="stylesheet">
 </head>
 <body>
 
@@ -81,7 +82,7 @@
 
                 <div class="col-xs-12">
                     <div class="fixed-bottom">
-                        <form class="form-inline">
+                        <form class="form-inline" id="form-message">
                             <div class="form-group col-xs-6">
                                 <div class="input-group input-wide">
                                     <input type="text" class="form-control input-sm" id="message" placeholder="\_o<">
@@ -93,23 +94,22 @@
                             <div class="form-group col-xs-3">
                                 <label class="hidden-xs hidden-sm" for="tribune">Tribune :</label>
                                 <div class="input-group">
-                                    <div class="input-group-addon hidden-md hidden-lg"><span class="glyphicon glyphicon-console"></span></div>
+                                    <div class="input-group-addon hidden-md hidden-lg">
+                                        <span  class="glyphicon glyphicon-console"></span>
+                                    </div>
                                     <select class="form-control input-sm" id="tribune">
-                                        <option>euromussels</option>
-                                        <option>2</option>
-                                        <option>3</option>
-                                        <option>4</option>
-                                        <option>5</option>
                                     </select>
                                 </div>
 
                             </div>
+                        </form>
+                        <form id="form-totoz" class="form-inline">
                             <div class="form-group col-xs-3">
                                 <label class="hidden-xs hidden-sm" for="totoz">Totoz : </label>
                                 <div class="input-group">
                                     <div class="input-group-addon hidden-md hidden-lg"><span class="glyphicon glyphicon-picture"></span></div>
                                     <input type="text" id="totoz" class="form-control input-sm">
-                                    </div>
+                                </div>
                             </div>
                         </form>
                     </div>
@@ -135,66 +135,66 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">Configuration</h4>
             </div>
-            <div class="modal-body">
-                <form class="form-horizontal">
+            <form class="form-horizontal" id="config-form">
+                <div class="modal-body">
                     <div class="form-group">
-                        <label for="maxposts" class="col-sm-4 control-label">Nombre max de posts</label>
+                        <label for="config-pinni_size" class="col-sm-4 control-label">Nombre max de posts</label>
                         <div class="col-sm-8">
-                            <input type="number" class="form-control" id="maxposts" placeholder="1000">
+                            <input type="number" class="form-control" id="config-pinni_size" placeholder="1000">
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="col-sm-offset-4 col-sm-8">
                             <div class="checkbox">
                                 <label>
-                                    <input type="checkbox" id="myposts"> Ne jamais effacer mes posts et leurs réponses
+                                    <input type="checkbox" id="config-pinni_keep"> Ne jamais effacer mes posts et leurs réponses
                                 </label>
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="useragent" class="col-sm-4 control-label">User-agent</label>
+                        <label for="config-default_ua" class="col-sm-4 control-label">User-agent</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" id="useragent">
+                            <input type="text" class="form-control" id="config-default_ua">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="totozserver" class="col-sm-4 control-label">Serveur de totoz</label>
+                        <label for="config-totoz_server" class="col-sm-4 control-label">Serveur de totoz</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" id="totozserver">
+                            <input type="text" class="form-control" id="config-totoz_server">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="totozdisplay" class="col-sm-4 control-label">Affichage des totoz</label>
+                        <label for="config-totoz_mode" class="col-sm-4 control-label">Affichage des totoz</label>
                         <div class="col-sm-8">
-                            <select class="form-control" id="totozdisplay">
+                            <select class="form-control" id="config-totoz_mode">
                                 <option>popup</option>
                                 <option>inline</option>
                             </select>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="defaultlogin" class="col-sm-4 control-label">Login par défaut</label>
+                        <label for="config-default_login" class="col-sm-4 control-label">Login par défaut</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" id="defaultlogin">
+                            <input type="text" class="form-control" id="config-default_login">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="titlewindow" class="col-sm-4 control-label">Titre de la fenêtre</label>
+                        <label for="config-window_title" class="col-sm-4 control-label">Titre de la fenêtre</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" id="titlewindow">
+                            <input type="text" class="form-control" id="config-window_title">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="iconwindow" class="col-sm-4 control-label">Icone de la fenêtre</label>
+                        <label for="config-favicon" class="col-sm-4 control-label">Icone de la fenêtre</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" id="iconwindow">
+                            <input type="text" class="form-control" id="config-favicon">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="bossmode" class="col-sm-4 control-label">Boss-mode</label>
+                        <label for="config-boss_mode" class="col-sm-4 control-label">Boss-mode</label>
                         <div class="col-sm-8">
-                            <select class="form-control" id="bossmode">
+                            <select class="form-control" id="config-boss_mode">
                                 <option>Aléatoire</option>
                                 <option>Pierre Tramo</option>
                                 <option>J. Kerviel</option>
@@ -204,30 +204,30 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="plonklist" class="col-sm-4 control-label">Plonk-list</label>
+                        <label for="config-plonk" class="col-sm-4 control-label">Plonk-list</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" id="plonklist" placeholder="deeplop,pendu">
+                            <input type="text" class="form-control" id="config-plonk" placeholder="deeplop,pendu">
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="col-sm-offset-4 col-sm-8">
                             <div class="checkbox">
                                 <label>
-                                    <input type="checkbox" id="balltrap"> Balltrap
+                                    <input type="checkbox" id="config-balltrap"> Balltrap
                                 </label>
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="maxducks" class="col-sm-4 control-label">Nombre max de canards</label>
+                        <label for="config-max_ducks" class="col-sm-4 control-label">Nombre max de canards</label>
                         <div class="col-sm-8">
-                            <input type="number" class="form-control" id="maxducks" placeholder="15">
+                            <input type="number" class="form-control" id="config-max_ducks" placeholder="15">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="huntingmode" class="col-sm-4 control-label">Mode de chasse</label>
+                        <label for="config-balltrap_mode" class="col-sm-4 control-label">Mode de chasse</label>
                         <div class="col-sm-8">
-                            <select class="form-control" id="huntingmode">
+                            <select class="form-control" id="config-balltrap_mode">
                                 <option>Launch on click</option>
                                 <option>Auto launch</option>
                                 <option>Kill on click</option>
@@ -238,17 +238,17 @@
                         <div class="col-sm-offset-4 col-sm-8">
                             <div class="checkbox">
                                 <label>
-                                    <input type="checkbox" id="silenthunt"> Chasse silencieuse
+                                    <input type="checkbox" id="config-balltrap_silent"> Chasse silencieuse
                                 </label>
                             </div>
                         </div>
                     </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
-                <button type="button" class="btn btn-primary">Enregistrer</button>
-            </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+                    <button type="submit" class="btn btn-primary">Enregistrer</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

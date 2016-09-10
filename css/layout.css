@@ -5,6 +5,8 @@ License : AGPL
 body {
     margin-bottom: 30px;
 }
+/* iOS fix */
+body.modal-open { position: fixed; }
 
 body > .container-fluid {
     padding-top: 60px;

@@ -545,6 +545,37 @@ function clickBoard(boardName, event) {
     toPinniBottom();
 }
 
+function toggleFilter(filter) {
+    resetFilter();
+    var fil = filter.attr('id').substr(7);
+    if (GlobalFilters.contains(fil)) {
+        filter.find('span.glyphicon').removeClass('glyphicon-check').addClass('glyphicon-remove');
+        GlobalFilters.remove(fil);
+    }
+    else {
+        filter.find('span.glyphicon').addClass('glyphicon-check').removeClass('glyphicon-remove');
+        GlobalFilters.push(fil);
+    }
+    filterPosts(GlobalFilters);
+}
+
+function filterPosts(classes) {
+    var condition = classes.map(function(i){return "not(contains(@class, '"+i+"'))"}).join(" and ");
+    var allposts = evalexp("//div[contains(@class, 'pinni-') and "+condition+"]");
+
+    for (var i=getLength(allposts); i--;) {
+        getItem(allposts, i).style.display = 'none';
+    }
+    toPinniBottom();
+}
+
+function resetFilter() {
+    var allposts = GlobalPinni.getElementsByTagName("div") || [];
+    for (var i=allposts.length; i--;) {
+        allposts[i].style.display = '';
+    }
+}
+
 $(document).ready(function(){
 
     $(".pick-a-color").pickAColor();
@@ -591,9 +622,8 @@ $(document).ready(function(){
     settings.setDefault();
     settings.load();
 
-    //addEvent(document.getElementById('palmi-list'), "change", onChangeTrib, false);
     initPage();
-    //applyGlobalCSS();
+
     favicon.change(settings.value('favicon'), settings.value('window_title'));
 
     addEvent(GlobalPinni, 'mouseover', onMouseOver, false);
@@ -613,6 +643,19 @@ $(document).ready(function(){
         e.preventDefault();
         sendPost();
     });
+
+    $("#filters a").on('click', function(e){
+        e.preventDefault();
+        if($(this).attr('id') == 'filter-reset') {
+            GlobalFilters = [];
+            resetFilter();
+            $('#filters a span.glyphicon').addClass('glyphicon-remove').removeClass('glyphicon-check');
+            toPinniBottom();
+        } else {
+            toggleFilter($(this));
+        }
+    });
+
     //addEvent(document.getElementById('post-form'), 'submit', onSubmit, false);
     //addEvent(document.getElementById('totoz-form'), 'submit', onSubmit, false);
     //balltrap_init();

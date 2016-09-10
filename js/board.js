@@ -488,7 +488,7 @@ function BoardTabDisplay(boardTab) {
     var css = getStyleClass("pinni-"+boardTab.board.name);
     if (css) {
         css.style.display = 'block';
-        removeClass(boardTab.tab(), "tab-hidden");
+        $(boardTab.tab()).find('span.glyphicon').addClass('glyphicon-check').removeClass('glyphicon-ban-circle');
     }
     boardTab.visible = true;
     //boardTab.text().innerHTML = '';
@@ -499,7 +499,7 @@ function BoardTabHide(boardTab) {
     var css = getStyleClass("pinni-"+boardTab.board.name);
     if (css) {
         css.style.display = 'none';
-        addClass(boardTab.tab(), "tab-hidden");
+        $(boardTab.tab()).find('span.glyphicon').removeClass('glyphicon-check').addClass('glyphicon-ban-circle');
     }
     boardTab.visible = false;
 }

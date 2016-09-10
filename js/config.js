@@ -247,11 +247,9 @@ function saveConfig() {
 }
 
 function loadConfig() {
-    console.log('load');
     for (var opt in settings.options) {
         var cur_opt = settings.options[opt];
         var opt_elem = $('#config-'+opt);
-        console.log(cur_opt);
         switch (cur_opt.type) {
             case TYPE_INT:
                 opt_elem.val(cur_opt.value);

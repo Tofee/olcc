@@ -408,7 +408,6 @@ function onClick(event) {
     // Click sur la norloge d'un post
     else if (nodeClass.indexOf('clock') != -1) {
         var nodeId = target.parentNode.parentNode.getAttribute('id');
-        console.log(nodeId.substr(13));
         setPalmiTrib(nodeId.substr(13));
         insertInPalmi(getCtxtClock(document.getElementById('tribune'), nodeId)+' ');
     }
@@ -416,9 +415,7 @@ function onClick(event) {
 
 function setPalmiTrib(trib) {
     var list = document.getElementById('tribune');
-    console.log(list.value);
     if (trib == list.value) return;
-    console.log('pouet');
     for (var i=list.options.length; i--;) {
         if (trib == list.options[i].value) {
             list.selectedIndex = i;
@@ -519,6 +516,28 @@ function onKeyDown(event) {
     }
 }
 
+function clickBoard(boardName, event) {
+    if (event.ctrlKey) {
+        event.preventDefault();
+        GlobalBoardTabs[boardName].toggle();
+    }
+    else {
+        for (var name in GlobalBoards) {
+            var board = GlobalBoards[name];
+            if (board.state != STATE_LOADED) {
+                if (name == boardName) {
+                    GlobalBoardTabs[name].display();
+                    setPalmiTrib(name);
+                }
+                else {
+                    GlobalBoardTabs[name].hide();
+                }
+            }
+        }
+    }
+    toPinniBottom();
+}
+
 $(document).ready(function(){
 
     $(".pick-a-color").pickAColor();
@@ -574,6 +593,11 @@ $(document).ready(function(){
     addEvent(GlobalPinni, 'mouseout', onMouseOut, false);
     addEvent(GlobalPinni, 'click', onClick, false);
     addEvent(document, 'keydown', onKeyDown, false);
+
+    $("#tribune").on("change", function(e){
+        onChangeTrib();
+    });
+
     $("#form-message").on('submit', function(e){
         e.preventDefault();
         sendPost();
@@ -584,8 +608,7 @@ $(document).ready(function(){
     // window.onresize = balltrap_init;
     //addEvent(window, 'resize', balltrap_init, false);
 
-    /** Smartphones specificities */
-    //PreventGhostClick(GlobalPinni);
+
     //allow text selection
     delete Hammer.defaults.cssProps.userSelect;
     var mc = new Hammer.Manager(GlobalPinni);
@@ -623,12 +646,23 @@ $(document).ready(function(){
     });
 
     var mc2 = new Hammer.Manager(document.getElementById("sidebar-wrapper"));
+    // Tap recognizer with minimal 2 taps
+
     mc2.add( new Hammer.Swipe({event: 'swipe', direction: Hammer.DIRECTION_HORIZONTAL}));
     mc2.on('swipe', function(ev) {
         if(ev.direction == Hammer.DIRECTION_LEFT && $("#wrapper").hasClass("toggled")) {
             $("#menu-toggle").trigger('click');
         } else if(ev.direction == Hammer.DIRECTION_RIGHT && !$("#wrapper").hasClass("toggled")) {
             $("#menu-toggle").trigger('click');
+        }
+    });
+    PreventGhostClick($("#tabs-boards")[0]);
+    mc2.add(new Hammer.Tap({event: 'tap', taps:1}));
+    mc2.on('tap', function(ev){
+        var target = $(ev.target);
+        if(target.closest('li').hasClass('tab')){
+            var boardName = target.closest('li').attr('id').substr(4);
+            GlobalBoardTabs[boardName].toggle();
         }
     });
 });

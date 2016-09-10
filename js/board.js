@@ -397,11 +397,10 @@ function BoardTabAddTab (boardTab) {
     board.setState(STATE_STOP);
     // Ajout de la tribune dans la liste du palmipède
 
-    var palmilist = document.getElementById('tribune');
-    var opt = document.createElement('option');
-    opt.setAttribute("value", board.name);
-    opt.innerHTML = board.name;
-    palmilist.appendChild(opt);
+    var palmilist = $('#tribune');
+
+    var opt = $('<li data-name="'+board.name+'"><a href="#">'+board.name+'</a></li>');
+    palmilist.append(opt);
 }
 BoardTab.prototype.addTab = function () { BoardTabAddTab(this); };
 

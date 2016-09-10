@@ -281,7 +281,7 @@ function getCtxtClock(dest, postid) {
             break;
     }
     var trib = postid.substr(13, postid.length);
-    if (dest.value != trib) {
+    if (dest != trib) {
         res += "@"+trib;
     }
     return res;

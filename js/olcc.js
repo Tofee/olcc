@@ -159,7 +159,12 @@ function getBoardFromAlias(alias) {
 }
 
 function onChangeTrib() {
-    var trib = $("#tribune").val(); //TODO remplir
+    if($("#tribune li.selected").length == 0) {
+        //aucune tribune sélectionnée -> on sélectionne la première dans la liste
+        $("#tribune li:first").addClass('selected');
+        $("#tribune li:first a").prepend('<span class="glyphicon glyphicon-check"></span> ');
+    }
+    var trib = $("#tribune li.selected").data('name'); //TODO remplir
     var palmi = $('#message')[0];
     palmi.style.background = GlobalBoards[trib].color;
     // update des @tribune des horloges dans le palmi
@@ -274,7 +279,7 @@ function initPage() {
 }
 
 function sendPost() {
-    var dest = $("#tribune").val();
+    var dest = $("#tribune li.selected").data('name');
     var palmi = document.getElementById('message');
     GlobalBoards[dest].post(palmi.value);
     palmi.value = '';
@@ -409,20 +414,22 @@ function onClick(event) {
     else if (nodeClass.indexOf('clock') != -1) {
         var nodeId = target.parentNode.parentNode.getAttribute('id');
         setPalmiTrib(nodeId.substr(13));
-        insertInPalmi(getCtxtClock(document.getElementById('tribune'), nodeId)+' ');
+        insertInPalmi(getCtxtClock($('#tribune li.selected').data('name'), nodeId)+' ');
     }
 }
 
 function setPalmiTrib(trib) {
-    var list = document.getElementById('tribune');
-    if (trib == list.value) return;
-    for (var i=list.options.length; i--;) {
-        if (trib == list.options[i].value) {
-            list.selectedIndex = i;
+    var list = $('#tribune');
+    var select = list.find('li.selected').data('name');
+    if (trib == select) return;
+    list.find('li').each(function(index, item){
+        if($(this).data('name') == trib) {
+            $(this).addClass('selected');
             onChangeTrib();
-            break;
+        } else {
+            $(this).removeClass('selected');
         }
-    }
+    });
 }
 
 function insertInPalmi(text, pos) {
@@ -594,7 +601,11 @@ $(document).ready(function(){
     addEvent(GlobalPinni, 'click', onClick, false);
     addEvent(document, 'keydown', onKeyDown, false);
 
-    $("#tribune").on("change", function(e){
+    $("#tribune a").on("click", function(e){
+        $("#tribune a span").remove();
+        $("#tribune li").removeClass('selected');
+        $(this).closest('li').addClass('selected');
+        $(this).prepend('<span class="glyphicon glyphicon-check"></span> ');
         onChangeTrib();
     });
 

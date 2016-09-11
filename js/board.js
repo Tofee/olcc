@@ -521,16 +521,7 @@ function BoardTabRemoveTab(boardTab) {
             GlobalPinni.removeChild(getItem(posts, i));
         }
         // On retire la tribune de la liste du palmipède
-        var palmilist = document.getElementById('palmi-list');
-        if (palmilist.childNodes) {
-            for (i=palmilist.childNodes.length; i--;) {
-                var child = palmilist.childNodes[i];
-                if (child.value == boardTab.board.name) {
-                    palmilist.removeChild(child);
-                    break;
-                }
-            }
-        }
+        $('#tribune li[data-name="'+boardTab.board.name+'"]').remove();
         // mise à jour de l'état
         boardTab.board.setState(STATE_LOADED);
         boardTab.board.lastPost = "0";

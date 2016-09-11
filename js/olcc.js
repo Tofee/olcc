@@ -584,6 +584,10 @@ $(document).ready(function(){
         $("#preconfTribune").append('<option value="'+name+'">'+name+'</option>');
     }
 
+    $("#addTribune").on('click', function(e){
+        $("#preconfTribune").closest('.form-group').show();
+    });
+
     $("#preconfTribune").on("change", function(){
         var name = $(this).val();
         var board = GlobalBoards[name];
@@ -616,6 +620,12 @@ $(document).ready(function(){
 
     $("#confModal").on('show.bs.modal', function(e){
         loadConfig();
+    });
+
+    $("#confTribuneModal").on('hidden.bs.modal', function(e){
+        if($("#confModal").is(':visible')) {
+            $('body').addClass('modal-open');
+        }
     });
 
     getSoundList();
@@ -656,11 +666,21 @@ $(document).ready(function(){
         }
     });
 
-    //addEvent(document.getElementById('post-form'), 'submit', onSubmit, false);
     //addEvent(document.getElementById('totoz-form'), 'submit', onSubmit, false);
     //balltrap_init();
     // window.onresize = balltrap_init;
     //addEvent(window, 'resize', balltrap_init, false);
+
+    //Populate config
+    $("#confModal").on('shown.bs.modal', function(e){
+        $("#config-tribunes_list").empty();
+        for (name in GlobalBoards) {
+            var board = GlobalBoards[name];
+            if (board.state != STATE_LOADED) {
+                addConfigLine(board, $("#config-tribunes_list")[0]);
+            }
+        }
+    });
 
 
     //allow text selection

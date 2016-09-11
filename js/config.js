@@ -168,36 +168,6 @@ var settings = {
 
 var GlobalBufStyle = '';
 
-// Bascule affichage/fermeture du panneau de config
-function toggleConfig() {
-    if (document.getElementById("config").style.display != 'none') {
-        closeConfig();
-    }
-    else {
-        dispConfig();
-    }
-}
-
-// affichage du panneau de config
-function dispConfig() {
-    var configPanel = document.getElementById("config");
-    createConfigPanel(configPanel);
-    configPanel.style.display = 'block';
-}
-
-// fermeture du panneau de config
-function closeConfig() {
-    var configPanel = document.getElementById("config");
-    configPanel.style.display = 'none';
-    // removage des vues
-    for (var name in GlobalBoards) {
-        var board = GlobalBoards[name];
-        if (board.state != STATE_LOADED) {
-            board.removeView(document.getElementById('config-'+board.name));
-        }
-    }
-}
-
 function saveConfig() {
     for (var opt in settings.options) {
         var cur_opt = settings.options[opt];
@@ -300,21 +270,19 @@ function addConfigLine(board, subpanel) {
     tr.appendChild(td);
     // Cellule bouton start
     td = document.createElement('td');
-    icon = (board.state == STATE_STOP) ? "start.png" : "greystart.png";
-    td.innerHTML = '<img id="but-start-'+board.name+'" src='+icon+'"../img" alt="[Démarrer]" title="Démarrer" onclick="BoardStart(GlobalBoards['+"'"+board.name+"'"+'])" />';
+    td.innerHTML = '<a href="#" class="'+(board.state == STATE_STOP ? '' : 'disabled')+'" alt="[Démarrer]" id="but-start-'+board.name+'" onclick="BoardStart(GlobalBoards['+"'"+board.name+"'"+'])"><span class="glyphicon glyphicon-play"></span></a>'
     tr.appendChild(td);
     // Cellule bouton stop
     td = document.createElement('td');
-    icon = (board.state == STATE_STOP) ? "greystop.png" : "stop.png";
-    td.innerHTML = '<img id="but-stop-'+board.name+'" src='+icon+'"../img" alt="[Arrêter]" title="Arrêter" onclick="BoardStop(GlobalBoards['+"'"+board.name+"'"+'])" />';
+    td.innerHTML = '<a href="#" class="'+(board.state == STATE_STOP ? 'disabled' : '')+'" id="but-stop-'+board.name+'" alt="[Arrêter]" onclick="BoardStop(GlobalBoards['+"'"+board.name+"'"+'])"><span class="glyphicon glyphicon-stop"></span></a>';
     tr.appendChild(td);
     // Cellule bouton config
     td = document.createElement('td');
-    td.innerHTML = '<img id="but-config-'+board.name+'" src="../img/bconfig.png" alt="[Paramètres]" title="Paramètres" onclick="configBoard('+"'"+board.name+"'"+')" />';
+    td.innerHTML = '<a href="#" id="but-config-'+board.name+'" alt="[Paramètres]" onclick="configBoard('+"'"+board.name+"'"+')"><span class="glyphicon glyphicon-wrench"></span></a>';
     tr.appendChild(td);
     // Cellule bouton remove
     td = document.createElement('td');
-    td.innerHTML = '<img id="but-remove-'+board.name+'" src="../img/remove.png" alt="[Supprimer]" title="Supprimer" onclick="configRemove('+"'"+board.name+"'"+')" />';
+    td.innerHTML = '<a href="#" id="but-remove-'+board.name+'" alt="[Supprimer]" onclick="configRemove('+"'"+board.name+"'"+')"><span class="glyphicon glyphicon-trash"></span></a>';
     tr.appendChild(td);
     // Cellule nombre de posts
     td = document.createElement('td');
@@ -341,12 +309,12 @@ function addConfigLine(board, subpanel) {
                 // self destruction
                 break;
               case STATE_STOP:
-                document.getElementById("but-start-"+name).src = "img/start.png";
-                document.getElementById("but-stop-"+name).src = "img/greystop.png";
+                $("#but-start-"+name).removeClass('disabled');
+                $("#but-stop-"+name).addClass('disabled');
                 break;
               default:
-                document.getElementById("but-start-"+name).src = "img/greystart.png";
-                document.getElementById("but-stop-"+name).src = "img/stop.png";
+                  $("#but-start-"+name).addClass('disabled');
+                  $("#but-stop-"+name).removeClass('disabled');
                 break;
             }
             break;
@@ -445,97 +413,6 @@ function addOptionLine(opt, subpanel) {
     }
 }
 
-function createConfigPanel(cpanel) {
-    cpanel.innerHTML = '';
-    GlobalBufStyle = settings.value('style');
-    createConfigTabs(cpanel);
-    setConfigTab(0);
-    
-    // Section config générale
-    var panel = document.getElementById('config-tab-0');
-    var subpanelwrapper = document.createElement('table');
-    subpanelwrapper.style.width = "100%";
-    var subpanel = document.createElement('tbody');
-    subpanelwrapper.appendChild(subpanel);
-    subpanel.setAttribute('id', "configZone");
-    subpanel.setAttribute('class', "subpanel");
-    var opt = null;
-    for (opt in settings.options) {
-        if (opt.substr(0,5) != 'sound') {
-            addOptionLine(opt, subpanel);
-        }
-    }
-    panel.appendChild(subpanelwrapper);
-    
-    // Section tribunes
-    var panel = document.getElementById('config-tab-1');
-    var head2 = document.createElement('div');
-    head2.className = 'panel-header'; // setAttribute('class', "panel-header");
-    head2.innerHTML = 'Tribunes activées ';
-    panel.appendChild(head2);
-    // Liste des tribunes disponibles
-    var triblist = document.createElement('select');
-    triblist.setAttribute('id', "availableboards");
-    var subpanelwrapper = document.createElement('table');
-    // subpanelwrapper.style.width = "100%";
-    var subpanel = document.createElement('tbody');
-    subpanelwrapper.appendChild(subpanel);
-    subpanel.setAttribute('id', "boardsZone");
-    subpanel.setAttribute('class', "subpanel");
-    for (name in GlobalBoards) {
-        var board = GlobalBoards[name];
-        if (board.state != STATE_LOADED) {
-            addConfigLine(board, subpanel);
-        }
-        else {
-            addAvailableBoard(triblist, name);
-        }
-    }
-    panel.appendChild(subpanelwrapper);
-    // Section tribunes disponibles
-    var head3 = document.createElement('div');
-    head3.className = 'panel-header'; // setAttribute('class', "panel-header");
-    head3.innerHTML = 'Autres tribunes disponibles ';
-    panel.appendChild(head3);
-    subpanel = document.createElement('div');
-    subpanel.appendChild(triblist);
-    subpanel.innerHTML += '<img src="../img/addboard.png" alt="[+]" title="Ajouter cette tribune" onclick="addNewBoard()" />';
-    subpanel.innerHTML += '<p><a href="#" onclick="addPersoBoard()">Définir une nouvelle tribune perso</a></p>';
-    panel.appendChild(subpanel);
-    
-    // Section notifications sonores
-    var panel = document.getElementById('config-tab-2');
-    var head4 = document.createElement('div');
-    head4.className = 'panel-header'; // setAttribute('class', "panel-header");
-    head4.innerHTML = '/!\\ Support du son expérimental /!\\';
-    panel.appendChild(head4);
-    var subpanelwrapper = document.createElement('table');
-    // subpanelwrapper.style.width = "100%";
-    var subpanel = document.createElement('tbody');
-    subpanelwrapper.appendChild(subpanel);
-    subpanel.setAttribute('id', "soundZone");
-    subpanel.setAttribute('class', "subpanel");
-    var opt = null;
-    for (opt in settings.options) {
-        if (opt.substr(0,5) == 'sound') {
-            addOptionLine(opt, subpanel);
-        }
-    }
-    panel.appendChild(subpanelwrapper);
-    
-    // Section load/store
-    var panel = document.getElementById('config-tab-3');
-    var head5 = document.createElement('div');
-    var subpanelwrapper = document.createElement('table');
-    // subpanelwrapper.style.width = "100%";
-    var subpanel = document.createElement('tbody');
-    subpanelwrapper.appendChild(subpanel);
-    subpanel.setAttribute('id', "configZone");
-    subpanel.setAttribute('class', "subpanel");
-    subpanel.appendChild(ButtonBox('Sauvegarde', 'Télécharger', 'window.open(\'loadstore.php\',\'olcc_params\',\'width=0,height=0\')'), subpanel)
-    subpanel.appendChild(FileBox('Chargement', 'Envoyer', 'loadstore.php', 'removeEvent(window, \'unload\', onUnload, false);'), subpanel)
-    panel.appendChild(subpanelwrapper);
-}
 
 // Ajoute une entrée dans la liste des tribunes disponibles non actives
 function addAvailableBoard(list, name) {
@@ -569,9 +446,26 @@ function addPersoBoard() {
 // Affiche le panneau de configuration pour la tribune "name"
 function configBoard(name) {
     var board = GlobalBoards[name];
-    var panel = board.configPanel();
+
+    $("#confTribuneModal").modal('show');
+
+    $("#preconfTribune").closest('.form-group').hide();
+    $("#backendTribune").val(board.getUrl);
+    $("#colorTribune").val(board.color.substr(1)).trigger('blur');
+    $("#aliasTribune").val(board.alias);
+    $("#nameTribune").val(board.name);
+    $("#postTribune").val(board.postUrl);
+    if(board.slip == SLIP_TAGS_RAW) {
+        $("#slipTribune option[value=1]").prop('selected', true);
+    } else {
+        $("#slipTribune option[value=2]").prop('selected', true);
+    }
+    $("#datapostTribune").val(board.postData);
+    $("#cookieTribune").val(board.cookie);
+    $("#loginTribune").val(board.login);
+    $("#useragentTribune").val(board.ua);
+
     board.tmpcookieback = board.cookie;
-    document.getElementsByTagName("body")[0].appendChild(panel);
 }
 
 // Enlève une ligne dans le tableau de configuration des tribunes actives
@@ -581,9 +475,8 @@ function configRemove(name) {
     var line = document.getElementById('config-'+name);
     board.removeView(line);
     board.stop();
-    document.getElementById('boardsZone').removeChild(line);
+    $("#config-"+name).remove();
     tab.removeTab()
-    addAvailableBoard(document.getElementById('availableboards'), name);
 }
 
 // Sauvegarde la configuration de la tribune "name" et ferme son panneau de config
@@ -609,24 +502,7 @@ function saveBoardConfig(name) {
     board.slip = $('#slipTribune option:selected').val() == 1 ? SLIP_TAGS_RAW : SLIP_TAGS_ENCODED;
     //}
     board.saveConfig();
-    //if (GlobalIsDefiningPersoBoard) {
     addTabToPinni(name);
     onChangeTrib(); // pour forcer la couleur du palmipède au cas où
-        //var subpanel = document.getElementById("boardsZone");
-        //addConfigLine(board, subpanel);
-        //GlobalIsDefiningPersoBoard = false;
-    //}
-    //cancelBoardConfig(name);
-}
 
-// Ferme le panneau de config de la tribune "name"
-/*function cancelBoardConfig(name) {
-    if (GlobalIsDefiningPersoBoard) {
-        delete GlobalBoards[name];
-        GlobalIsDefiningPersoBoard = false;
-    }
-    var panel = document.getElementById("config-panel-"+name);
-    if (panel) {
-        document.getElementsByTagName("body")[0].removeChild(panel);
-    }
-}*/
+}

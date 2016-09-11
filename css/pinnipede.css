@@ -430,3 +430,9 @@ td.cinfo {
 .stop:hover {
   background-image: url('../img/control_stop_blue.png');
 }
+
+a.disabled {
+  cursor: not-allowed;
+  color: #aaa;
+  pointer-events: none;
+}

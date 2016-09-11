@@ -26,7 +26,7 @@
                 <a href="#" data-toggle="modal" data-target="#confModal">Configuration</a>
             </li>
             <li>
-                <a href="#" data-toggle="modal" data-target="#confTribuneModal">Tribunes <span class="glyphicon glyphicon-plus"></span></a>
+                <a id="addTribune" href="#" data-toggle="modal" data-target="#confTribuneModal">Tribunes <span class="glyphicon glyphicon-plus"></span></a>
                 <ul id="tabs-boards">
 
                 </ul>
@@ -287,10 +287,14 @@
                 </div>
                 <div role="tabpanel" class="tab-pane" id="tribunes-list">
                     <div class="modal-body">
-                        <div id="config-tribunes_list"></div>
+                        <table class="table table-hover">
+                            <tbody id="config-tribunes_list">
+
+                            </tbody>
+                        </table>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary">Fermer</button>
+                        <button data-dismiss="modal" type="button" class="btn btn-primary">Fermer</button>
                     </div>
                 </div>
             </div>
@@ -313,6 +317,7 @@
                         <label for="preconfTribune" class="col-sm-4 control-label">Tribunes préconfigurées</label>
                         <div class="col-sm-8">
                             <select class="form-control" id="preconfTribune">
+                                <option disabled selected value> -- Sélectionner une tribune -- </option>
                             </select>
                         </div>
                     </div>

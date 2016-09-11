@@ -164,7 +164,7 @@ function writeDuck(message, board, post, postid) {
     if ((settings.value('balltrap_mode') == BALLTRAP_AUTO)
         && (newMessage.indexOf('<span class="canard') != -1)) {
         addClass(post, "canard");
-        //launchDuck(postid, (newMessage.indexOf('<span class="canard table') != -1));
+        launchDuck(postid, (newMessage.indexOf('<span class="canard table') != -1));
     }
     return newMessage;
 }

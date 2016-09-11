@@ -180,7 +180,7 @@ body {
 }
 
 #sidebar-wrapper {
-    z-index: 1000;
+    z-index: 1001;
     position: fixed;
     left: 250px;
     height: 100%;

@@ -247,23 +247,6 @@ function initPage() {
     }
     dispAll();
 
-    // Ajout des onglets spéciaux
-/*    var filters = {
-        'mypost': "mes posts",
-        'answer': "réponses",
-        'bigorno': "bigorno&lt;",
-        'newpost': "nouveaux",
-        'pasplonk': "plonk"
-    };
-    var filter = null;
-    for (var f in filters) {
-        filter = document.createElement("div");
-        filter.setAttribute('id', "filter-"+f);
-        filter.className = "filter";
-        filter.innerHTML = filters[f];
-        document.getElementById("tabs-filters").appendChild(filter);
-        addEvent(filter, "click", function(e){var z=e.target || e.srcElement; toggleFilter(z.getAttribute('id').substr(7));}, false);
-    }*/
     // Ajout de la fenêtre d'aide au premier lancement si on est pas sur mobile
     //var help = document.getElementById('help');
     if (boards.length <= 0) {
@@ -667,9 +650,8 @@ $(document).ready(function(){
     });
 
     //addEvent(document.getElementById('totoz-form'), 'submit', onSubmit, false);
-    //balltrap_init();
-    // window.onresize = balltrap_init;
-    //addEvent(window, 'resize', balltrap_init, false);
+    balltrap_init();
+    addEvent(window, 'resize', balltrap_init, false);
 
     //Populate config
     $("#confModal").on('shown.bs.modal', function(e){

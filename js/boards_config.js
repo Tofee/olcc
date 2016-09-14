@@ -70,4 +70,4 @@ shoop.postData = "content=%m";
 shoop.slip = SLIP_TAGS_RAW;
 shoop.alias = "shoop,dax";
 shoop.color = '#EDEDDB';
-GlobalBoards['sveetch'] = sveetch;
+GlobalBoards['sveetch'] = shoop;

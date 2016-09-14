@@ -78,16 +78,15 @@ img.totoz {
 #popup {
   background-image: url(../img/jaune.gif)!important;
   border: 2px solid orange;
-  position: fixed;
-  top: 0px;
-  left: 167px;
-  right: 4px;
-  padding: 2px 8px 2px 4px;
-  z-index: 75;
   display: none;
 }
 #popup DIV {
   background-image: url(../img/jaune.gif)!important;
+}
+
+#popup .post {
+  margin-left: 0px;
+  border-left: none;
 }
 
 #pinnipede {

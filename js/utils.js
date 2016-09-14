@@ -677,3 +677,7 @@ function getNodeText(node) {
     // AFR: webkit utilise probablement innerHTML
 }
 
+function isOnScreen(element) {
+    var bounds = element.offset();
+    return bounds.top > 0;
+};

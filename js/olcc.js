@@ -4,7 +4,6 @@ var GlobalMyPosts = new Array();
 var GlobalXPosts = new Array();
 var GlobalCurTrib = '';
 var GlobalPinni = null;
-var GlobalPopup = null;
 var GlobalProcessing = false;
 var GlobalWindowFocus = true;
 var GlobalFilters = new Array();
@@ -233,7 +232,6 @@ function initPage() {
     // Numéro de version
     //document.getElementById('version').innerHTML = VERSION;
     GlobalPinni = document.getElementById("pinnipede");
-    //GlobalPopup = document.getElementById("popup");
     var boards = settings.value('active_boards');
 
     for (var i=boards.length; i--;) {
@@ -299,8 +297,7 @@ function onMouseOver(event) {
     for (var i=getLength(allhi); i--;) {
         unhilight(getItem(allhi, i));
     }
-    //GlobalPopup.style.display = 'none';
-    //GlobalPopup.innerHTML = '';
+    $("#popup").empty().hide();
 
     var target = event.target || event.srcElement;
     // var name = target.nodeName.toLowerCase();
@@ -308,12 +305,10 @@ function onMouseOver(event) {
     var targetId = target.getAttribute('id');
     if (!targetClass) return;
     if (targetClass.indexOf('clockref') != -1) {
-        hilightRef(targetId);
-    }
-    else if (targetClass.indexOf('clock') != -1) {
+        hilightRef(targetId, target.parentNode.parentNode);
+    } else if (targetClass.indexOf('clock') != -1) {
         hilightPost(target.parentNode.parentNode.getAttribute('id'), target.parentNode.parentNode);
-    }
-    else if (targetClass.indexOf('totoz') != -1) {
+    } else if (targetClass.indexOf('totoz') != -1) {
         if (settings.value('totoz_mode') != TOTOZ_INLINE) {
             var totoz = getTotoz(targetId);
             showTotoz(totoz, event.clientX, event.clientY);

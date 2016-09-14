@@ -221,6 +221,12 @@ function hilightRef(ref) {
         if (curId.substr(0,8) != ref.substr(3,8)) break;
         if (pointsTo(curId, ref)) {
             hilightPost(curId, curDiv);
+            if(!isOnScreen($(curDiv))) {
+                var clone = curDiv.cloneNode(true);
+                $(clone).removeClass('hilight');
+                $("#popup").append(clone);
+                $("#popup").show();
+            }
         }
     }
 }
@@ -229,11 +235,7 @@ function hilightPost(postid, post) {
     hilight(post);
     var clone = post.cloneNode(true);
     clone.style.display = 'block'; // le highlight toujours affiché
-    //GlobalPopup.appendChild(clone);
     removeClass(clone, "hilight");
-    //if (GlobalPopup.style.display != 'block') {
-    //    GlobalPopup.style.display = 'block';
-    //}
     hilightClocksPointingTo(postid);
 }
 

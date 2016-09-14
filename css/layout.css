@@ -41,6 +41,14 @@ body > .container-fluid {
     }
 }
 
+#popup {
+    width:inherit;
+    margin-left: -22px;
+    position: fixed;
+    top: 0px;
+    z-index: 75;
+}
+
 .fixed-bottom {
     position:fixed;
     bottom: 0px;
@@ -216,7 +224,7 @@ body {
         position: absolute;
     }
 
-    #wrapper .fixed-bottom {
+    #wrapper .fixed-bottom, #popup {
         width: calc(100% - 10px);
         transition: all 0.5s ease;
     }
@@ -254,7 +262,7 @@ body {
         margin-right: 0;
     }
 
-    #wrapper .fixed-bottom {
+    #wrapper .fixed-bottom, #popup {
         width: calc(100% - 260px);
         transition: all 0.5s ease;
     }

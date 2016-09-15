@@ -4,7 +4,7 @@
  ************************************************************/
  
 // Constantes globales génériques
-var VERSION = '0.4.3';
+var VERSION = '0.95';
 
 // Constantes de gestion des états
 var STATE_LOADED = 'loaded'; // Tribune chargée
@@ -38,7 +38,7 @@ var BALLTRAP_AUTO = 'Auto launch';
 var BALLTRAP_KILL = 'Kill on click';
 
 // Valeurs de config par défaut
-var DEFAULT_DEFAULT_UA = "onlineCoinCoin/"+VERSION;
+var DEFAULT_DEFAULT_UA = "olcc-me/"+VERSION;
 var DEFAULT_PINNI_SIZE = 1000;
 var DEFAULT_PINNI_KEEP = true;
 var DEFAULT_AUTOREFRESH = true;
@@ -47,7 +47,7 @@ var DEFAULT_ACTIVE_BOARDS = new Array();
 var DEFAULT_TOTOZ_SERVER = "http://totoz.eu/";
 var DEFAULT_TOTOZ_MODE = TOTOZ_POPUP;
 var DEFAULT_DEFAULT_LOGIN = '';
-var DEFAULT_WINDOW_TITLE = "OnlineCoinCoin";
+var DEFAULT_WINDOW_TITLE = "Olcc - Mobile Edition";
 var DEFAULT_FAVICON = "img/coin.png";
 var DEFAULT_BOSS_MODE = BOSSMODE_RANDOM;
 var DEFAULT_STYLE = 'default';

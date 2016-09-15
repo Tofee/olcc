@@ -228,6 +228,20 @@ function addTabToPinni(name) {
     return board;
 }
 
+function refreshAll() {
+    for (var name in GlobalBoards) {
+        var board = GlobalBoards[name];
+        board.refresh();
+    }
+}
+
+function stopAll() {
+    for (var name in GlobalBoards) {
+        var board = GlobalBoards[name];
+        board.stop();
+    }
+}
+
 function initPage() {
     // Numéro de version
     //document.getElementById('version').innerHTML = VERSION;
@@ -433,10 +447,9 @@ function insertTextAtCursor(element, text, pos) {
 
 function onKeyDown(event) {
     var target = event.target || event.srcElement ;
-    /*if (event.keyCode == 27) {
+    if (event.keyCode == 27) {
         bossMode();
-    }
-    else */if (target.id == 'message') {
+    } else if (target.id == 'message') {
         if (event.altKey) {
             var keychar = String.fromCharCode(event.keyCode).toLowerCase();
             switch(keychar) {
@@ -554,6 +567,11 @@ function resetFilter() {
     }
 }
 
+function postFile(file_name, file_url) {
+    insertInPalmi(" " + file_url + " ");
+    $("fileModal").modal('hide');
+}
+
 $(document).ready(function(){
 
     $(".pick-a-color").pickAColor();
@@ -583,6 +601,18 @@ $(document).ready(function(){
 
     });
 
+    $("#forceRefresh").on('click', function(e) {
+        refreshAll();
+    });
+
+    $("#stopTribunes").on('click', function(e){
+        stopAll();
+    });
+
+    $("#bossMode").on('click', function(e){
+        bossMode();
+    });
+
     $("#confTribune").on('submit', function(e){
         e.preventDefault();
         saveBoardConfig($("#nameTribune").val());
@@ -604,6 +634,26 @@ $(document).ready(function(){
         if($("#confModal").is(':visible')) {
             $('body').addClass('modal-open');
         }
+    });
+
+    $("#attach-form").on('submit', function(e){
+        e.preventDefault();
+        var action = $(this).attr('action');
+        var fd = new FormData($("#attach-form").get(0));
+        $.ajax({
+            url: action,
+            type: 'POST',
+            data: fd,
+            dataType: 'json',
+            success:function(data){
+                insertInPalmi(" " + data.file_url + " ");
+                $("#fileModal").modal('hide');
+            },
+            cache: false,
+            contentType: false,
+            processData: false
+        });
+
     });
 
     getSoundList();

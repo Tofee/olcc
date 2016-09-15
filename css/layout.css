@@ -157,6 +157,10 @@ body {
     color: #999999;
 }
 
+.sidebar-nav ul.actions li a:hover {
+    background: none;
+}
+
 .sidebar-nav li a:hover {
     text-decoration: none;
     color: #fff;

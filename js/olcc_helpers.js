@@ -318,3 +318,94 @@ function getSelectedText(){
     base = document.getElementById("message");
     return base.value.substring(base.selectionStart, base.selectionEnd);
 }
+
+function bossMode() {
+    var bossframe = document.getElementById("bossframe");
+    var mode = settings.value('boss_mode');
+    if (mode == BOSSMODE_RANDOM) {
+        mode = [BOSSMODE_PTRAMO, BOSSMODE_KERVIEL, BOSSMODE_PBPG, BOSSMODE_DECIDEUR][Math.floor(Math.random()*4)];
+    }
+    bossframe.innerHTML = '';
+    bossframe.onclick = function () { bossframe.style.display = 'none'; };
+    switch (mode) {
+        case BOSSMODE_PTRAMO:
+            bossframe.innerHTML = '<h1>500 Servlet Exception</h1> \n' +
+                '<pre>com.ibm.ws.exception.ConfigurationError: Runtime Error, open failure \n' +
+                '        at com.ibm.ws.runtime.component.DeployedModuleImpl.initialize(DeployedModuleImpl.java:280) \n' +
+                '        at com.ibm.ws.runtime.component.DeployedApplicationImpl.initializeModule(DeployedApplicationImpl.java:700) \n' +
+                '        at com.ibm.ws.runtime.component.DeployedApplicationImpl.initialize(DeployedApplicationImpl.java:402) \n' +
+                '        at com.ibm.ws.runtime.component.ApplicationMgrImpl.initializeApplication(ApplicationMgrImpl.java:135) \n' +
+                '        at com.ibm.ws.runtime.component.ApplicationMgrImpl.start(ApplicationMgrImpl.java:203) \n' +
+                '        at com.ibm.ws.runtime.component.ContainerImpl.startComponents(ContainerImpl.java:343) \n' +
+                '        at com.ibm.ws.runtime.component.ContainerImpl.start(ContainerImpl.java:234) \n' +
+                '        at com.ibm.ws.runtime.component.ApplicationServerImpl.start(ApplicationServerImpl.java:117) \n' +
+                '        at com.ibm.ws.runtime.component.ContainerImpl.startComponents(ContainerImpl.java:343) \n' +
+                '        at com.ibm.ws.runtime.component.ContainerImpl.start(ContainerImpl.java:234) \n' +
+                '        at com.ibm.ws.runtime.component.ServerImpl.start(ServerImpl.java:182) \n' +
+                '        at com.ibm.ws.runtime.WsServer.start(WsServer.java:135) \n' +
+                '        at com.ibm.ws.runtime.WsServer.main(WsServer.java:232) \n' +
+                '        at java.lang.reflect.Method.invoke(Native Method) \n' +
+                '        at com.ibm.ws.bootstrap.WSLauncher.main(WSLauncher.java:94) \n' +
+                '        at com.ibm.etools.websphere.tools.runner.api.ServerRunnerV5$1.run(ServerRunnerV5.java:105) \n' +
+                '-- Begin nested stack trace -- \n' +
+                'org.xml.sax.SAXParseException: The content of element type "ejb-jar" is incomplete, it must match "(description?,display-name?,small-icon?,large-icon?,enterprise-beans,relationships?,assembly-descriptor?,ejb-client-jar?)". \n' +
+                '        at org.apache.xerces.parsers.DOMParser.parse(DOMParser.java:235) \n' +
+                '        at org.apache.xerces.jaxp.DocumentBuilderImpl.parse(DocumentBuilderImpl.java:209) \n' +
+                '        at com.ibm.etools.j2ee.xml.bridge.GeneralXmlDocumentReader.parse(GeneralXmlDocumentReader.java:198) \n' +
+                '        at com.ibm.etools.j2ee.xml.bridge.GeneralXmlDocumentReader.parseDocument(GeneralXmlDocumentReader.java:221) \n' +
+                '        at com.ibm.etools.j2ee.xml.DeploymentDescriptorImportExport.primImportFrom(DeploymentDescriptorImportExport.java:250) \n' +
+                '        at com.ibm.etools.j2ee.xml.DeploymentDescriptorImportExport.primImportFrom(DeploymentDescriptorImportExport.java:239) \n' +
+                '        at com.ibm.etools.j2ee.xml.EjbJarDeploymentDescriptorImportExport.importFrom(EjbJarDeploymentDescriptorImportExport.java:54) \n' +
+                '        at com.ibm.etools.ejb.impl.EJBJarResourceFactory.importXML(EJBJarResourceFactory.java:30) \n' +
+                '        at com.ibm.etools.j2ee.common.impl.XMLResourceFactory.load(XMLResourceFactory.java:68) \n' +
+                '        at com.ibm.etools.j2ee.common.impl.XMLResourceFactory.load(XMLResourceFactory.java:84) \n' +
+                '        at com.ibm.etools.emf.resource.impl.ResourceFactoryImpl.load(ResourceFactoryImpl.java:77) \n' +
+                '        at com.ibm.etools.emf.resource.impl.ResourceSetImpl.load(ResourceSetImpl.java:289) \n' +
+                '        at com.ibm.etools.archive.impl.LoadStrategyImpl.getMofResource(LoadStrategyImpl.java:222) \n' +
+                '        at com.ibm.etools.commonarchive.impl.ArchiveImpl.getMofResource(ArchiveImpl.java:528) \n' +
+                '        at com.ibm.etools.commonarchive.impl.ModuleFileImpl.getDeploymentDescriptorResource(ModuleFileImpl.java:65) \n' +
+                '        at com.ibm.etools.archive.impl.XmlBasedImportStrategyImpl.primLoadDeploymentDescriptor(XmlBasedImportStrategyImpl.java:35) \n' +
+                '        at com.ibm.etools.archive.impl.EjbJar11ImportStrategyImpl.loadDeploymentDescriptor(EjbJar11ImportStrategyImpl.java:73) \n' +
+                '        at com.ibm.etools.archive.impl.EjbJar11ImportStrategyImpl.importMetaData(EjbJar11ImportStrategyImpl.java:68) \n' +
+                '        at com.ibm.etools.commonarchive.impl.EJBJarFileImpl.getDeploymentDescriptor(EJBJarFileImpl.java:152) \n' +
+                '        at com.ibm.etools.commonarchive.impl.EJBJarFileImpl.getStandardDeploymentDescriptor(EJBJarFileImpl.java:212) \n' +
+                '        at com.ibm.etools.commonarchive.impl.EARFileImpl.getDeploymentDescriptor(EARFileImpl.java:446) \n' +
+                '        at com.ibm.etools.commonarchive.impl.ModuleRefImpl.getDeploymentDescriptor(ModuleRefImpl.java:525) \n' +
+                '        at com.ibm.ws.runtime.component.DeployedModuleImpl.open(DeployedModuleImpl.java:113) \n' +
+                '        at com.ibm.ws.runtime.component.DeployedModuleImpl.initialize(DeployedModuleImpl.java:277) \n' +
+                '        at com.ibm.ws.runtime.component.DeployedApplicationImpl.initializeModule(DeployedApplicationImpl.java:700) \n' +
+                '        at com.ibm.ws.runtime.component.DeployedApplicationImpl.initialize(DeployedApplicationImpl.java:402) \n' +
+                '        at com.ibm.ws.runtime.component.ApplicationMgrImpl.initializeApplication(ApplicationMgrImpl.java:135) \n' +
+                '        at com.ibm.ws.runtime.component.ApplicationMgrImpl.start(ApplicationMgrImpl.java:203) \n' +
+                '        at com.ibm.ws.runtime.component.ContainerImpl.startComponents(ContainerImpl.java:343) \n' +
+                '        at com.ibm.ws.runtime.component.ContainerImpl.start(ContainerImpl.java:234) \n' +
+                '        at com.ibm.ws.runtime.component.ApplicationServerImpl.start(ApplicationServerImpl.java:117) \n' +
+                '        at com.ibm.ws.runtime.component.ContainerImpl.startComponents(ContainerImpl.java:343) \n' +
+                '        at com.ibm.ws.runtime.component.ContainerImpl.start(ContainerImpl.java:234) \n' +
+                '        at com.ibm.ws.runtime.component.ServerImpl.start(ServerImpl.java:182) \n' +
+                '        at com.ibm.ws.runtime.WsServer.start(WsServer.java:135) \n' +
+                '        at com.ibm.ws.runtime.WsServer.main(WsServer.java:232) \n' +
+                '        at java.lang.reflect.Method.invoke(Native Method) \n' +
+                '        at com.ibm.ws.bootstrap.WSLauncher.main(WSLauncher.java:94) \n' +
+                '        at com.ibm.etools.websphere.tools.runner.api.ServerRunnerV5$1.run(ServerRunnerV5.java:105) \n' +
+                '</pre>';
+            bossframe.style.backgroundColor = '#ffffff';
+            bossframe.style.backgroundImage = 'none';
+            break;
+        case BOSSMODE_KERVIEL:
+            bossframe.style.backgroundColor = '#ffffff';
+            bossframe.style.backgroundImage = 'url("courssco.png")';
+            break;
+        case BOSSMODE_DECIDEUR:
+            bossframe.style.backgroundColor = '#c0c0c0';
+            bossframe.style.backgroundImage = 'url("excel.png")';
+            break;
+        case BOSSMODE_PBPG:
+            bossframe.innerHTML = '<table width="410" cellpadding="3" cellspacing="5"><tr><td align="left" valign="middle" width="360"><h1 style="COLOR:000000; FONT: 13pt/15pt verdana">The page cannot be found</h1></td></tr><tr><td width="400" colspan="2"><font style="COLOR:000000; FONT: 8pt/11pt verdana">The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.</font></td></tr><tr><td width="400" colspan="2"><font style="COLOR:000000; FONT: 8pt/11pt verdana"><hr color="#C0C0C0" noshade><p>Please try the following:</p><ul><li>If you typed the page address in the Address bar, make sure that it is spelled correctly.<br></li>'+
+                '<li>Open the <a href="http://www.voyages-sncf.com/">www.voyages-sncf.com</a> home page, and then look for links to the information you want.</li><li>Click the <a href="javascript:history.back(1)">Back</a> button to try another link.</li></ul><h2 style="font:8pt/11pt verdana; color:000000">HTTP 404 - File not found<br>Internet Information Services<BR></h2><hr color="#C0C0C0" noshade><p>Technical Information (for support personnel)</p><ul><li>More information:<br><a href="http://www.microsoft.com/ContentRedirect.asp?prd=iis&sbp=&pver=5.0&pid=&ID=404&cat=web&os=&over=&hrd=&Opt1=&Opt2=&Opt3=" target="_blank">Microsoft Support</a></li></ul></font></td></tr></table>';
+            bossframe.style.backgroundColor = '#ffffff';
+            bossframe.style.backgroundImage = 'none';
+            break;
+    }
+    bossframe.style.display = 'block';
+}

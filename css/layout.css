@@ -72,6 +72,8 @@ body > .container-fluid {
     margin-bottom: 5px !important;
 }
 
+
+
 .fixed-top-left {
     position: fixed;
     top:0px;
@@ -94,16 +96,28 @@ form.form-inline .col-xs-3 label {
     font-size: 12px;
 }
 
-@media(min-width:992px) {
-    form.form-inline .col-xs-3 .input-group {
-        width: 70%;
-    }
+
+form.form-inline .col-xs-3 .input-group {
+    width: 100%;
 }
 
-@media(max-width:992px) {
-    form.form-inline .col-xs-3 .input-group {
-        width: 100%;
-    }
+form.form-inline .col-xs-3 .input-group-addon {
+    width: 1% !important;
+}
+
+td.maxwidth50 {
+    max-width: 50px;
+}
+
+td.maxwidth210 {
+    max-width: 210px;
+}
+
+#form-totoz .popover-content {
+    max-height: 500px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    padding-left: 0px;
 }
 
 /******** Sidebar ************/

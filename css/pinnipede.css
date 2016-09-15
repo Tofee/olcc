@@ -38,6 +38,7 @@ img.totoz {
 .totoz {
   color: #0A1;
   font-weight: 700;
+    font-size: 12px;
 }
 .totoz:hover {
   color: #080;

@@ -567,9 +567,76 @@ function resetFilter() {
     }
 }
 
-function postFile(file_name, file_url) {
-    insertInPalmi(" " + file_url + " ");
-    $("fileModal").modal('hide');
+function searchTotoz() {
+    var totoz = document.getElementById('totoz-search').value;
+    if (!totoz) { return; }
+    //document.getElementById('totoz-status').src = "img/wait.gif";
+    var url = settings.value('totoz_server') + "search.xml{question}terms=" + escape(totoz); // + "{amp}xml=true";
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'backend.php?url='+url, true);
+    xhr.onreadystatechange = function() {
+        switch (xhr.readyState) {
+            case 4:
+                displayTotoz(xhr);
+                break;
+            default:
+                // inprogress(xhr);
+                break;
+        }
+    };
+    try {
+        xhr.send(null);
+    }
+    catch(err) {
+        document.getElementById('totoz-status').src = "img/error.png";
+    }
+}
+
+function displayTotoz(xhr) {
+    $("#form-totoz input").popover('destroy');
+    try {
+        var status = xhr.status;
+    }
+    catch(err) {
+        document.getElementById('totoz-status').src = "img/error.png";
+        return;
+    }
+    if (status == 200) {
+
+
+
+        //totozPanel = document.getElementById('totozpanel');
+        //totozPanel.style.display = 'block';
+        //document.getElementById('totoz-status').src = "img/blank.gif";
+        var res = xhr.responseText;
+        var totozfound = loadXML(res);
+        var totozNodes = totozfound.getElementsByTagName("name") || [];
+        //var totozList = document.getElementById('totoz-list');
+        //totozList.innerHTML = '';
+        totozwrap = $('<table class="table"></table>');//document.createElement('table');
+        totozbody = $('<tbody></tbody>');
+        totozwrap.append(totozbody);
+        //totozList.appendChild(totozwrap);
+        var server = settings.value('totoz_server');
+        for (var i=totozNodes.length; i--;) {
+            var curtotoz = getNodeText(totozNodes[i]); //.textContent.strip();
+            var totoz = "[:"+curtotoz+"]";
+            var tr = $('<tr data-totoz="'+totoz+' " class="totoz-result"></tr>');//document.createElement('tr');
+            //tr.setAttribute('onclick', 'insertInPalmi("'+totoz+" "+'")');
+            var td = $('<td class="maxwidth50"><img class="img-responsive img-rounded" src="'+server+'/img/'+curtotoz+'" alt="'+totoz+'" /></td>');//document.createElement('td');
+
+            tr.append(td);
+            var td2 = $('<td class="maxwidth210"><span class="totoz">'+totoz+'</span></td>');
+
+            tr.append(td2);
+            totozbody.append(tr);
+        }
+        $("#form-totoz input").popover({
+            html: true,
+            placement: "top",
+            content: totozwrap
+        }).popover('show');
+    }
 }
 
 $(document).ready(function(){
@@ -654,6 +721,27 @@ $(document).ready(function(){
             processData: false
         });
 
+    });
+
+    $("#form-totoz").on('submit', function(e) {
+       e.preventDefault();
+        searchTotoz();
+    });
+
+    $('#form-totoz').on('click', '.totoz-result', function(e){
+        insertInPalmi($(this).data('totoz'));
+    });
+
+    //close popover when click outside
+    $(document).on('click', function (e) {
+        $('[data-toggle="popover"],[data-original-title]').each(function () {
+            //the 'is' for buttons that trigger popups
+            //the 'has' for icons within a button that triggers a popup
+            if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
+                (($(this).popover('hide').data('bs.popover')||{}).inState||{}).click = false  // fix for BS 3.3.6
+            }
+
+        });
     });
 
     getSoundList();

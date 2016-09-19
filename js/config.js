@@ -477,6 +477,13 @@ function configRemove(name) {
     board.stop();
     $("#config-"+name).remove();
     tab.removeTab()
+    console.log(settings);
+    var opt = settings.options['active_boards'].value;
+    var idx = opt.indexOf(name);
+    if(idx >= 0) {
+        opt.splice(idx, 1);
+        settings.save();
+    }
 }
 
 // Sauvegarde la configuration de la tribune "name" et ferme son panneau de config
@@ -504,5 +511,11 @@ function saveBoardConfig(name) {
     board.saveConfig();
     addTabToPinni(name);
     onChangeTrib(); // pour forcer la couleur du palmipède au cas où
+
+    var opt = settings.options['active_boards'].value;
+    if(opt.indexOf(name) < 0) {
+        opt.push(name);
+        settings.save();
+    }
 
 }

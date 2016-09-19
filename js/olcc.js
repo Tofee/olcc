@@ -683,7 +683,6 @@ $(document).ready(function(){
     $("#confTribune").on('submit', function(e){
         e.preventDefault();
         saveBoardConfig($("#nameTribune").val());
-        saveConfig();
         $("#confTribuneModal").modal('hide');
     });
 

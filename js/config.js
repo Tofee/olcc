@@ -143,21 +143,23 @@ var settings = {
                 var eqpos = opt_val.indexOf('=');
                 var name = opt_val.substr(0, eqpos);
                 var opt = this.options[name];
-                var val = opt_val.substr(eqpos+1, opt_val.length);
-                if (name == 'default_ua') { // MAJ du numéro de version dans l'UA
-                    val = val.replace(/((?:ol|online)(?:cc|c²|coincoin))\/[0-9]+\.[0-9]+\.[0-9]+/i, '$1/'+VERSION);
+                if(typeof opt != 'undefined') {
+                    var val = opt_val.substr(eqpos + 1, opt_val.length);
+                    if (name == 'default_ua') { // MAJ du numéro de version dans l'UA
+                        val = val.replace(/((?:ol|online)(?:cc|c²|coincoin))\/[0-9]+\.[0-9]+\.[0-9]+/i, '$1/' + VERSION);
+                    }
+                    // alert("name="+name+" ; val="+val);
+                    switch (opt.type) {
+                        case TYPE_INT:
+                        case TYPE_BOOL:
+                            val = eval(val);
+                            break;
+                        case TYPE_MULTI_CHOICE:
+                            val = (val) ? val.split("|") : [];
+                            break;
+                    }
+                    opt.value = val;
                 }
-                // alert("name="+name+" ; val="+val);
-                switch (opt.type) {
-                  case TYPE_INT:
-                  case TYPE_BOOL:
-                    val = eval(val);
-                    break;
-                  case TYPE_MULTI_CHOICE:
-                    val = (val) ? val.split("|") : [];
-                    break;
-                }
-                opt.value = val;
             }
         } else {
             this.setDefault();

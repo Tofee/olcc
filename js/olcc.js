@@ -218,7 +218,7 @@ function toPinniBottom() {
 function addTabToPinni(name) {
     var board = GlobalBoards[name];
     if (!board.getUrl) {
-        alert("board "+name+" n'a pas d'url définie");
+        //alert("board "+name+" n'a pas d'url définie");
         return;
     }
     var tab = new BoardTab(board);
@@ -826,9 +826,9 @@ $(document).ready(function(){
     });
 
     mc.on('swipe', function(ev) {
-        if(ev.direction == Hammer.DIRECTION_LEFT && $("#wrapper").hasClass("toggled")) {
+        if(ev.direction == Hammer.DIRECTION_LEFT && !$("#wrapper").hasClass("toggled")) {
             $("#menu-toggle").trigger('click');
-        } else if(ev.direction == Hammer.DIRECTION_RIGHT && !$("#wrapper").hasClass("toggled")) {
+        } else if(ev.direction == Hammer.DIRECTION_RIGHT && $("#wrapper").hasClass("toggled")) {
             $("#menu-toggle").trigger('click');
         }
     });
@@ -838,9 +838,9 @@ $(document).ready(function(){
 
     mc2.add( new Hammer.Swipe({event: 'swipe', direction: Hammer.DIRECTION_HORIZONTAL}));
     mc2.on('swipe', function(ev) {
-        if(ev.direction == Hammer.DIRECTION_LEFT && $("#wrapper").hasClass("toggled")) {
+        if(ev.direction == Hammer.DIRECTION_LEFT && !$("#wrapper").hasClass("toggled")) {
             $("#menu-toggle").trigger('click');
-        } else if(ev.direction == Hammer.DIRECTION_RIGHT && !$("#wrapper").hasClass("toggled")) {
+        } else if(ev.direction == Hammer.DIRECTION_RIGHT && $("#wrapper").hasClass("toggled")) {
             $("#menu-toggle").trigger('click');
         }
     });

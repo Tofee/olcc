@@ -56,13 +56,14 @@ var DEFAULT_BALLTRAP = true;
 var DEFAULT_MAX_DUCKS = 15;
 var DEFAULT_BALLTRAP_MODE = BALLTRAP_AUTO;
 var DEFAULT_BALLTRAP_SILENT = false;
+/*
 var DEFAULT_SOUND_ENABLED = false;
 var DEFAULT_SOUND_ZOO = false;
 var DEFAULT_SOUND_NEW = 'notice.mp3';
 var DEFAULT_SOUND_REPLY = 'msft_e-mail.mp3';
 var DEFAULT_SOUND_BIGORNO = 'hail.mp3';
 var DEFAULT_SOUND_VOLUME = 80;
-
+*/
 
 // Notifications
 var NOTIF_STATE = 'change state';

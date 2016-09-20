@@ -847,10 +847,13 @@ $(document).ready(function(){
     PreventGhostClick($("#tabs-boards")[0]);
     mc2.add(new Hammer.Tap({event: 'tap', taps:1}));
     mc2.on('tap', function(ev){
-        var target = $(ev.target);
-        if(target.closest('li').hasClass('tab')){
-            var boardName = target.closest('li').attr('id').substr(4);
-            GlobalBoardTabs[boardName].toggle();
+        if(ev.pointerType == 'touch') {
+            var target = $(ev.target);
+            if (target.closest('li').hasClass('tab')) {
+                var boardName = target.closest('li').attr('id').substr(4);
+                GlobalBoardTabs[boardName].toggle();
+                toPinniBottom();
+            }
         }
     });
 });

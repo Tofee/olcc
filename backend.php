@@ -5,7 +5,8 @@
 	use in production environment. */
 
 	$bDebug   = false ;
-	$sVersion = '0.3.8' ;
+	error_reporting(0);
+	$sVersion = '0.9.94' ;
 	$aHeaders = array( 'Accept: text/xml', 'Cache-Control: no-cache, must-revalidate' );
 
 
@@ -35,7 +36,7 @@
 	curl_setopt( $rCurl, CURLOPT_RETURNTRANSFER, true );
 	curl_setopt( $rCurl, CURLOPT_HEADER,         true );
 	curl_setopt( $rCurl, CURLOPT_HTTPHEADER,     $aHeaders );
-	curl_setopt( $rCurl, CURLOPT_USERAGENT,      "onlineCoinCoin/" . $sVersion );
+	curl_setopt( $rCurl, CURLOPT_USERAGENT,      "olcc-me/" . $sVersion );
 	curl_setopt( $rCurl, CURLOPT_CONNECTTIMEOUT, 5 );
 	curl_setopt( $rCurl, CURLOPT_TIMEOUT,        8 );
 

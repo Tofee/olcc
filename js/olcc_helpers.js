@@ -35,6 +35,26 @@ function writeLecon(message)
     }
 }
 
+function writeUrl(message) {
+    var jmessage = $('<div>'+message+'</div>');
+    var exp = new RegExp('[url]');
+    jmessage.find('a').each(function(index, item){
+
+        var text = $(this).text();
+        var href = $(this).attr('href');
+        if(exp.test(text)){
+            var matches = href.match(/^https?\:\/\/([^\/?#]+)(?:[\/?#]|$)/i);
+            var domain = matches && matches[1];
+            if(domain.startsWith('www.')) {
+                domain = domain.substr(4);
+            }
+            $(this).text('['+domain+']');
+        }
+
+    });
+    return jmessage.html();
+}
+
 function writeBigorno(message, board, postid, post) {
     var login_exp = (board.login) ? board.login : settings.value('default_login');
     if (login_exp) {

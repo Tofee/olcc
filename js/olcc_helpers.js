@@ -243,7 +243,7 @@ function hilightRef(ref) {
             hilightPost(curId, curDiv);
             if(!isOnScreen($(curDiv))) {
                 var clone = curDiv.cloneNode(true);
-                $(clone).removeClass('hilight');
+                $(clone).removeClass('hilight').attr('id', '');
                 $("#popup").append(clone);
                 $("#popup").show();
             }

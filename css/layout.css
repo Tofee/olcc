@@ -303,3 +303,9 @@ body {
     width: calc(100% - 10px);
     transition: all 0.5s ease;
 }
+
+.loading {
+    background-image: url("../img/ajax-loader.gif");
+    background-repeat: no-repeat;
+    background-position: center center;
+}

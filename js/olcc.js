@@ -378,7 +378,7 @@ function onClick(event) {
     }
 
     // Click sur un login
-    else if (nodeClass.indexOf('login') != -1) {
+    else if (nodeClass.indexOf('login') != -1 || nodeClass.indexOf('ua') != -1) {
         insertInPalmi(target.innerHTML.strip()+"< ");
     }
 
@@ -572,57 +572,32 @@ function searchTotoz() {
     if (!totoz) { return; }
     //document.getElementById('totoz-status').src = "img/wait.gif";
     var url = settings.value('totoz_server') + "search.xml{question}terms=" + escape(totoz); // + "{amp}xml=true";
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', 'backend.php?url='+url, true);
-    xhr.onreadystatechange = function() {
-        switch (xhr.readyState) {
-            case 4:
-                displayTotoz(xhr);
-                break;
-            default:
-                // inprogress(xhr);
-                break;
-        }
-    };
-    try {
-        xhr.send(null);
-    }
-    catch(err) {
-        document.getElementById('totoz-status').src = "img/error.png";
-    }
+
+    $.get('backend.php?url='+url, function(data, status, xhr){
+        displayTotoz(xhr.responseText);
+    }, "xml")
+        .fail(function(xhr, status, error){
+            $("#form-totoz input").popover({
+                html: true,
+                placement: "top",
+                content: error
+            }).popover('show');
+        });
 }
 
-function displayTotoz(xhr) {
+function displayTotoz(res) {
     $("#form-totoz input").popover('destroy');
-    try {
-        var status = xhr.status;
-    }
-    catch(err) {
-        document.getElementById('totoz-status').src = "img/error.png";
-        return;
-    }
-    if (status == 200) {
-
-
-
-        //totozPanel = document.getElementById('totozpanel');
-        //totozPanel.style.display = 'block';
-        //document.getElementById('totoz-status').src = "img/blank.gif";
-        var res = xhr.responseText;
         var totozfound = loadXML(res);
         var totozNodes = totozfound.getElementsByTagName("name") || [];
-        //var totozList = document.getElementById('totoz-list');
-        //totozList.innerHTML = '';
         totozwrap = $('<table class="table"></table>');//document.createElement('table');
         totozbody = $('<tbody></tbody>');
         totozwrap.append(totozbody);
-        //totozList.appendChild(totozwrap);
         var server = settings.value('totoz_server');
         for (var i=totozNodes.length; i--;) {
-            var curtotoz = getNodeText(totozNodes[i]); //.textContent.strip();
+            var curtotoz = getNodeText(totozNodes[i]);
             var totoz = "[:"+curtotoz+"]";
-            var tr = $('<tr data-totoz="'+totoz+' " class="totoz-result"></tr>');//document.createElement('tr');
-            //tr.setAttribute('onclick', 'insertInPalmi("'+totoz+" "+'")');
+            var tr = $('<tr data-totoz="'+totoz+' " class="totoz-result"></tr>');
+            
             var td = $('<td class="maxwidth50"><img class="img-responsive img-rounded" src="'+server+'/img/'+curtotoz+'" alt="'+totoz+'" /></td>');//document.createElement('td');
 
             tr.append(td);
@@ -636,10 +611,21 @@ function displayTotoz(xhr) {
             placement: "top",
             content: totozwrap
         }).popover('show');
-    }
 }
 
 $(document).ready(function(){
+
+    $(document)
+        .ajaxSend(function(event, jqxhr, settings) {
+            if(settings.url.indexOf('search.xml') > -1) {
+                $("#totoz-search").addClass('loading');
+            }
+        })
+        .ajaxComplete(function(event, jqxhr, settings) {
+            if(settings.url.indexOf('search.xml') > -1) {
+                $("#totoz-search").removeClass('loading');
+            }
+        });
 
     $(".pick-a-color").pickAColor();
 
@@ -737,7 +723,7 @@ $(document).ready(function(){
             //the 'is' for buttons that trigger popups
             //the 'has' for icons within a button that triggers a popup
             if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
-                (($(this).popover('hide').data('bs.popover')||{}).inState||{}).click = false  // fix for BS 3.3.6
+                $(this).popover('destroy');
             }
 
         });

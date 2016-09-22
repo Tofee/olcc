@@ -64,8 +64,8 @@ olo.slip = SLIP_TAGS_RAW;
 GlobalBoards['olo'] = olo;
 
 var shoop = new Board('sveetch', false);
-shoop.getUrl = 'http://www.sveetch.net/tribune/remote/xml/';
-shoop.postUrl = 'http://www.sveetch.net/tribune/post/xml/';
+shoop.getUrl = 'http://sveetch.net/tribune/remote/xml/';
+shoop.postUrl = 'http://sveetch.net/tribune/post/xml/';
 shoop.postData = "content=%m";
 shoop.slip = SLIP_TAGS_RAW;
 shoop.alias = "shoop,dax";

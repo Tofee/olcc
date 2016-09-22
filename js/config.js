@@ -479,7 +479,6 @@ function configRemove(name) {
     board.stop();
     $("#config-"+name).remove();
     tab.removeTab()
-    console.log(settings);
     var opt = settings.options['active_boards'].value;
     var idx = opt.indexOf(name);
     if(idx >= 0) {
@@ -491,6 +490,11 @@ function configRemove(name) {
 // Sauvegarde la configuration de la tribune "name" et ferme son panneau de config
 function saveBoardConfig(name) {
     var board = GlobalBoards[name];
+    if(typeof board == 'undefined') {
+        var newboard = new Board(name, true);
+        GlobalBoards[name] = newboard;
+        board = GlobalBoards[name];
+    }
     board.color = '#'+$("#colorTribune").val();
     board.updateCSS(); // change couleur style de la board
     board.alias = $('#aliasTribune').val();

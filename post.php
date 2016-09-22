@@ -1,16 +1,19 @@
 <?php
 
-  $VERSION = '0.3.8';
+  $VERSION = '0.9.94';
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $_REQUEST['posturl']);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
   curl_setopt($ch, CURLOPT_HEADER, true);
   // curl_setopt($ch, CURLINFO_HEADER_OUT, true);
+
+  //  error_reporting(0);
+
   if (isset($_REQUEST['ua'])) {
     $ua = $_REQUEST['ua'];
   }
   else {
-    $ua = "onlineCoinCoin/" . $VERSION;
+    $ua = "olcc-me/" . $VERSION;
   }
   // $message = $_SERVER['QUERY_STRING'];
   // $message = substr($message, strpos($message, 'postdata=')+9);
@@ -39,7 +42,8 @@
   // error_log( "[olcc] " . $res); // curl_getinfo($ch, CURLINFO_HEADER_OUT));
   // var_dump(curl_getinfo($ch));
   // echo "UA=$ua<br />referer=$referer<br />cookie=".$_REQUEST['cookie']."<br />Data=".stripslashes(utf8_encode($message))."<br />Query_string=".$_SERVER['QUERY_STRING']."<br />";
-  echo('({');
+
+    echo('({');
   if ($res === false) {
     echo( "'error':'". curl_error($ch) ."'," );
   }
@@ -55,8 +59,10 @@
         }
       }
     }
+      $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+      http_response_code($http_code);
     echo( "'referer':\"" . $referer . "\"," );
-    echo( "'httpcode':" . curl_getinfo($ch, CURLINFO_HTTP_CODE) . "," );
+    echo( "'httpcode':" . $http_code . "," );
     //echo "UA=$ua<br />referer=$referer<br />cookie=".$_REQUEST['cookie']."<br />Data=".$message."<br />Query_string=".$_SERVER['QUERY_STRING']."<br />";
     // echo $res;
   }

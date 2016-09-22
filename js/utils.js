@@ -682,3 +682,12 @@ function isOnScreen(element) {
     var bounds = element.offset();
     return bounds.top > 0;
 };
+
+function closeKeyboard(element) {
+    element.attr('readonly', 'readonly');
+    setTimeout(function() {
+        element.blur();
+        element.removeAttr('readonly');
+        toPinniBottom();
+    }, 100);
+}

@@ -277,7 +277,6 @@ function sendPost() {
     var dest = $("#tribune li.selected").data('name');
     var palmi = document.getElementById('message');
     GlobalBoards[dest].post(palmi.value);
-    palmi.value = '';
 }
 
 function pointsTo(postid, ref) {
@@ -305,12 +304,7 @@ function dispAll() {
 }
 
 function onMouseOver(event) {
-    // Enlève le hilight
-    var allhi = evalexp("//*[contains(@class,'hilight')]");
-
-    for (var i=getLength(allhi); i--;) {
-        unhilight(getItem(allhi, i));
-    }
+    unhilightall();
     $("#popup").empty().hide();
 
     var target = event.target || event.srcElement;
@@ -379,6 +373,8 @@ function onClick(event) {
 
     // Click sur un login
     else if (nodeClass.indexOf('login') != -1 || nodeClass.indexOf('ua') != -1) {
+        var nodeId = target.parentNode.parentNode.getAttribute('id');
+        setPalmiTrib(nodeId.substr(13));
         insertInPalmi(target.innerHTML.strip()+"< ");
     }
 
@@ -445,6 +441,8 @@ function insertTextAtCursor(element, text, pos) {
     element.setSelectionRange(selectionEnd, selectionEnd);
 }
 
+
+var highlightMode = false;
 function onKeyDown(event) {
     var target = event.target || event.srcElement ;
     if (event.keyCode == 27) {
@@ -511,7 +509,83 @@ function onKeyDown(event) {
                     event.preventDefault();
             }
         }
+    } else {
+        if (event.altKey) {
+            var keychar = String.fromCharCode(event.keyCode).toLowerCase();
+            if(keychar == 'p'){
+                $("#message").focus();
+            }
+        } /*else if(event.ctrlKey) {
+            var keychar = String.fromCharCode(event.keyCode).toLowerCase();
+            if(keychar == 'h'){
+                event.preventDefault();
+                highlightMode = true;
+            }
+        }
+        if(highlightMode == true) {
+            if(event.keyCode == 38) { //up
+                event.preventDefault();
+                unhilightall();
+                var highlight = $("#pinnipede .highlightBrowse").removeClass('highlightBrowse');
+                if(highlight.length == 0) {
+                    //no highlight, get the last clock
+                    var last = $(".post-container").last();
+                    highlightLastClockInPost(last);
+                } else {
+                    var post = highlight.closest('.post-container');
+
+                    if(highlight.hasClass('clock')) {
+                        var previousPost = post.prev();
+                        highlightLastClockInPost(previousPost);
+                    } else {
+                        var previousClock = highlight.prev('.clockref');
+                        if(previousClock.length == 0) {
+                            highlightLastClockInPost(post.prev());
+                        } else {
+                            previousClock.addClass('highlightBrowse');
+                            hilightRef(previousClock.attr('id'), previousClock[0].parentNode.parentNode);
+                        }
+                    }
+                }
+            } else if(event.keyCode == 40) { //down
+                var highlight = $("#pinnipede .highlightBrowse");
+                if(highlight.length == 0) {
+
+                } else {
+
+                }
+            } else if(event.keyCode == 13) { //enter
+                event.preventDefault();
+                var highlight = $("#pinnipede .highlightBrowse");
+                if(highlight.length > 0 && highlight.hasClass('clock')) {
+                    var nodeId = highlight.closest('.post-container').attr('id');
+                    setPalmiTrib(nodeId.substr(13));
+                    insertInPalmi(getCtxtClock($('#tribune li.selected').data('name'), nodeId)+' ');
+                    exitHighlightMode();
+                }
+            }
+        }*/
     }
+}
+
+function highlightLastClockInPost(post) {
+    var clockrefs = post.find('.message .clockref');
+    if(clockrefs.length == 0) {
+        //highlight clock
+        post.find('.clock').addClass('highlightBrowse');
+        var clock = post.find('.clock')[0].parentNode.parentNode;
+        hilightPost(clock.getAttribute('id'), clock);
+    } else {
+        //highlight last clockref
+        var lastClockref = clockrefs.last();
+        lastClockref.addClass('highlightBrowse');
+        hilightRef(lastClockref.attr('id'), lastClockref[0].parentNode.parentNode);
+    }
+}
+
+function exitHighlightMode() {
+    highlightMode = false;
+    $("#pinnipede .highlightBrowse").removeClass('highlightBrowse');
 }
 
 function clickBoard(boardName, event) {
@@ -624,10 +698,27 @@ $(document).ready(function(){
             if(settings.url.indexOf('search.xml') > -1) {
                 $("#totoz-search").addClass('loading');
             }
+            if(settings.url.indexOf('post.php') > -1) {
+                $("#message").addClass('loading');
+            }
         })
         .ajaxComplete(function(event, jqxhr, settings) {
             if(settings.url.indexOf('search.xml') > -1) {
                 $("#totoz-search").removeClass('loading');
+            }
+            if(settings.url.indexOf('post.php') > -1) {
+                $("#message").removeClass('loading');
+                jqxhr
+                    .success(function(){
+                        $("#message").val('');
+                        closeKeyboard($("#message"));
+                    })
+                    .fail(function(){
+                        if(jqxhr.status == 302) {
+                            $("#message").val('');
+                            closeKeyboard($("#message"));
+                        }
+                    });
             }
         });
 
@@ -718,7 +809,19 @@ $(document).ready(function(){
     });
 
     $('#form-totoz').on('click', '.totoz-result', function(e){
+        e.preventDefault();
         insertInPalmi($(this).data('totoz'));
+    });
+
+    $("#form-totoz").focusin(function(){
+        $("#form-message .form-group").addClass('col-xs-3').removeClass('col-xs-9');
+        $("#form-totoz .form-group").addClass('col-xs-9').removeClass('col-xs-3');
+    });
+    $("#form-message").on("focusin click", function(e){
+        if($("#form-totoz .popover").length == 0 || e.type == "click") {
+            $("#form-message .form-group").addClass('col-xs-9').removeClass('col-xs-3');
+            $("#form-totoz .form-group").addClass('col-xs-3').removeClass('col-xs-9');
+        }
     });
 
     //close popover when click outside

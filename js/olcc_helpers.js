@@ -228,6 +228,15 @@ function unhilight(node) {
     removeClass(node, 'hilight');
 }
 
+function unhilightall() {
+    // Enlève le hilight
+    var allhi = evalexp("//*[contains(@class,'hilight')]");
+
+    for (var i=getLength(allhi); i--;) {
+        unhilight(getItem(allhi, i));
+    }
+}
+
 function hilightRef(ref) {
 
     var query = "//div[contains(@class,'pinni-"+ref.substr(16)+"') and starts-with(@id,'"+ref.substr(3,8)+"')]";

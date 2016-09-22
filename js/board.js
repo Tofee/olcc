@@ -309,24 +309,26 @@ function BoardPost(board, msg) {
     message = message.replace(/\;/g, "#{dcomma}#");
     message = message.replace(/\%/g, "#{percent}#");
     var postdata = board.postData.replace("%m", message);
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', 'post.php', true);
-    xhr.onreadystatechange = function() {
-        switch (xhr.readyState) {
-          case 4:
-            BoardPostResult(board, xhr);
-            break;
-          default:
-            // inprogress(xhr);
-            break;
-        }
-      }
-    xhr.setRequestHeader('Content-type','application/x-www-form-urlencoded');
     var data = 'ua=' + to_url(board.ua || settings.value('default_ua'))
              + '&cookie=' + escape(board.cookie)
              + '&posturl=' + escape(board.postUrl)
              + '&postdata=' + to_url(postdata);
-    xhr.send(data);
+
+    $.post('post.php', data, function(data, status, xhr){
+        BoardPostResult(board, xhr);
+    }).fail(function(xhr, status, error){
+        if(xhr.status != 302 ) {
+            $("#message").popover({
+                html: true,
+                placement: 'top',
+                trigger: 'focus',
+                content: error
+            }).popover('show');
+        } else {
+            BoardPostResult(board, xhr);
+        }
+    });
+
 }
 Board.prototype.post = function (msg) {
     BoardPost(this, msg);

@@ -156,7 +156,7 @@ td.maxwidth210 {
     overflow-y: scroll;
     overflow-x: hidden;
     padding-left: 0px;
-    max-width: 260px;
+    width: 260px;
     padding-right: 0px;
 }
 

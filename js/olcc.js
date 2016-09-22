@@ -568,6 +568,7 @@ function resetFilter() {
 }
 
 function searchTotoz() {
+    $("#form-totoz input").popover('destroy');
     var totoz = document.getElementById('totoz-search').value;
     if (!totoz) { return; }
     //document.getElementById('totoz-status').src = "img/wait.gif";
@@ -586,7 +587,7 @@ function searchTotoz() {
 }
 
 function displayTotoz(res) {
-    $("#form-totoz input").popover('destroy');
+
         var totozfound = loadXML(res);
         var totozNodes = totozfound.getElementsByTagName("name") || [];
         totozwrap = $('<table class="table"></table>');//document.createElement('table');
@@ -597,7 +598,7 @@ function displayTotoz(res) {
             var curtotoz = getNodeText(totozNodes[i]);
             var totoz = "[:"+curtotoz+"]";
             var tr = $('<tr data-totoz="'+totoz+' " class="totoz-result"></tr>');
-            
+
             var td = $('<td class="maxwidth50"><img class="img-responsive img-rounded" src="'+server+'/img/'+curtotoz+'" alt="'+totoz+'" /></td>');//document.createElement('td');
 
             tr.append(td);
@@ -605,6 +606,9 @@ function displayTotoz(res) {
 
             tr.append(td2);
             totozbody.append(tr);
+        }
+        if(totozNodes.length == 0) {
+            totozwrap = $("<div>Aucun résultat</div>");
         }
         $("#form-totoz input").popover({
             html: true,

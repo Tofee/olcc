@@ -51,8 +51,6 @@ Board.prototype.notify = function () {
 // Mise à jour de la css de la board (couleur de fond)
 function BoardUpdateCSS(board) {
     var bclass = "background: "+board.color+";";
-    /*var css = addCSSClass("tab-"+board.name, bclass);
-    css.style.background = board.color;*/
 
     var bcolor = "transparent";
 
@@ -455,30 +453,34 @@ function BoardTabNotified(boardTab, notif, arg) {
         if (char1 != "#" && char1 != "@" && char1 != "&") {
             if (!boardTab.visible) {
                 var notifzone = boardTab.text();
+                var taba = boardTab.tab().getElementsByTagName('a')[0];
                 notifzone.innerHTML = "*";
-                notifzone.setAttribute("title", "Il y a des nouveaux posts");
+                taba.setAttribute("title", "Il y a des nouveaux posts");
             }
         }
         break;
       case NOTIF_ANSWER:
         if (!boardTab.visible) {
             var notifzone = boardTab.text();
+            var taba = boardTab.tab().getElementsByTagName('a')[0];
             notifzone.innerHTML = "#";
-            notifzone.setAttribute("title", "Nouvelle réponse à "+getCtxtClock(arg));
+            taba.setAttribute("title", "Nouvelle réponse à "+getCtxtClock(arg));
         }
         break;
       case NOTIF_BIGORNO_ALL:
         if (!boardTab.visible) {
             var notifzone = boardTab.text();
+            var taba = boardTab.tab().getElementsByTagName('a')[0];
             notifzone.innerHTML = "&lt;";
-            notifzone.setAttribute("title", "On appelle en "+getCtxtClock(arg));
+            taba.setAttribute("title", "On appelle en "+getCtxtClock(arg));
         }
         break;
       case NOTIF_BIGORNO:
         if (!boardTab.visible) {
             var notifzone = boardTab.text();
+            var taba = boardTab.tab().getElementsByTagName('a')[0];
             notifzone.innerHTML = "@&lt;";
-            notifzone.setAttribute("title", "On appelle en "+getCtxtClock(arg));
+            taba.setAttribute("title", "On appelle en "+getCtxtClock(arg));
         }
         break;
     }
@@ -494,6 +496,7 @@ function BoardTabDisplay(boardTab) {
     boardTab.visible = true;
     //remove notif
     boardTab.text().innerHTML = '';
+    boardTab.tab().getElementsByTagName('a')[0].setAttribute("title", '');
 }
 BoardTab.prototype.display = function () { BoardTabDisplay(this); };
 

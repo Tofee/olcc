@@ -16,11 +16,11 @@ window.notified = function (notif) {
     switch (notif) {
         case NOTIF_NEW_POST:
             if (titre != "#" && titre != "@" && titre != "<") {
-                favicon.change("../img/ico_new.png", "* " + settings.value('window_title'));
+                favicon.change("img/ico_new.png", "* " + settings.value('window_title'));
             }
             break;
         case NOTIF_ANSWER:
-            favicon.change("../img/ico_reply.png", "# " + settings.value('window_title'));
+            favicon.change("img/ico_reply.png", "# " + settings.value('window_title'));
             //if (settings.value('sound_enabled')) {
                 // alert("coin");
             //    sound_play("../sound/"+settings.value('sound_reply'));
@@ -28,7 +28,7 @@ window.notified = function (notif) {
             break;
         case NOTIF_BIGORNO_ALL:
             if (titre != "@") {
-                favicon.change("../img/ico_bigoall.png", "< " + settings.value('window_title'));
+                favicon.change("img/ico_bigoall.png", "< " + settings.value('window_title'));
             }
             //if (settings.value('sound_enabled')) {
                 // alert("meuh");
@@ -36,7 +36,7 @@ window.notified = function (notif) {
             //}
             break;
         case NOTIF_BIGORNO:
-            favicon.change("../img/ico_bigorno.png", "@< " + settings.value('window_title'));
+            favicon.change("img/ico_bigorno.png", "@< " + settings.value('window_title'));
             //if (settings.value('sound_enabled')) {
                 // alert("meuh");
             //    sound_play("../sound/"+settings.value('sound_bigorno'));
@@ -874,8 +874,10 @@ $(document).ready(function(){
         }
     });
 
-    balltrap_init();
-    addEvent(window, 'resize', balltrap_init, false);
+    if(settings.value("balltrap") == true) {
+        balltrap_init();
+        addEvent(window, 'resize', balltrap_init, false);
+    }
 
     //Populate config
     $("#confModal").on('shown.bs.modal', function(e){

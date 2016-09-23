@@ -724,6 +724,10 @@ $(document).ready(function(){
 
     $(".pick-a-color").pickAColor();
 
+    if(settings.value('autocomplete') == false) {
+        $("#message").attr('autocomplete', 'off');
+    }
+
     for (var name in GlobalBoards) {
         $("#preconfTribune").append('<option value="'+name+'">'+name+'</option>');
     }

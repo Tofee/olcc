@@ -48,6 +48,7 @@ var DEFAULT_TOTOZ_SERVER = "http://totoz.eu/";
 var DEFAULT_TOTOZ_MODE = TOTOZ_POPUP;
 var DEFAULT_DEFAULT_LOGIN = '';
 var DEFAULT_WINDOW_TITLE = "Olcc - Mobile Edition";
+var DEFAULT_AUTOCOMPLETE = false;
 var DEFAULT_FAVICON = "img/coin.png";
 var DEFAULT_BOSS_MODE = BOSSMODE_RANDOM;
 var DEFAULT_STYLE = 'default';

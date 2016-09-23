@@ -51,6 +51,10 @@ var settings = {
             descr: "Titre de la fenêtre",
             type: TYPE_STR
         },
+        'autocomplete': {
+            descr: "Autocomplétion du palmi",
+            type: TYPE_BOOL
+        },
         'favicon': {
             descr: "Icone de la fenêtre",
             type: TYPE_STR
@@ -117,6 +121,9 @@ var settings = {
         this.options[name].value = val;
     },
     value: function (name) {
+        if(typeof this.options[name].value == 'undefined') {
+            this.options[name].value = eval('DEFAULT_'+name.toUpperCase());
+        }
         return this.options[name].value;
     },
     save: function () {

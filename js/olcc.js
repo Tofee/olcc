@@ -874,7 +874,6 @@ $(document).ready(function(){
         }
     });
 
-    //addEvent(document.getElementById('totoz-form'), 'submit', onSubmit, false);
     balltrap_init();
     addEvent(window, 'resize', balltrap_init, false);
 
@@ -889,6 +888,9 @@ $(document).ready(function(){
         }
     });
 
+    /* ********************* */
+    /* Interactions tactiles */
+    /* ********************* */
 
     //allow text selection
     delete Hammer.defaults.cssProps.userSelect;

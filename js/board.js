@@ -492,7 +492,8 @@ function BoardTabDisplay(boardTab) {
         $(boardTab.tab()).find('span.glyphicon').addClass('glyphicon-check').removeClass('glyphicon-ban-circle');
     }
     boardTab.visible = true;
-    //boardTab.text().innerHTML = '';
+    //remove notif
+    boardTab.text().innerHTML = '';
 }
 BoardTab.prototype.display = function () { BoardTabDisplay(this); };
 

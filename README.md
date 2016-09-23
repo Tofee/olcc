@@ -4,7 +4,7 @@ Mobile-First Edition of Olcc, based on Twitter Bootstrap.
 
 ## Informations
 
-La documentation se trouve dans le répertoire [doc/](doc/index.md). 
+La documentation se trouve dans le répertoire [docs/](docs/index.md). 
  
 Olcc-me est une reprise du fabuleux OnlineCoinCoin fait par Chrisix< sur la base des scripts d'Axelflandersutifuto.
 

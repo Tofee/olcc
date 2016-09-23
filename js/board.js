@@ -399,7 +399,7 @@ function BoardTabAddTab (boardTab) {
 
     var palmilist = $('#tribune');
 
-    var opt = $('<li data-name="'+board.name+'"><a href="#">'+board.name+'</a></li>');
+    var opt = $('<li data-name="'+board.name+'"><a href="#"><span class="glyphicon glyphicon-none"></span> '+board.name+'</a></li>');
     palmilist.append(opt);
 }
 BoardTab.prototype.addTab = function () { BoardTabAddTab(this); };

@@ -161,9 +161,9 @@ function onChangeTrib() {
     if($("#tribune li.selected").length == 0) {
         //aucune tribune sélectionnée -> on sélectionne la première dans la liste
         $("#tribune li:first").addClass('selected');
-        $("#tribune li:first a").prepend('<span class="glyphicon glyphicon-check"></span> ');
+        $("#tribune li:first a span").removeClass('glyphicon-none').addClass('glyphicon-check');
     }
-    var trib = $("#tribune li.selected").data('name'); //TODO remplir
+    var trib = $("#tribune li.selected").data('name');
     var palmi = $('#message')[0];
     palmi.style.background = GlobalBoards[trib].color;
     // update des @tribune des horloges dans le palmi
@@ -413,8 +413,10 @@ function setPalmiTrib(trib) {
     list.find('li').each(function(index, item){
         if($(this).data('name') == trib) {
             $(this).addClass('selected');
+            $(this).find('span.glyphicon').addClass('glyphicon-check').removeClass('glyphicon-none');
             onChangeTrib();
         } else {
+            $(this).find('span.glyphicon').removeClass('glyphicon-check').addClass('glyphicon-none');
             $(this).removeClass('selected');
         }
     });
@@ -854,11 +856,8 @@ $(document).ready(function(){
     addEvent(document, 'keydown', onKeyDown, false);
 
     $("#tribune a").on("click", function(e){
-        $("#tribune a span").remove();
-        $("#tribune li").removeClass('selected');
-        $(this).closest('li').addClass('selected');
-        $(this).prepend('<span class="glyphicon glyphicon-check"></span> ');
-        onChangeTrib();
+        var trib = $(this).closest('li').data('name');
+        setPalmiTrib(trib);
     });
 
     $("#form-message").on('submit', function(e){

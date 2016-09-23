@@ -165,6 +165,11 @@ td.maxwidth210 {
     padding-right: 0px;
 }
 
+.glyphicon-none:before {
+    content: "\2122";
+    color: transparent !important;
+}
+
 /******** Sidebar ************/
 body {
     overflow-x: hidden;

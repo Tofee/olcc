@@ -146,8 +146,8 @@ body > .container-fluid {
     width: 1% !important;
 }
 
-td.maxwidth50 {
-    max-width: 50px;
+td.maxwidth90 {
+    max-width: 90px;
 }
 
 td.maxwidth210 {
@@ -166,6 +166,18 @@ td.maxwidth210 {
     width: 260px;
     padding-right: 0px;
 }
+@media(max-height: 700px) {
+    #form-totoz .popover-content {
+        max-height: 400px;
+    }
+}
+
+@media(max-height: 320px) {
+    #form-totoz .popover-content {
+        max-height: 260px;
+    }
+}
+
 
 .glyphicon-none:before {
     content: "\2122";

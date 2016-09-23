@@ -242,37 +242,6 @@ function stopAll() {
     }
 }
 
-function initPage() {
-    // Numéro de version
-    //document.getElementById('version').innerHTML = VERSION;
-    GlobalPinni = document.getElementById("pinnipede");
-    var boards = settings.value('active_boards');
-
-    for (var i=boards.length; i--;) {
-        var name = boards[i];
-        if (!GlobalBoards[name]) {
-            var board = new Board(name, true);
-            board.loadConfig();
-            GlobalBoards[name] = board;
-        }
-        addTabToPinni(name);
-    }
-    dispAll();
-
-    // Ajout de la fenêtre d'aide au premier lancement si on est pas sur mobile
-    //var help = document.getElementById('help');
-    if (boards.length <= 0) {
-        if (! (document.location.href.match(/iphone.html/) || document.location.href.match(/mobile.html/) )) {
-            //help.style.display = 'block';
-        }
-        //dispConfig();
-    }
-    else {
-        //help.style.display = 'none';
-        onChangeTrib();
-    }
-}
-
 function sendPost() {
     var dest = $("#tribune li.selected").data('name');
     var palmi = document.getElementById('message');
@@ -704,6 +673,7 @@ $(document).ready(function(){
                 $("#totoz-search").addClass('loading');
             }
             if(settings.url.indexOf('post.php') > -1) {
+                console.log('test');
                 $("#message").addClass('loading');
             }
         })
@@ -849,7 +819,25 @@ $(document).ready(function(){
     settings.setDefault();
     settings.load();
 
-    initPage();
+    // Numéro de version
+    //document.getElementById('version').innerHTML = VERSION;
+    GlobalPinni = document.getElementById("pinnipede");
+    var boards = settings.value('active_boards');
+
+    for (var i=boards.length; i--;) {
+        var name = boards[i];
+        if (!GlobalBoards[name]) {
+            var board = new Board(name, true);
+            board.loadConfig();
+            GlobalBoards[name] = board;
+        }
+        addTabToPinni(name);
+    }
+    dispAll();
+
+    if (boards.length > 0) {
+        onChangeTrib();
+    }
 
     favicon.change(settings.value('favicon'), settings.value('window_title'));
 
@@ -933,7 +921,6 @@ $(document).ready(function(){
             removeNotif();
         }
     });
-
 
     mc.on('swipe', function(ev) {
         if(ev.direction == Hammer.DIRECTION_LEFT && !$("#wrapper").hasClass("toggled")) {

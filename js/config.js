@@ -10,13 +10,6 @@ var TYPE_CHOICE = "choice";
 var TYPE_MULTI_CHOICE = "multichoice";
 var TYPE_SOUND = "sound";
 
-/*
-function Option(descr, value, type) {
-    this.descr = descr;
-    this.value = value;
-    this.type = type;
-} */
-
 var settings = {
     options: {
         'active_boards': {
@@ -333,123 +326,6 @@ function addConfigLine(board, subpanel) {
         }
     };
     board.addView(tr);
-}
-
-var config_sections = [
-    { name: "Général", descr: "Paramètres généraux", img: "application32.png" },
-    { name: "Tribunes", descr: "Configuration des tribunes", img: "comments32.png" },
-    { name: "Sons", descr: "Notifications sonores", img: "sound32.png" },
-    { name: "Load/Store", descr: "chargement/déchargement des paramètres", img: "ls32.png" }
-];
-
-// Creation du panneau de config
-// Onglets du panneau de config
-function createConfigTabs(panel) {
-    var head1 = document.createElement('div');
-    head1.className = 'panel-header'; // setAttribute('class', "panel-header");
-    head1.innerHTML = 'OnlineCoinCoin '+VERSION+' - Configuration';
-    head1.innerHTML += ' <img src="../img/closeok.png" alt="[Ok]" title="Enregistrer les changements et fermer" onclick="saveConfig()" />';
-    head1.innerHTML += ' <img src="../img/cancel.png" alt="[Annuler]" title="Annuler les changements et fermer" onclick="closeConfig()" />';
-    panel.appendChild(head1);
-    var tabbar = document.createElement('div');
-    tabbar.className = "panel-tabs";
-    panel.appendChild(tabbar);
-    for (var i=0; i<config_sections.length; i++) {
-        var subpanel = document.createElement('div');
-        subpanel.className = "subpanel";
-        subpanel.setAttribute('id', "config-tab-"+i);
-        panel.appendChild(subpanel);
-        var tab = document.createElement('div');
-        tab.className = "panel-tab";
-        tab.setAttribute('id', "config-tab-but-"+i);
-        tab.innerHTML = '<img src='+config_sections[i].img+'"../img" alt="['+config_sections[i].name+']" title="'+config_sections[i].descr+'" /><br />'+config_sections[i].name;
-        /* var coin = function() {alert(i);setConfigTab(i)}; */
-        addEvent(tab, "click", coin(i), false);
-        tabbar.appendChild(tab);
-    }
-}
-function coin(t) {
-  return function(){setConfigTab(t)};
-}
-function setConfigTab(t) {
-    for (var i=0; i<config_sections.length; i++) {
-        if (i==t) {
-            document.getElementById('config-tab-'+i).style.display = 'block';
-            addClass(document.getElementById('config-tab-but-'+i), 'tab-active');
-        }
-        else {
-            document.getElementById('config-tab-'+i).style.display = 'none';
-            removeClass(document.getElementById('config-tab-but-'+i), 'tab-active');
-        }
-    }
-}
-
-function addOptionLine(opt, subpanel) {
-    var cur_opt = settings.options[opt];
-    var size = -1;
-    switch (cur_opt.type) {
-      case TYPE_INT:
-        size = 3;
-      case TYPE_STR:
-        subpanel.appendChild(TextBox('config-'+opt, cur_opt.descr, cur_opt.value, size));
-        break;
-      case TYPE_BOOL:
-        subpanel.appendChild(CheckBox('config-'+opt, cur_opt.descr, cur_opt.value));
-        break;
-      case TYPE_CHOICE:
-        var tab = null;
-        switch (opt) {
-          case 'totoz_mode':
-            tab = [TOTOZ_POPUP, TOTOZ_INLINE];
-            break;
-          case 'boss_mode':
-            tab = [BOSSMODE_RANDOM, BOSSMODE_PTRAMO, BOSSMODE_KERVIEL, BOSSMODE_PBPG, BOSSMODE_DECIDEUR]
-            break;
-          case 'style':
-            tab = ['default', 'lefttabs', 'sfw', 'golcc', 'oldolcc'];
-            break;
-          case 'balltrap_mode':
-            tab = [BALLTRAP_ONCLICK, BALLTRAP_AUTO, BALLTRAP_KILL];
-            break;
-        }
-        if (tab) {
-            subpanel.appendChild(SelectBox('config-'+opt, cur_opt.descr, tab, cur_opt.value, size));
-        }
-        break;
-      case TYPE_SOUND:
-        subpanel.appendChild(SoundBox('config-'+opt, cur_opt.descr, cur_opt.value, size));
-        break;
-    }
-}
-
-
-// Ajoute une entrée dans la liste des tribunes disponibles non actives
-function addAvailableBoard(list, name) {
-    var opt = document.createElement('option');
-    opt.setAttribute('value', name);
-    opt.innerHTML = name;
-    list.appendChild(opt);
-}
-
-var GlobalIsDefiningPersoBoard = false;
-// Méthode pour définir une nouvelle tribune perso
-function addPersoBoard() {
-    var name = prompt("Nom de la tribune :", "");
-    if (!name) return;
-    if (name.match(/[^a-z0-9_]/)) {
-        alert("Le nom de tribune ne peut comporter que des\ncaractères alphanumériques en minuscules\net des underscores.");
-        addPersoBoard();
-        return;
-    }
-    if (GlobalBoards[name]) {
-        alert("Le nom '"+name+"' est déjà utilisé.");
-        addPersoBoard();
-        return;
-    }
-    var board = new Board(name, true);
-    GlobalBoards[name] = board;
-    GlobalIsDefiningPersoBoard = true;
-    configBoard(name);
 }
 
 // Affiche le panneau de configuration pour la tribune "name"

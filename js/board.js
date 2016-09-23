@@ -28,7 +28,7 @@ function Board(name, perso) {
   this.state = STATE_LOADED;
   this.timer = null;
   this.nbPosts = 0;
-  
+
   this.views = new Array();
 }
 

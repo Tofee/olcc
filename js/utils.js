@@ -692,3 +692,26 @@ function closeKeyboard(element) {
         toPinniBottom();
     }, 100);
 }
+function hexdec(hexString){
+    hexString = (hexString + '').replace(/[^a-f0-9]/gi, '');
+    return parseInt(hexString, 16);
+}
+
+function hex2rgb(color) {
+    var hex = color.replace("#", "");
+
+    if(hex.length == 3) {
+        var r = hexdec(hex.substr(0,1).substr(0,1));
+        var g = hexdec(hex.substr(1,1).substr(1,1));
+        var b = hexdec(hex.substr(2,1).substr(2,1));
+    } else {
+        var r = hexdec(hex.substr(0,2));
+        var g = hexdec(hex.substr(2,2));
+        var b = hexdec(hex.substr(4,2));
+    }
+    return [r, g, b];
+}
+
+function yiq(rgb) {
+    return 1 - (rgb[0] * 0.299 + rgb[1] * 0.587 + rgb[2] * 0.114)/255;
+}

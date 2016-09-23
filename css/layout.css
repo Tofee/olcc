@@ -327,7 +327,7 @@ body {
 }
 
 .loading {
-    background-image: url("../img/ajax-loader.gif");
-    background-repeat: no-repeat;
-    background-position: center center;
+    background-image: url("../img/ajax-loader2.gif") !important;
+    background-repeat: no-repeat !important;
+    background-position: center center !important;
 }

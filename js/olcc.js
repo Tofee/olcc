@@ -334,13 +334,9 @@ function onMouseOut(event) {
     }
 }
 
-function onClick(event) {
-    var target = event.target || event.srcElement;
-    var nodeClass = target.className;
-
+function removeNotif() {
     // Enlève la marque de notification
     GlobalWindowFocus = true;
-    // document.title = settings.value('window_title');
     favicon.change(settings.value('favicon'), settings.value('window_title'));
 
     // Enlève le style newpost sur les DIVs
@@ -353,6 +349,13 @@ function onClick(event) {
             removeClass(curdiv, 'newpost');
         }
     }
+}
+
+function onClick(event) {
+    var target = event.target || event.srcElement;
+    var nodeClass = target.className;
+
+    removeNotif();
 
     // Click sur un canard
     if (nodeClass.indexOf('canard') != -1) {
@@ -899,6 +902,7 @@ $(document).ready(function(){
 
     //allow text selection
     delete Hammer.defaults.cssProps.userSelect;
+    PreventGhostClick(GlobalPinni);
     var mc = new Hammer.Manager(GlobalPinni);
 
     // Tap recognizer with minimal 2 taps
@@ -913,17 +917,23 @@ $(document).ready(function(){
     // we only want to trigger a tap, when we don't have detected a doubletap
     mc.get('singletap').requireFailure('doubletap');
 
-
-    /* Single tap on post : highlight ref post */
-    mc.on('singletap', function(ev) {
-        var target = $(ev.target);
-        if(!target.hasClass('clockref')) {//évite la double sélection
-            var parent = target.closest('.post-container');
-            hilightPost(parent.attr('id'), parent[0]);
+    mc.on('doubletap', function(ev) {
+        if(ev.pointerType == 'touch') {
+            $(ev.target).closest('.post-container').find('.clock').trigger('click');
         }
     });
-    mc.on('doubletap', function(ev) {
+
+    mc.on('singletap', function(ev) {
+        if(ev.pointerType == 'touch') {
+            var target = $(ev.target);
+            if (!target.hasClass('clockref')) {//évite la double sélection
+                var parent = target.closest('.post-container');
+                hilightPost(parent.attr('id'), parent[0]);
+            }
+            removeNotif();
+        }
     });
+
 
     mc.on('swipe', function(ev) {
         if(ev.direction == Hammer.DIRECTION_LEFT && !$("#wrapper").hasClass("toggled")) {
@@ -945,7 +955,35 @@ $(document).ready(function(){
         }
     });
     PreventGhostClick($("#tabs-boards")[0]);
-    mc2.add(new Hammer.Tap({event: 'tap', taps:1}));
+
+
+    mc2.add( new Hammer.Tap({ event: 'doubletap', taps: 2 }) );
+    mc2.add(new Hammer.Tap({event: 'tap'}));
+    mc2.get('doubletap').recognizeWith('tap');
+    mc2.get('tap').requireFailure('doubletap');
+
+    mc2.on('doubletap', function(ev){
+        if(ev.pointerType == 'touch') {
+            var target = $(ev.target);
+            if (target.closest('li').hasClass('tab')) {
+                var boardName = target.closest('li').attr('id').substr(4);
+                for (var name in GlobalBoards) {
+                    var board = GlobalBoards[name];
+                    if (board.state != STATE_LOADED) {
+                        if (name == boardName) {
+                            GlobalBoardTabs[name].display();
+                            setPalmiTrib(name);
+                        }
+                        else {
+                            GlobalBoardTabs[name].hide();
+                        }
+                    }
+                }
+            }
+            toPinniBottom();
+        }
+    });
+
     mc2.on('tap', function(ev){
         if(ev.pointerType == 'touch') {
             var target = $(ev.target);

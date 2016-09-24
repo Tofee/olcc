@@ -914,7 +914,9 @@ $(document).ready(function(){
     mc.on('singletap', function(ev) {
         if(ev.pointerType == 'touch') {
             var target = $(ev.target);
-            if (!target.hasClass('clockref')) {//évite la double sélection
+            if (target.is('a') || target.hasClass('clock') || target.hasClass('clockref')) {
+                target[0].click();
+            } else if (!target.hasClass('clockref')) {//évite la double sélection
                 var parent = target.closest('.post-container');
                 hilightPost(parent.attr('id'), parent[0]);
             }

@@ -109,7 +109,7 @@ DIV.post {
 }
 
 SPAN.clock {
-  cursor: default;
+  cursor: pointer;
   display: block;
   float: left;
   font-weight: bold;
@@ -124,7 +124,7 @@ SPAN.clock:after {
 .clockref {
   color: #00D;
   border: 1px solid transparent;
-  cursor: default;
+  cursor: pointer;
 }
 SPAN.login {
   display: block;

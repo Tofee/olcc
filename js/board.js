@@ -373,7 +373,7 @@ function BoardTabAddTab (boardTab) {
     board.loadConfig();
     board.updateCSS();
     var tab = $('<li id="'+"tab-"+board.name+'" class="'+"tab tab-"+board.name+'"><a href="#"><span class="glyphicon glyphicon-check"></span> '+board.name+' </a></li>');
-
+    tab.css('background-color', board.color);
     //TODO gérer ailleurs
     addEvent(tab[0], "click", function (e) { clickBoard(board.name, e); }, false);
     //visible

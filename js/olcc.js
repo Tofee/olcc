@@ -673,7 +673,6 @@ $(document).ready(function(){
                 $("#totoz-search").addClass('loading');
             }
             if(settings.url.indexOf('post.php') > -1) {
-                console.log('test');
                 $("#message").addClass('loading');
             }
         })
@@ -698,10 +697,6 @@ $(document).ready(function(){
         });
 
     $(".pick-a-color").pickAColor();
-
-    if(settings.value('autocomplete') == false) {
-        $("#message").attr('autocomplete', 'off');
-    }
 
     for (var name in GlobalBoards) {
         $("#preconfTribune").append('<option value="'+name+'">'+name+'</option>');
@@ -818,6 +813,14 @@ $(document).ready(function(){
     getSoundList();
     settings.setDefault();
     settings.load();
+
+    if(settings.value('speedaccess') == true) {
+        $("#tabs-boards").addClass('speedaccess');
+    }
+
+    if(settings.value('autocomplete') == false) {
+        $("#message").attr('autocomplete', 'off');
+    }
 
     // Numéro de version
     //document.getElementById('version').innerHTML = VERSION;

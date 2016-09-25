@@ -190,7 +190,7 @@ body {
 }
 
 .navbar-toggle {
-    z-index: 2;
+    z-index: 2000;
     display: block !important;
     padding-left: 0px;
     margin-left: -10px;
@@ -199,6 +199,46 @@ body {
 
 .navbar-toggle .icon-bar {
     background-color: #888;
+}
+
+#wrapper:not(.toggled) #tabs-boards .tab {
+    background-color: inherit !important;
+}
+
+#wrapper.toggled #tabs-boards.speedaccess {
+    position: fixed;
+    top: 0px;
+    right: 0px;
+    background-color: transparent;
+    padding-left: 0px;
+    z-index: 2000;
+    text-indent: 0px;
+    line-height: 20px;
+}
+
+#wrapper.toggled #tabs-boards.speedaccess a:hover {
+    color: black;
+}
+
+
+#wrapper.toggled #tabs-boards.speedaccess li {
+    display: inline;
+    line-height: 20px;
+    text-indent: 2px;
+    float: right;
+}
+
+#wrapper.toggled #tabs-boards.speedaccess li a {
+    display: inline-block;
+    font-weight: 600;
+    font-size: small;
+    color: #333333;
+}
+
+
+#wrapper.toggled #tabs-boards.speedaccess .tab-color {
+    display: none
+;
 }
 
 /* Sidebar Styles */

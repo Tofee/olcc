@@ -48,6 +48,10 @@ var settings = {
             descr: "Autocomplétion du palmi",
             type: TYPE_BOOL
         },
+        'speedaccess': {
+            descr: "Accès rapide aux tribunes",
+            type: TYPE_BOOL
+        },
         'favicon': {
             descr: "Icone de la fenêtre",
             type: TYPE_STR

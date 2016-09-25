@@ -6,7 +6,7 @@
 
 	$bDebug   = false ;
 	error_reporting(0);
-	$sVersion = '0.9.94' ;
+	$sVersion = '1.0.0' ;
 	$aHeaders = array( 'Accept: text/xml', 'Cache-Control: no-cache, must-revalidate' );
 
 

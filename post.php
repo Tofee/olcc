@@ -1,6 +1,6 @@
 <?php
 
-  $VERSION = '0.9.94';
+  $VERSION = '1.0.0';
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $_REQUEST['posturl']);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);

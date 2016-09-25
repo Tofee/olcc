@@ -5,7 +5,7 @@
   "authors": [
     "Bruno Spyckerelle"
   ],
-  "description": "Tribune Client - Mobile First - Fork of Olcc",
+  "description": "Tribune Client - Mobile-First - Fork of Olcc",
   "keywords": [
     "tribune",
     "bouchot",
@@ -25,7 +25,8 @@
     "jquery": "^2.1.4",
     "pick-a-color": "^1.2.3",
     "hammerjs": "hammer.js#^2.0.8",
-    "css-hamburgers": "^0.5.0"
+    "css-hamburgers": "^0.5.0",
+    "noty": "^2.3.8"
   },
   "resolutions": {
     "bootstrap": "^3.3.7",

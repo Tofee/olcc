@@ -917,7 +917,7 @@ $(document).ready(function(){
     mc.on('singletap', function(ev) {
         if(ev.pointerType == 'touch') {
             var target = $(ev.target);
-            if (target.is('a') || target.hasClass('clock') || target.hasClass('clockref')) {
+            if (target.is('a') || target.hasClass('clock clockref ua login')) {
                 target[0].click();
             } else if (!target.hasClass('clockref')) {//évite la double sélection
                 var parent = target.closest('.post-container');

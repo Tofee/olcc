@@ -190,7 +190,7 @@ body {
 }
 
 .navbar-toggle {
-    z-index: 2000;
+    z-index: 2;
     display: block !important;
     padding-left: 0px;
     margin-left: -10px;

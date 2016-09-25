@@ -14,7 +14,6 @@ a:hover {
   color: #22D;
 }
 
-
 /* le mode panic: plein écran */
 #bossframe {
   top: 0;
@@ -136,6 +135,7 @@ SPAN.login {
     margin-right: 2px;
     padding-left: 2px;
     height: 18px;
+  cursor: pointer;
 }
 SPAN.ua {
   font-style: italic;
@@ -148,6 +148,7 @@ SPAN.ua {
     margin-right: 2px;
     padding-left: 2px;
     height: 18px;
+  cursor: pointer;
 }
 
 @media(max-width: 767px) {
@@ -169,11 +170,7 @@ SPAN.ua {
     }
 }
 
-/*DIV.newpost {
-   border-left: 4px solid #FA0!important;
-}*/
 .newpost .post {
-  /* background-color: #FCFCDA!important; */
   border-left: 4px solid #FA0!important;
 }
 .newpost .message {
@@ -378,12 +375,10 @@ td.cinfo {
 #newboard LI {
   padding: 2px;
   cursor: pointer;
-  /* list-style-image: url('img/golcc-bullet-b.png'); */
 }
 #newboard LI:hover {
   text-decoration: underline;
   color: #008;
-  /* list-style-image: url('img/golcc-bullet.png'); */
 }
 
 #totozpanel {

@@ -816,8 +816,21 @@ $(document).ready(function(){
 
     if(settings.value('speedaccess') == true) {
         $("#tabs-boards").addClass('speedaccess');
+		//ios fix... 
+		$("#menu-toggle").on('click', function(e) {
+			if($("#wrapper").hasClass('toggled')){
+				$("#tabs-boards").detach().appendTo('#pinnipede');
+			} else {
+				$("#tabs-boards").detach().appendTo('#sidebar-tribunes');
+			}
+		});
     }
-
+	
+    // close sidebar by default if smartphone
+    if($(window).width() <=768) {
+        $("#menu-toggle").trigger('click');
+    }
+	
     if(settings.value('autocomplete') == false) {
         $("#message").attr('autocomplete', 'off');
     }
@@ -911,14 +924,39 @@ $(document).ready(function(){
     mc.on('doubletap', function(ev) {
         if(ev.pointerType == 'touch') {
             $(ev.target).closest('.post-container').find('.clock').trigger('click');
+			
+			var target = $(ev.target);
+            if (target.closest('li').hasClass('tab')) {
+                var boardName = target.closest('li').attr('id').substr(4);
+                for (var name in GlobalBoards) {
+                    var board = GlobalBoards[name];
+                    if (board.state != STATE_LOADED) {
+                        if (name == boardName) {
+                            GlobalBoardTabs[name].display();
+                            setPalmiTrib(name);
+                        }
+                        else {
+                            GlobalBoardTabs[name].hide();
+                        }
+                    }
+                }
+				toPinniBottom();
+            }
+            
         }
     });
 
     mc.on('singletap', function(ev) {
         if(ev.pointerType == 'touch') {
             var target = $(ev.target);
-            if (target.is('a') || target.hasClass('clock clockref ua login')) {
-                target[0].click();
+            if (target.is('a') || target.hasClass('clock clockref ua login tab')) {
+				if (target.closest('li').hasClass('tab')) {
+					var boardName = target.closest('li').attr('id').substr(4);
+					GlobalBoardTabs[boardName].toggle();
+					toPinniBottom();
+				} else {
+					target[0].click();
+				}
             } else if (!target.hasClass('clockref')) {//évite la double sélection
                 var parent = target.closest('.post-container');
                 hilightPost(parent.attr('id'), parent[0]);

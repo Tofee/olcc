@@ -213,7 +213,7 @@ body {
     padding-left: 0px;
     z-index: 2000;
     text-indent: 0px;
-    line-height: 20px;
+    line-height: 30px;
 }
 
 #wrapper.toggled #tabs-boards.speedaccess a:hover {
@@ -223,7 +223,7 @@ body {
 
 #wrapper.toggled #tabs-boards.speedaccess li {
     display: inline;
-    line-height: 20px;
+    line-height: 30px;
     text-indent: 2px;
     float: right;
 }
@@ -233,6 +233,7 @@ body {
     font-weight: 600;
     font-size: small;
     color: #333333;
+	cursor: pointer;
 }
 
 

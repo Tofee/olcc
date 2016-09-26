@@ -29,7 +29,7 @@
             <li class="margintop8">
                 <a href="#" data-toggle="modal" data-target="#confModal">Configuration</a>
             </li>
-            <li>
+            <li id="sidebar-tribunes">
                 <a id="addTribune" href="#" data-toggle="modal" data-target="#confTribuneModal">Tribunes <span class="glyphicon glyphicon-plus"></span></a>
                 <ul id="tabs-boards">
 
@@ -485,10 +485,6 @@
         $("#wrapper").toggleClass("toggled");
         $("#menu-toggle").toggleClass("is-active");
     });
-    // close sidebar by default if smartphone
-    if($(window).width() <=768) {
-        $("#menu-toggle").trigger('click');
-    }
 </script>
 </body>
 </html>

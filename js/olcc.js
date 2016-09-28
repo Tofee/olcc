@@ -949,7 +949,12 @@ $(document).ready(function(){
     mc.on('singletap', function(ev) {
         if(ev.pointerType == 'touch') {
             var target = $(ev.target);
-            if (target.is('a') || target.hasClass('clock clockref ua login tab')) {
+            if (target.is('a') 
+		|| target.hasClass('clock')
+	        || target.hasClass('clockref')
+	        || target.hasClass('ua')
+	        || target.hasClass('login')
+	        || target.hasClass('tab')) {
 				if (target.closest('li').hasClass('tab')) {
 					var boardName = target.closest('li').attr('id').substr(4);
 					GlobalBoardTabs[boardName].toggle();

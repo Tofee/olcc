@@ -1,7 +1,7 @@
 function writeTotoz(message) {
     var exp = /\[\:([^\t\)\]]+)\]/g;
     if (settings.value('totoz_mode') != TOTOZ_INLINE) {
-        return message.replace(exp, '<span class="totoz" id="$1">[:$1]</span>');
+        return message.replace(exp, '<span class="totoz" id="totoz-$1">[:$1]</span>');
     } else {
         return message.replace(exp, '<img title="[:$1]" src="' + settings.value('totoz_server') + '/img/$1" />');
     }

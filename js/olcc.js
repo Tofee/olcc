@@ -287,7 +287,7 @@ function onMouseOver(event) {
         hilightPost(target.parentNode.parentNode.getAttribute('id'), target.parentNode.parentNode);
     } else if (targetClass.indexOf('totoz') != -1) {
         if (settings.value('totoz_mode') != TOTOZ_INLINE) {
-            var totoz = getTotoz(targetId);
+            var totoz = getTotoz(targetId.substr(6));
             showTotoz(totoz, event.clientX, event.clientY);
         }
     }
@@ -299,7 +299,7 @@ function onMouseOut(event) {
     var targetId = target.getAttribute('id');
     if (!targetClass) return;
     if (targetClass.indexOf('totoz') != -1) {
-        document.getElementById('totozImg[' + targetId + ']').style.display = 'none';
+        document.getElementById('totozImg[' + targetId.substr(6) + ']').style.display = 'none';
     }
 }
 

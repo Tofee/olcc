@@ -102,23 +102,44 @@ body > .container-fluid {
 }
 
 .fixed-bottom .form-group {
-    margin-bottom: 0px !important;
+    margin-bottom: 5px !important;
     padding-left: 0px;
-}
-
-.fixed-bottom .col-xs-3 {
-    padding-left: 5px;
     padding-right: 5px;
-    margin-bottom: 5px !important;
+    float: left;
 }
 
-.fixed-bottom .col-xs-6 {
-    padding-left: 5px;
-    padding-right: 5px;
-    margin-bottom: 5px !important;
+.fixed-bottom #saveFile {
+    padding-top: 4px;
+    padding-bottom: 4px;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
+#form-message .focusin {
+    width: calc(100% - 30px);
+}
 
+#form-message .unfocus {
+    width: calc(100% - 210px);
+}
+
+#form-totoz .unfocus {
+    width: 30px;
+}
+
+#form-totoz .focusin {
+    width: 210px;
+}
+
+#form-totoz .unfocus  #totoz-search {
+    display: none;
+}
+
+#form-totoz .unfocus .input-group-addon {
+    border: 1px solid rgb(204, 204, 204);
+    border-radius: 4px;
+    padding-bottom: 7px;
+}
 
 .fixed-top-left {
     position: fixed;
@@ -143,7 +164,8 @@ body > .container-fluid {
 }
 
 #form-totoz .input-group-addon {
-    width: 1% !important;
+    padding-left: 6px;
+    padding-right: 6px;
 }
 
 td.maxwidth90 {

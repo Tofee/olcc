@@ -787,14 +787,16 @@ $(document).ready(function(){
         insertInPalmi($(this).data('totoz'));
     });
 
-    $("#form-totoz").focusin(function(){
-        $("#form-message .form-group").addClass('col-xs-3').removeClass('col-xs-9');
-        $("#form-totoz .form-group").addClass('col-xs-9').removeClass('col-xs-3');
+    $("#form-totoz .input-group-addon").on('click', function(e){
+        $("#form-message .form-group").addClass('unfocus').removeClass('focusin');
+        $("#form-totoz .form-group").addClass('focusin').removeClass('unfocus');
+        $("#form-totoz input").focus();
     });
+
     $("#form-message").on("focusin click", function(e){
         if($("#form-totoz .popover").length == 0 || e.type == "click") {
-            $("#form-message .form-group").addClass('col-xs-9').removeClass('col-xs-3');
-            $("#form-totoz .form-group").addClass('col-xs-3').removeClass('col-xs-9');
+            $("#form-message .form-group").addClass('focusin').removeClass('unfocus');
+            $("#form-totoz .form-group").addClass('unfocus').removeClass('focusin');
         }
     });
 

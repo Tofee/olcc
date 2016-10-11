@@ -292,6 +292,10 @@ body {
     float: right;
 }
 
+.tab:not(.active) a {
+    color: #666 !important;
+}
+
 .sidebar-nav li a {
     display: block;
     text-decoration: none;

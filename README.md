@@ -20,8 +20,8 @@ Olcc-me est une reprise du fabuleux OnlineCoinCoin fait par Chrisix< sur la base
 
 `git clone https://github.com/BrunoSpy/olcc.git`
 
-* Installer les dépendances frontends
-
-`bower install`
-
 * Configurer son serveur web préféré comme d'habitude
+
+## Problèmes connnus
+
+* Ne fonctionne pas sur IE (même le 11)

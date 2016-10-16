@@ -291,6 +291,28 @@ function onMouseOver(event) {
             var totoz = getTotoz(targetId.substr(6));
             showTotoz(totoz, event.clientX, event.clientY);
         }
+    } else if (targetClass.indexOf('urlpreview') != -1) {
+        if(settings.value('urlpreview')) {
+            $(target).popover({
+                html: true,
+                placement: 'auto',
+                container: "#pinnipede",
+                title: "Loading url...",
+                content: '<div class="loadingwide"></div>'
+            }).popover('show');
+            var urlPopover = $(target).data('bs.popover');
+            $.getJSON('linkpreview.php?url=' + target.getAttribute('href'), function (data) {
+                var response = '<div class="pull-left">';
+                response += '<img class="img-preview" src="' + data.cover + '">';
+                response += "</div>";
+                response += data.description;
+                urlPopover.options.title = data.title;
+                urlPopover.options.content = response;
+                $(target).popover('show');
+            }).fail(function (jqxhr, textStatus, error) {
+                urlPopover.options.content = error;
+            });
+        }
     }
 }
 
@@ -301,6 +323,10 @@ function onMouseOut(event) {
     if (!targetClass) return;
     if (targetClass.indexOf('totoz') != -1) {
         document.getElementById('totozImg[' + targetId.substr(6) + ']').style.display = 'none';
+    } else if (targetClass.indexOf('urlpreview') != -1) {
+        if(settings.value('urlpreview')) {
+            $(target).popover('destroy');
+        }
     }
 }
 
@@ -979,8 +1005,8 @@ $(document).ready(function(){
     });
 
     mc.on('singletap', function(ev) {
-        GlobalOnTouch = true;
         if(ev.pointerType == 'touch') {
+            GlobalOnTouch = true;
             var target = $(ev.target);
             if (target.is('a') 
                 || target.hasClass('clock')

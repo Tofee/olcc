@@ -1,0 +1,8 @@
+{
+    "name": "BrunoSpy/olcc",
+    "license": "AGPL",
+  "type": "project",
+    "require": {
+        "dusterio/link-preview": "^1.2"
+    }
+}

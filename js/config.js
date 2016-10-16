@@ -52,8 +52,12 @@ var settings = {
             descr: "Accès rapide aux tribunes",
             type: TYPE_BOOL
         },
+        'urlpreview': {
+            descr: "Aperçu des url au survol",
+            type: TYPE_BOOL
+        },
         'favicon': {
-            descr: "Icone de la fenêtre",
+            descr: "Icône de la fenêtre",
             type: TYPE_STR
         },
         'boss_mode': {

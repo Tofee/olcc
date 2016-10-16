@@ -95,7 +95,7 @@ img.totoz {
 #pinnipede A, #popup A {
   text-decoration: none;
 }
-#pinnipede DIV {
+#pinnipede > DIV {
   border-left: 4px solid transparent;
 }
 DIV.post {
@@ -104,6 +104,7 @@ DIV.post {
   background-color: #EFEFEF!important;
   border-bottom: 1px solid transparent;
   border-top: 1px solid transparent;
+  border-left: 4px solid transparent;
   opacity: 0.85;
 }
 

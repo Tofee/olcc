@@ -292,7 +292,7 @@ function onMouseOver(event) {
             showTotoz(totoz, event.clientX, event.clientY);
         }
     } else if (targetClass.indexOf('urlpreview') != -1) {
-        if(settings.value('urlpreview')) {
+        if(settings.value('urlpreview') && !GlobalOnTouch) {
             $(target).popover({
                 html: true,
                 placement: 'auto',

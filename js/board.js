@@ -320,7 +320,7 @@ function BoardPost(board, msg) {
                 html: true,
                 placement: 'top',
                 trigger: 'focus',
-                content: error
+                content: xhr.responseText
             }).popover('show');
         } else {
             BoardPostResult(board, xhr);

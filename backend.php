@@ -52,7 +52,6 @@
 	}
 
 	header( 'HTTP/1.0 ' . curl_getinfo( $rCurl, CURLINFO_HTTP_CODE ) );
-	header( 'Content-type: text/xml');
 
 	$sLastModified = null ;
 	$iHeaderLen = curl_getinfo( $rCurl, CURLINFO_HEADER_SIZE);
@@ -66,20 +65,31 @@
 			{
 				$sLastModified = trim( $sValue );
 			}
+                        if( strtolower(trim($sName)) == 'content-type' )
+			{
+				$sContentType = trim( $sValue );
+			}
 			header( 'X-Olcc-' . trim($sName) . ':' . trim($sValue) );
 		}
 	}
-
-	$sBody = substr( $sMessage, $iHeaderLen );
-	$iPos  = strpos( $sBody, '<' );
-	if(( ! empty( $sBody) )&&( $iPos === false ))
-	{
-		echo 'Error: ' . $sBody ;
-	}
-	else
-	{
-		echo preg_replace( '/<!DOCTYPE[^>]*>/', '', substr( $sBody, $iPos ), 1 );
-	}
+        
+        $sBody = substr( $sMessage, $iHeaderLen );
+        
+        if (0 === strpos($sContentType, "text/tab-separated-values")) {
+            header( 'Content-type: text/tab-separated-values');
+            echo $sBody;
+        } else {
+            header( 'Content-type: text/xml');
+            $iPos  = strpos( $sBody, '<' );
+            if(( ! empty( $sBody) )&&( $iPos === false ))
+            {
+                    echo 'Error: ' . $sBody ;
+            }
+            else
+            {
+                    echo preg_replace( '/<!DOCTYPE[^>]*>/', '', substr( $sBody, $iPos ), 1 );
+            }
+        }
 
 	if( $bDebug )
 	{

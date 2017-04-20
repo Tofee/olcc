@@ -197,15 +197,8 @@ function BoardProcessBackend(board, xhr) {
             board.setState(STATE_HTTP_ERROR);
         }
         else {
-            var slip = loadXML(res);
-            if (no_xpath) {
-                var postNodes = slip.getElementsByTagName("post");
-                var i = postNodes.length;
-            }
-            else {
-                var postNodes = evalXPath(slip, '//post[@id > ' + board.lastId + ']');
-                var i = getLength(postNodes); // snapshotLength
-            }
+            var posts = loadSlip(res, xhr.getResponseHeader("X-Olcc-Content-Type"), board);
+            var i = posts.length;
             var toScroll = false;
             var hasNews = false;
             if (i > 0) {
@@ -222,32 +215,23 @@ function BoardProcessBackend(board, xhr) {
                 // alert("tribune "+board.name+": "+i+" posts dans le backend");
             }
             while (--i >= 0) {
-                var postNode = getItem(postNodes, i);
-                var currentId = parseInt(postNode.getAttribute('id'));
+                var post = posts[i];
+                var currentId = post.id;
                 if (currentId > board.lastId) {
-                    var timestamp = postNode.getAttribute('time');
+                    var timestamp = post.time;
                     var hour = timestamp.substring(8);
                     var clock = hour.substr(0,2) + ':' + hour.substr(2,2) + ':' + hour.substr(4,2); 
-                    var login = getNodeText(postNode.getElementsByTagName('login')[0]);
-                    var info = getNodeText(postNode.getElementsByTagName('info')[0]);
-                    var msgNode = postNode.getElementsByTagName('message')[0];
-                    if (board.slip == SLIP_TAGS_ENCODED) {
-                        message = getNodeText(msgNode);
-                    }
-                    else {
-                        message = serializeNodes(msgNode, "message");
-                    }
-                    var post = document.createElement('div');
+                    var postDiv = document.createElement('div');
                     // Construction de l'id interne du post au format MMDDhhmmssii@board
                     var postid = timestamp.substr(4, timestamp.length)+'99@'+board.name;
-                    post.setAttribute("id", postid);
-                    addClass(post, "pinni-"+board.name);
-                    addClass(post, "newpost");
-                    addClass(post, "post-container");
-                    insertToPinni(post, postid, board, clock, login, info, message, currentId);
+                    postDiv.setAttribute("id", postid);
+                    addClass(postDiv, "pinni-"+board.name);
+                    addClass(postDiv, "newpost");
+                    addClass(postDiv, "post-container");
+                    insertToPinni(postDiv, postid, board, clock, post.login, post.info, post.message, currentId);
                     board.nbPosts++;
                     board.lastId = currentId;
-                    board.notify(NOTIF_NEW_POST, postid, post);
+                    board.notify(NOTIF_NEW_POST, postid, postDiv);
                     hasNews = true;
                 }
             }

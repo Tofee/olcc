@@ -7,6 +7,7 @@ var GlobalPinni = null;
 var GlobalProcessing = false;
 var GlobalWindowFocus = true;
 var GlobalFilters = new Array();
+var GlobalOnTouch = false;
 
 var norloge_exp = new RegExp("((?:1[0-2]|0[1-9])/(?:3[0-1]|[1-2][0-9]|0[1-9])#|[0-9]{4}-[0-9][0-9]-[0-9][0-9]T)?((?:2[0-3]|[0-1][0-9])):([0-5][0-9])(:[0-5][0-9])?([¹²³]|[:\^][1-9]|[:\^][1-9][0-9])?(@[A-Za-z0-9_]+)?", "");
 
@@ -290,6 +291,28 @@ function onMouseOver(event) {
             var totoz = getTotoz(targetId.substr(6));
             showTotoz(totoz, event.clientX, event.clientY);
         }
+    } else if (targetClass.indexOf('urlpreview') != -1) {
+        if(settings.value('urlpreview') && !GlobalOnTouch) {
+            $(target).popover({
+                html: true,
+                placement: 'auto',
+                container: "#pinnipede",
+                title: "Loading url...",
+                content: '<div class="loadingwide"></div>'
+            }).popover('show');
+            var urlPopover = $(target).data('bs.popover');
+            $.getJSON('linkpreview.php?url=' + target.getAttribute('href'), function (data) {
+                var response = '<div class="pull-left">';
+                response += '<img class="img-preview" src="' + data.cover + '">';
+                response += "</div>";
+                response += data.description;
+                urlPopover.options.title = data.title;
+                urlPopover.options.content = response;
+                $(target).popover('show');
+            }).fail(function (jqxhr, textStatus, error) {
+                urlPopover.options.content = error;
+            });
+        }
     }
 }
 
@@ -300,6 +323,10 @@ function onMouseOut(event) {
     if (!targetClass) return;
     if (targetClass.indexOf('totoz') != -1) {
         document.getElementById('totozImg[' + targetId.substr(6) + ']').style.display = 'none';
+    } else if (targetClass.indexOf('urlpreview') != -1) {
+        if(settings.value('urlpreview')) {
+            $(target).popover('destroy');
+        }
     }
 }
 
@@ -685,12 +712,16 @@ $(document).ready(function(){
                 jqxhr
                     .success(function(){
                         $("#message").val('');
-                        closeKeyboard($("#message"));
+                        if(GlobalOnTouch) {
+                            closeKeyboard($("#message"));
+                        }
                     })
                     .fail(function(){
                         if(jqxhr.status == 302) {
                             $("#message").val('');
-                            closeKeyboard($("#message"));
+                            if(GlobalOnTouch) {
+                                closeKeyboard($("#message"));
+                            }
                         }
                     });
             }
@@ -787,17 +818,19 @@ $(document).ready(function(){
         insertInPalmi($(this).data('totoz'));
     });
 
-    $("#form-totoz").focusin(function(){
-        $("#form-message .form-group").addClass('col-xs-3').removeClass('col-xs-9');
-        $("#form-totoz .form-group").addClass('col-xs-9').removeClass('col-xs-3');
-    });
-    $("#form-message").on("focusin click", function(e){
-        if($("#form-totoz .popover").length == 0 || e.type == "click") {
-            $("#form-message .form-group").addClass('col-xs-9').removeClass('col-xs-3');
-            $("#form-totoz .form-group").addClass('col-xs-3').removeClass('col-xs-9');
-        }
+    $("#form-totoz .input-group-addon").on('click', function(e){
+        $("#form-message .form-group").addClass('unfocus').removeClass('focusin');
+        $("#form-totoz .form-group").addClass('focusin').removeClass('unfocus');
+        $("#form-totoz input").focus();
     });
 
+    $("#form-message").on("focusin click", function(e){
+        if($("#form-totoz .popover").length == 0 || e.type == "click") {
+            $("#form-message .form-group").addClass('focusin').removeClass('unfocus');
+            $("#form-totoz .form-group").addClass('unfocus').removeClass('focusin');
+        }
+    });
+	
     //close popover when click outside
     $(document).on('click', function (e) {
         $('[data-toggle="popover"],[data-original-title]').each(function () {
@@ -904,8 +937,33 @@ $(document).ready(function(){
     /* Interactions tactiles */
     /* ********************* */
 
+	//detect keyboard appearing/closing
+	var _originalSize = $(window).width() + $(window).height()
+	$(window).resize(function(){
+		if($(window).width() + $(window).height() < _originalSize - 50){
+			//console.log("keyboard show up");  
+			if($("#form-totoz .popover").length > 0) {
+                $("#form-totoz input").popover('show');
+			}
+		}else{
+			//console.log("keyboard closed");
+			if($("#form-totoz .popover").length > 0) {
+				$("#form-totoz input").popover('show');
+			}
+		}
+	});
+	
     //allow text selection
     delete Hammer.defaults.cssProps.userSelect;
+	//touch events on palmi : only to detect device's type
+	var mcPalmi = new Hammer.Manager(document.getElementById('message'));
+	mcPalmi.add(new Hammer.Tap({ event: 'tap'}));
+	mcPalmi.on('tap', function(ev){
+        if(ev.pointerType == 'touch') {
+            GlobalOnTouch = true;
+        }
+	});
+	//touch events on Pinni
     PreventGhostClick(GlobalPinni);
     var mc = new Hammer.Manager(GlobalPinni);
 
@@ -948,13 +1006,14 @@ $(document).ready(function(){
 
     mc.on('singletap', function(ev) {
         if(ev.pointerType == 'touch') {
+            GlobalOnTouch = true;
             var target = $(ev.target);
             if (target.is('a') 
-		|| target.hasClass('clock')
-	        || target.hasClass('clockref')
-	        || target.hasClass('ua')
-	        || target.hasClass('login')
-	        || target.hasClass('tab')) {
+                || target.hasClass('clock')
+                || target.hasClass('clockref')
+                || target.hasClass('ua')
+                || target.hasClass('login')
+                || target.hasClass('tab')) {
 				if (target.closest('li').hasClass('tab')) {
 					var boardName = target.closest('li').attr('id').substr(4);
 					GlobalBoardTabs[boardName].toggle();
@@ -967,10 +1026,12 @@ $(document).ready(function(){
                 hilightPost(parent.attr('id'), parent[0]);
             }
             removeNotif();
+            $("#form-totoz input").popover('destroy');
         }
     });
 
     mc.on('swipe', function(ev) {
+        GlobalOnTouch = true;
         if(ev.direction == Hammer.DIRECTION_LEFT && !$("#wrapper").hasClass("toggled")) {
             $("#menu-toggle").trigger('click');
         } else if(ev.direction == Hammer.DIRECTION_RIGHT && $("#wrapper").hasClass("toggled")) {
@@ -983,6 +1044,7 @@ $(document).ready(function(){
 
     mc2.add( new Hammer.Swipe({event: 'swipe', direction: Hammer.DIRECTION_HORIZONTAL}));
     mc2.on('swipe', function(ev) {
+        GlobalOnTouch = true;
         if(ev.direction == Hammer.DIRECTION_LEFT && !$("#wrapper").hasClass("toggled")) {
             $("#menu-toggle").trigger('click');
         } else if(ev.direction == Hammer.DIRECTION_RIGHT && $("#wrapper").hasClass("toggled")) {
@@ -1021,6 +1083,7 @@ $(document).ready(function(){
 
     mc2.on('tap', function(ev){
         if(ev.pointerType == 'touch') {
+            GlobalOnTouch = true;
             var target = $(ev.target);
             if (target.closest('li').hasClass('tab')) {
                 var boardName = target.closest('li').attr('id').substr(4);

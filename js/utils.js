@@ -4,7 +4,7 @@
  ************************************************************/
  
 // Constantes globales génériques
-var VERSION = '1.0.1';
+var VERSION = '1.1.2';
 
 // Constantes de gestion des états
 var STATE_LOADED = 'loaded'; // Tribune chargée
@@ -58,6 +58,7 @@ var DEFAULT_BALLTRAP = true;
 var DEFAULT_MAX_DUCKS = 15;
 var DEFAULT_BALLTRAP_MODE = BALLTRAP_AUTO;
 var DEFAULT_BALLTRAP_SILENT = false;
+var DEFAULT_URLPREVIEW = true;
 /*
 var DEFAULT_SOUND_ENABLED = false;
 var DEFAULT_SOUND_ZOO = false;

@@ -320,7 +320,7 @@ function BoardPost(board, msg) {
                 html: true,
                 placement: 'top',
                 trigger: 'focus',
-                content: error
+                content: xhr.responseText
             }).popover('show');
         } else {
             BoardPostResult(board, xhr);
@@ -372,7 +372,7 @@ function BoardTabAddTab (boardTab) {
     // Ajout de l'onglet
     board.loadConfig();
     board.updateCSS();
-    var tab = $('<li id="'+"tab-"+board.name+'" class="'+"tab tab-"+board.name+'"><a href="#"><span class="glyphicon glyphicon-check"></span> '+board.name+' </a></li>');
+    var tab = $('<li id="'+"tab-"+board.name+'" class="'+"tab tab-"+board.name+' active"><a href="#"><span class="glyphicon glyphicon-check"></span> '+board.name+' </a></li>');
     tab.css('background-color', board.color);
     //TODO gérer ailleurs
     addEvent(tab[0], "click", function (e) { clickBoard(board.name, e); }, false);
@@ -491,7 +491,7 @@ function BoardTabDisplay(boardTab) {
     var css = getStyleClass("pinni-"+boardTab.board.name);
     if (css) {
         css.style.display = 'block';
-        $(boardTab.tab()).find('span.glyphicon').addClass('glyphicon-check').removeClass('glyphicon-ban-circle');
+        $(boardTab.tab()).addClass('active').find('span.glyphicon').addClass('glyphicon-check').removeClass('glyphicon-none');
     }
     boardTab.visible = true;
     //remove notif
@@ -504,7 +504,7 @@ function BoardTabHide(boardTab) {
     var css = getStyleClass("pinni-"+boardTab.board.name);
     if (css) {
         css.style.display = 'none';
-        $(boardTab.tab()).find('span.glyphicon').removeClass('glyphicon-check').addClass('glyphicon-ban-circle');
+        $(boardTab.tab()).removeClass('active').find('span.glyphicon').removeClass('glyphicon-check').addClass('glyphicon-none');
     }
     boardTab.visible = false;
 }

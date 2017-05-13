@@ -42,6 +42,7 @@ function writeUrl(message) {
 
         var text = $(this).text();
         var href = $(this).attr('href');
+        $(this).addClass('urlpreview');
         if(exp.test(text)){
             var matches = href.match(/^https?\:\/\/([^\/?#]+)(?:[\/?#]|$)/i);
             var domain = matches && matches[1];

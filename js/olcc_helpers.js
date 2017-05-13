@@ -45,7 +45,7 @@ function writeUrl(message) {
         if(exp.test(text)){
             var matches = href.match(/^https?\:\/\/([^\/?#]+)(?:[\/?#]|$)/i);
             var domain = matches && matches[1];
-            if(domain.startsWith('www.')) {
+            if(domain && domain.startsWith('www.')) {
                 domain = domain.substr(4);
             }
             $(this).text('['+domain+']');

@@ -75,6 +75,7 @@ function writeBigorno(message, board, postid, post) {
     return newmessage;
 }
 
+
 function writeClocks(message, board, postid, post) {
     var offset = 0;
     var indexes = new Array();
@@ -87,7 +88,12 @@ function writeClocks(message, board, postid, post) {
         var ref = 'ref'
         var refclass = "clockref";
         if (h[1]) {
-            ref += h[1].substr(0,2)+h[1].substr(3,2);
+            if (h[1].substr(-1) == "T") {
+              // Norloges iso à la devnewton<
+              ref += h[1].substr(5,2)+h[1].substr(8,2);
+            } else {
+                ref += h[1].substr(0,2)+h[1].substr(3,2);
+            }
         }
         else {
             if (h[2]+h[3]+"00" > postid.substr(4,6)) {

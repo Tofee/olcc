@@ -152,7 +152,14 @@ function writeClocks(message, board, postid, post) {
             }
         }
         var hpos = offset + h.index;
-        indexes.push([hpos, '<span class="'+refclass+'" id="'+ref+'">']);
+        if (h[1] && ref.substr(3,4) == postid.substr(0,4) ) {
+          // date inutile car la ref est à la même date que le post : on la bazarde
+          indexes.push([hpos, '<span class="'+refclass+'" id="'+ref+'"><span style="display:none">']);
+          indexes.push([hpos+h[1].length, '</span>']);
+        }
+        else {
+          indexes.push([hpos, '<span class="'+refclass+'" id="'+ref+'">']);
+        }
         offset = hpos + h[0].length
         indexes.push([offset, '</span>']);
 

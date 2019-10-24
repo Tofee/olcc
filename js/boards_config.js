@@ -71,3 +71,13 @@ shoop.slip = SLIP_TAGS_RAW;
 shoop.alias = "shoop,dax";
 shoop.color = '#EDEDDB';
 GlobalBoards['sveetch'] = shoop;
+
+var taab = new Board('taab', false);
+taab.getUrl = 'https://taab.bci.im/get.php';
+taab.postUrl = 'https://taab.bci.im/post.php';
+taab.postData = "message=%m";
+taab.slip = SLIP_TAGS_RAW;
+taab.alias = "taab";
+taab.color = '#CCCCCC';
+GlobalBoards['taab'] = taab;
+

@@ -633,13 +633,60 @@ catch (err) {
 }
 srz = new XMLSerializer();
 
+function loadSlip(text, contentType, board) {
+    if(contentType && contentType.startsWith("text/tab-separated-values")) {
+        return loadTSV(text);
+    } else {
+        return loadXML(text, board);
+    }
+}
+
+function loadTSV(text) {
+    var newPosts = text.split(/\r\n|\n/).map(function (line) {
+        var post = line.split(/\t/);
+        if (post.length >= 5) {
+            return {id: parseInt(post[0]), time: post[1], info: post[2], login: post[3], message: post[4]};
+        } else {
+            return false;
+        }
+    }).filter(function (post) {
+        return post && post.id && post.time && post.message;
+    });
+    return newPosts.sort(function (a, b) {
+        return b.id - a.id;
+    }).filter(function (elem, pos) {
+        return newPosts.indexOf(elem) === pos;
+    });
+}
 
 // Retourne un objet xml dom, fonction cross-browser
-function loadXML(text) {
+function loadXML(text, board) {
+    var result = [];
     var parser = new DOMParser();
     var xmlDoc = parser.parseFromString(text, "text/xml");
-
-    return xmlDoc;
+    if (no_xpath) {
+        var postNodes = xmlDoc.getElementsByTagName("post");
+        var n = postNodes.length;
+    } else {
+        var postNodes = evalXPath(xmlDoc, '//post[@id > ' + board.lastId + ']');
+        var n = getLength(postNodes);
+    }
+    
+    for(var i = 0; i<n; ++i) {
+        var postNode = getItem(postNodes, i);
+        var message = postNode.getElementsByTagName('message')[0];
+        if (board.slip === SLIP_TAGS_ENCODED) {
+            message = message.strip();
+        } else {
+           message = serializeNodes(message, "message");
+        }
+        result.push({id: parseInt(postNode.getAttribute('id')),
+            time: postNode.getAttribute('time'),
+            info: getNodeText(postNode.getElementsByTagName('info')[0]),
+            login: getNodeText(postNode.getElementsByTagName('login')[0]),
+            message: message});
+    }
+    return result;
 }
 
 function evalXPath(node, query) {
@@ -665,14 +712,6 @@ function serializeNodes(node, tag) {
     content = srz.serializeToString(node)
 
     return content.replace(new RegExp('<'+tag+'>(.*)<\/'+tag+'>'), "$1");
-    /* try {
-        node.childNodes.map = map;
-        return node.childNodes.map(function(x){return srz.serializeToString(x);}).join("");
-    }
-    catch(err) {
-        var content = node.xml || node.innerHTML;
-        return content.replace(new RegExp('<'+tag+'>(.*)<\/'+tag+'>'), "$1");
-    } */
 }
 
 function getNodeText(node) {

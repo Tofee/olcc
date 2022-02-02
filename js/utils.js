@@ -664,12 +664,13 @@ function loadXML(text, board) {
     var result = [];
     var parser = new DOMParser();
     var xmlDoc = parser.parseFromString(text, "text/xml");
+    var n = 0;
     if (no_xpath) {
         var postNodes = xmlDoc.getElementsByTagName("post");
-        var n = postNodes.length;
-    } else {
+        n = postNodes.length;
+    } else if (!!board) {
         var postNodes = evalXPath(xmlDoc, '//post[@id > ' + board.lastId + ']');
-        var n = getLength(postNodes);
+        n = getLength(postNodes);
     }
     
     for(var i = 0; i<n; ++i) {

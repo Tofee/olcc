@@ -663,7 +663,8 @@ function searchTotoz() {
 
 function displayTotoz(res) {
 
-        var totozfound = loadXML(res);
+	var parser = new DOMParser();
+	var totozfound = parser.parseFromString(res, "text/xml");
         var totozNodes = totozfound.getElementsByTagName("name") || [];
         totozwrap = $('<table class="table"></table>');//document.createElement('table');
         totozbody = $('<tbody></tbody>');

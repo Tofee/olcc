@@ -674,7 +674,7 @@ function displayTotoz(res) {
             var totoz = "[:"+curtotoz+"]";
             var tr = $('<tr data-totoz="'+totoz+' " class="totoz-result"></tr>');
 
-            var td = $('<td class="maxwidth90"><img class="img-responsive img-rounded" src="'+server+'/img/'+curtotoz+'" alt="'+totoz+'" /></td>');//document.createElement('td');
+            var td = $('<td class="maxwidth90"><img class="img-responsive img-rounded" src="'+server+'img/'+curtotoz+'" alt="'+totoz+'" /></td>');//document.createElement('td');
 
             tr.append(td);
             var td2 = $('<td class="maxwidth210"><span class="totoz">'+totoz+'</span></td>');

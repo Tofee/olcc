@@ -20,11 +20,11 @@ lo.slip = SLIP_TAGS_RAW; // Protection temporaire
 GlobalBoards['comptoir'] = lo;
 
 var dlfp = new Board('dlfp', false);
-dlfp.getUrl = 'http://linuxfr.org/board/index.xml';
-dlfp.postUrl = 'http://linuxfr.org/board';
+dlfp.getUrl = 'https://linuxfr.org/board/index.tsv';
+dlfp.postUrl = 'https://linuxfr.org/board';
 dlfp.postData = "board[message]=%m";
 dlfp.alias = "linuxfr,beyrouth,passite,dapassite";
-dlfp.cookie = 'linuxfr.org_session=';
+dlfp.cookie = 'remember_account_token=';
 GlobalBoards['dlfp'] = dlfp;
 
 var devnewton = new Board('devnewton', false);

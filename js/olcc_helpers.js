@@ -3,7 +3,7 @@ function writeTotoz(message) {
     if (settings.value('totoz_mode') != TOTOZ_INLINE) {
         return message.replace(exp, '<span class="totoz" id="totoz-$1">[:$1]</span>');
     } else {
-        return message.replace(exp, '<img title="[:$1]" src="' + settings.value('totoz_server') + '/img/$1" />');
+        return message.replace(exp, '<img title="[:$1]" src="' + settings.value('totoz_server') + 'img/$1" />');
     }
 }
 
@@ -337,7 +337,7 @@ function getTotoz(totoz) {
     if (!img) {
         img = document.createElement('img');
         img.style.display = 'none';
-        img.setAttribute('src', settings.value('totoz_server') + '/img/' + totoz);
+        img.setAttribute('src', settings.value('totoz_server') + 'img/' + totoz);
         img.className = 'totoz'; // setAttribute('class','totoz');
         img.setAttribute('id','totozImg[' + totoz + ']');
         document.getElementsByTagName('body')[0].appendChild(img);

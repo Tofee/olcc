@@ -647,9 +647,9 @@ function searchTotoz() {
     var totoz = document.getElementById('totoz-search').value;
     if (!totoz) { return; }
     //document.getElementById('totoz-status').src = "img/wait.gif";
-    var url = settings.value('totoz_server') + "search.xml{question}terms=" + escape(totoz); // + "{amp}xml=true";
+    var url = settings.value('totoz_server') + "search.xml?terms=" + encodeURI(totoz);
 
-    $.get('backend.php?url='+url, function(data, status, xhr){
+    $.get(url, function(data, status, xhr){
         displayTotoz(xhr.responseText);
     }, "xml")
         .fail(function(xhr, status, error){
@@ -663,18 +663,19 @@ function searchTotoz() {
 
 function displayTotoz(res) {
 
-        var totozfound = loadXML(res);
+	var parser = new DOMParser();
+	var totozfound = parser.parseFromString(res, "text/xml");
         var totozNodes = totozfound.getElementsByTagName("name") || [];
         totozwrap = $('<table class="table"></table>');//document.createElement('table');
         totozbody = $('<tbody></tbody>');
         totozwrap.append(totozbody);
         var server = settings.value('totoz_server');
-        for (var i=totozNodes.length; i--;) {
+        for (var i=0; i<totozNodes.length; ++i) {
             var curtotoz = getNodeText(totozNodes[i]);
             var totoz = "[:"+curtotoz+"]";
             var tr = $('<tr data-totoz="'+totoz+' " class="totoz-result"></tr>');
 
-            var td = $('<td class="maxwidth90"><img class="img-responsive img-rounded" src="'+server+'/img/'+curtotoz+'" alt="'+totoz+'" /></td>');//document.createElement('td');
+            var td = $('<td class="maxwidth90"><img class="img-responsive img-rounded" src="'+server+'img/'+curtotoz+'" alt="'+totoz+'" /></td>');//document.createElement('td');
 
             tr.append(td);
             var td2 = $('<td class="maxwidth210"><span class="totoz">'+totoz+'</span></td>');

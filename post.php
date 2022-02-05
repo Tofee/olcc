@@ -26,6 +26,11 @@
                    );
   curl_setopt($ch, CURLOPT_HTTPHEADER, $rheaders);
   curl_setopt($ch, CURLOPT_USERAGENT, $ua);
+
+  if (isset($_REQUEST['bearer_token'])) {
+    $message = $message . '&bearer_token=' . $_REQUEST['bearer_token'];
+  }
+
   if (get_magic_quotes_gpc()) {
     curl_setopt($ch, CURLOPT_POSTFIELDS, stripslashes($message));
   }

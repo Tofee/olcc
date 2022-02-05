@@ -21,10 +21,10 @@ GlobalBoards['comptoir'] = lo;
 
 var dlfp = new Board('dlfp', false);
 dlfp.getUrl = 'https://linuxfr.org/board/index.tsv';
-dlfp.postUrl = 'https://linuxfr.org/board';
-dlfp.postData = "board[message]=%m";
+dlfp.postUrl = 'https://linuxfr.org/api/v1/board';
 dlfp.alias = "linuxfr,beyrouth,passite,dapassite";
 dlfp.cookie = 'remember_account_token=';
+dlfp.useOAuth = true;
 GlobalBoards['dlfp'] = dlfp;
 
 var devnewton = new Board('devnewton', false);

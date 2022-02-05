@@ -415,4 +415,7 @@ function saveBoardConfig(name) {
         settings.save();
     }
 
+    // Forcer le restart de la tribune
+    board.stop();
+    board.start();
 }

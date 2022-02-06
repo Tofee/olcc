@@ -746,6 +746,7 @@ $(document).ready(function(){
         $("#aliasTribune").val(board.alias);
         $("#nameTribune").val(board.name);
         $("#postTribune").val(board.postUrl);
+        $("#useOAuthTribune").val(board.useOAuth);
         if(board.slip == SLIP_TAGS_RAW) {
             $("#slipTribune option[value=1]").prop('selected', true);
         } else {

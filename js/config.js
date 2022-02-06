@@ -357,6 +357,7 @@ function configBoard(name) {
     $("#cookieTribune").val(board.cookie);
     $("#loginTribune").val(board.login);
     $("#useragentTribune").val(board.ua);
+    $("#useOAuthTribune").val(board.useOAuth);
 
     board.tmpcookieback = board.cookie;
 }
@@ -392,6 +393,7 @@ function saveBoardConfig(name) {
     board.login = $('#loginTribune').val();
     board.ua = $("#useragentTribune").val();
     board.cookie = $("#cookieTribune").val();
+    board.useOAuth = $("#useOAuthTribune").val();
     if (board.tmpcookieback != board.cookie) { board.tmpcookie = false; }
     // board.plonk = document.getElementById('config-plonk').value;
     //board.delay = parseInt(document.getElementById('config-delay').value)*1000;

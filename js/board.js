@@ -11,6 +11,7 @@ function Board(name, perso) {
   this.postUrl = '';
   this.postData = 'message=%m';
   this.slip = SLIP_TAGS_ENCODED;
+  this.useOAuth = false;
   
   // Données configurables
   this.color = '#dac0de';
@@ -19,6 +20,7 @@ function Board(name, perso) {
   this.login = '';
   this.ua = '';
   this.cookie = '';
+  this.access_token = '';
   this.lastModified = null;
   this.initstate = STATE_IDLE;
   // this.plonk = '';
@@ -103,6 +105,9 @@ function BoardLoadConfig(board) {
               case "cookie":
                 board.cookie = val;
                 break;
+              case "useOAuth":
+                board.useOAuth = eval(val);
+                break;
               case "alias":
                 board.alias = val;
                 break;
@@ -125,6 +130,7 @@ function BoardSaveConfig(board) {
     tab.push("ua="+board.ua);
     tab.push("color="+board.color);
     tab.push("cookie="+board.cookie);
+    tab.push("useOAuth="+board.useOAuth);
     tab.push("alias="+board.alias);
     tab.push("delay="+(board.delay/1000));
     tab.push("initstate="+board.state);
@@ -138,10 +144,57 @@ function BoardSaveConfig(board) {
 }
 Board.prototype.saveConfig = function () { BoardSaveConfig(this); };
 
+function RenewLinuxFrToken(board) {
+    window.open("https://linuxfr.org/api/oauth/authorize?client_id=" + TOFE_OLCC_OAUTH_APPID
+                + "&redirect_uri=" + TOFE_OLCC_OAUTH_REDIRECT
+                + "&response_type=code"
+                + "&scope=board");
+}
+
+function CheckLinuxFrOAuth(board) {
+  // Verifier si le token a expiré
+  try {
+    oauthData = JSON.parse(getCookie("olcc_linuxfr_token"));
+  }
+  catch(err) {
+    // JSON invalide ==> on repart de zéro
+  }
+  if (!oauthData) {
+    oauthData = {}
+  }
+
+  if (!!oauthData.access_token && !!oauthData.refresh_token) {
+    // refresh du token
+    var data = 'refresh_token=' + oauthData.refresh_token;
+
+    $.getJSON('oauth_refresh.php?refresh_token=' + oauthData.refresh_token, function (data) {
+      if (!!data.access_token && !!data.refresh_token) {
+        // il est frais mon token !
+        oauthData.access_token = data.access_token;
+        oauthData.refresh_token = data.refresh_token;
+      }
+      else {
+        // comment ça, mon token est pas frais ??
+        RenewLinuxFrToken(board);
+      }
+    }).fail(function (jqxhr, textStatus, error) {
+        // comment ça, mon token est pas frais ??
+        RenewLinuxFrToken(board);
+    });
+  }
+  else {
+    // Besoin d'un nouveau token => on demande l'ouverture d'une fenetre dédiée
+    RenewLinuxFrToken(board);
+  }
+}
+
 // Démarre une tribune (lancement du timer d'auto-refresh)
 function BoardStart(board) {
     if (board.state == STATE_LOADED) {
         return;
+    }
+    if (board.postUrl === "https://linuxfr.org/api/v1/board") {
+      CheckLinuxFrOAuth(board);
     }
     board.setState(STATE_IDLE);
     if (!board.timer) {
@@ -168,6 +221,16 @@ function BoardRefresh(board) {
     if (board.state == STATE_LOADED) {
         return;
     }
+
+    if (board.useOAuth && board.access_token === "") {
+      try {
+        oauthData = JSON.parse(getCookie("olcc_linuxfr_token"));
+        board.access_token = oauthData.access_token;
+      }
+      catch(err) {
+      }
+    }
+    
     if (board.timer) {
         window.clearTimeout(board.timer);
         board.timer = null;
@@ -295,6 +358,10 @@ function BoardPost(board, msg) {
              + '&cookie=' + escape(board.cookie)
              + '&posturl=' + escape(board.postUrl)
              + '&postdata=' + to_url(postdata);
+
+    if(board.access_token !== "") {
+      data = data + '&bearer_token=' + escape(board.access_token);
+    }
 
     $.post('post.php', data, function(data, status, xhr){
         BoardPostResult(board, xhr);

@@ -76,7 +76,7 @@ var NOTIF_BIGORNO = 'bigorno';
 var NOTIF_BIGORNO_ALL = 'bigorno all';
 
 var TOFE_OLCC_OAUTH_APPID = '0e257b9d7b83b43971b795320ae7e00d851f51fbe27f01cc0faee439d23a21df';
-var TOFE_OLCC_OAUTH_REDIRECT = 'https://tofe-rpi4.dynv6.net/olcc/oauth_redirect.php';
+var TOFE_OLCC_OAUTH_REDIRECT = 'https://' + window.location.host + window.location.pathname + 'oauth_redirect.php';
 
 var favicon = {
     change: function(iconURL, optionalDocTitle) {

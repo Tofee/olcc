@@ -1,6 +1,6 @@
 <?php
 
-define("CALLBACK_URL", "https://tofe-rpi4.dynv6.net/olcc/oauth_redirect.php");
+define("CALLBACK_URL", "https://".$_SERVER['HTTP_HOST'].dirname($_SERVER['REQUEST_URI'])."/oauth_redirect.php");
 define("ACCESS_TOKEN_URL", "https://linuxfr.org/api/oauth/token");
 define("CLIENT_ID", $_SERVER['LINUXFR_CLIENT_ID']);
 define("CLIENT_SECRET", $_SERVER['LINUXFR_CLIENT_SECRET']);

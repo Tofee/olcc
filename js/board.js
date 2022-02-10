@@ -30,6 +30,7 @@ function Board(name, perso) {
   this.state = STATE_LOADED;
   this.timer = null;
   this.nbPosts = 0;
+  this.oauthData = {};
 
   this.views = new Array();
 }
@@ -154,24 +155,19 @@ function RenewLinuxFrToken(board) {
 function CheckLinuxFrOAuth(board) {
   // Verifier si le token a expiré
   try {
-    oauthData = JSON.parse(getCookie("olcc_linuxfr_token"));
+    board.oauthData = JSON.parse(getCookie("olcc_linuxfr_token"));
   }
   catch(err) {
     // JSON invalide ==> on repart de zéro
   }
-  if (!oauthData) {
-    oauthData = {}
-  }
 
-  if (!!oauthData.access_token && !!oauthData.refresh_token) {
+  if (!!board.oauthData.access_token && !!board.oauthData.refresh_token) {
     // refresh du token
-    var data = 'refresh_token=' + oauthData.refresh_token;
-
-    $.getJSON('oauth_refresh.php?refresh_token=' + oauthData.refresh_token, function (data) {
+    $.getJSON('oauth_refresh.php?refresh_token=' + board.oauthData.refresh_token, function (data) {
       if (!!data.access_token && !!data.refresh_token) {
         // il est frais mon token !
-        oauthData.access_token = data.access_token;
-        oauthData.refresh_token = data.refresh_token;
+        board.oauthData.access_token = data.access_token;
+        board.oauthData.refresh_token = data.refresh_token;
       }
       else {
         // comment ça, mon token est pas frais ??
@@ -222,13 +218,8 @@ function BoardRefresh(board) {
         return;
     }
 
-    if (board.useOAuth && board.access_token === "") {
-      try {
-        oauthData = JSON.parse(getCookie("olcc_linuxfr_token"));
-        board.access_token = oauthData.access_token;
-      }
-      catch(err) {
-      }
+    if (board.useOAuth && !board.oauthData.access_token) {
+      CheckLinuxFrOAuth(board);
     }
     
     if (board.timer) {
@@ -359,8 +350,8 @@ function BoardPost(board, msg) {
              + '&posturl=' + escape(board.postUrl)
              + '&postdata=' + to_url(postdata);
 
-    if(board.access_token !== "") {
-      data = data + '&bearer_token=' + escape(board.access_token);
+    if(!!board.oauthData.access_token !== "") {
+      data = data + '&bearer_token=' + escape(board.oauthData.access_token);
     }
 
     $.post('post.php', data, function(data, status, xhr){

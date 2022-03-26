@@ -40,7 +40,7 @@ function getToken($code){
   curl_close($curl);
  
   if ($err) {
-    return "{}";
+    return "{'error': '".$err."'}";
   } else {
     return $response;
   }

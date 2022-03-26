@@ -155,7 +155,7 @@ function RenewLinuxFrToken(board) {
 function CheckLinuxFrOAuth(board) {
   // Verifier si le token a expiré
   try {
-    board.oauthData = JSON.parse(getCookie("olcc_linuxfr_token"));
+    board.oauthData = JSON.parse(getCookie("olcc_linuxfr_token")) || {};
   }
   catch(err) {
     // JSON invalide ==> on repart de zéro

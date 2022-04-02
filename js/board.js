@@ -168,6 +168,8 @@ function CheckLinuxFrOAuth(board) {
         // il est frais mon token !
         board.oauthData.access_token = data.access_token;
         board.oauthData.refresh_token = data.refresh_token;
+        // il est frais mon cookie !
+	setCookie("olcc_linuxfr_token", JSON.stringify(board.oauthData));
       }
       else {
         // comment ça, mon token est pas frais ??

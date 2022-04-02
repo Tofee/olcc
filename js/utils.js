@@ -290,7 +290,7 @@ function setCookie(name, value, days) {
         var expires = "; expires="+date.toGMTString();
     }
     else { var expires = "" };
-    document.cookie = name+"="+escape(value)+expires+"; path=/";
+    document.cookie = name+"="+escape(value)+expires+"; path=/; samesite=strict; secure";
 }
 
 function IE_selectNodes(classes, notclasses) {

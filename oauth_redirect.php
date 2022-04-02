@@ -40,7 +40,7 @@ function getToken($code){
   curl_close($curl);
  
   if ($err) {
-    return "{}";
+    return "{'error': '".$err."'}";
   } else {
     return $response;
   }
@@ -56,7 +56,7 @@ function getToken($code){
     var exdate=new Date();
     exdate.setDate(exdate.getDate() + exdays);
     var c_value=escape(value) + ((exdays==null) ? "" : "; expires="+exdate.toUTCString());
-    document.cookie = c_name+"="+c_value+"; path=/";
+    document.cookie = c_name+"="+c_value+"; path=/; samesite=strict; secure";
   }
 <?php
   if(isset($_REQUEST['code'])) {

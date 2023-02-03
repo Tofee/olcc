@@ -219,7 +219,7 @@ function seemsToBePostedByMe(board, login, info, realId) {
             return true;
         }
     }
-    else if (info && (info == board.ua || info == settings.value('default_ua'))) {
+    else if (info && (info == board.ua /* || info == settings.value('default_ua')*/)) {
         return true;
     }
     return false;

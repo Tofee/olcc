@@ -182,7 +182,7 @@ function onChangeTrib() {
             }
         }
         else {
-            if (trib != GlobalCurTrib) {
+            if (trib != GlobalCurTrib && GlobalCurTrib.length > 0) {
                 indexes.push([offset, "@"+GlobalCurTrib]);
             }
         }

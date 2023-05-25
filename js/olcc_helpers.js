@@ -35,6 +35,12 @@ function writeLecon(message)
     }
 }
 
+function writeEncodedImage(message) {
+    var re = new RegExp(' (data:image\/[^;]+;base64[^ ]+)');
+    var newmessage = message.replace(re, ' <img src="$1" style="max-width:300px;max-height:300px">');
+    return newmessage
+}
+
 function writeUrl(message) {
     var jmessage = $('<div>'+message+'</div>');
     var exp = new RegExp('[url]');
@@ -213,7 +219,7 @@ function seemsToBePostedByMe(board, login, info, realId) {
             return true;
         }
     }
-    else if (info && (info == board.ua || info == settings.value('default_ua'))) {
+    else if (info && (info == board.ua /* || info == settings.value('default_ua')*/)) {
         return true;
     }
     return false;

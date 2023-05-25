@@ -109,7 +109,7 @@ function insertToPinni(post, postId, board, clock, login, info, message, realId)
     var newId = postId.substr(0,10) + pad0(ind) + postId.substr(12);
     post.setAttribute("id", newId);
     var fmessage = message;
-    [writeClocks, writeBigorno, writeTotoz, writeUrl, writeLecon].each(function(f){fmessage = f(fmessage, board, newId, post);});
+    [writeClocks, writeBigorno, writeTotoz, writeEncodedImage, writeUrl, writeLecon].each(function(f){fmessage = f(fmessage, board, newId, post);});
     fmessage = writePlonk(fmessage, board, post, login, info);
     if (settings.value('balltrap')) {
         fmessage = writeDuck(fmessage, board, post, newId);
@@ -182,7 +182,7 @@ function onChangeTrib() {
             }
         }
         else {
-            if (trib != GlobalCurTrib) {
+            if (trib != GlobalCurTrib && GlobalCurTrib.length > 0) {
                 indexes.push([offset, "@"+GlobalCurTrib]);
             }
         }

@@ -31,12 +31,7 @@
     $message = $message . '&bearer_token=' . $_REQUEST['bearer_token'];
   }
 
-  if (get_magic_quotes_gpc()) {
-    curl_setopt($ch, CURLOPT_POSTFIELDS, stripslashes($message));
-  }
-  else {
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $message);
-  }
+  curl_setopt($ch, CURLOPT_POSTFIELDS, $message);
   if (isset($_REQUEST['cookie'])) {
     curl_setopt($ch, CURLOPT_COOKIE, $_REQUEST['cookie']);
   }

@@ -48,10 +48,10 @@
   } else {
       echo('({');
       $header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
-      $headers = preg_split("\n", substr($res, 0, $header_size));
+      $headers = preg_split("/[\r]\n/", substr($res, 0, $header_size));
       foreach ($headers as $header) {
         if (strpos($header, ':') > 0) {
-          list($name, $val) = preg_split(":", $header);
+          list($name, $val) = preg_split("/:/", $header);
           $tval = trim($val);
           if (!empty($tval)) {
             echo("'" . trim(str_replace("-", "", $name)) . "':'" . addslashes($tval) . "',");

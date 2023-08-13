@@ -888,6 +888,11 @@ $(document).ready(function(){
 
     if (boards.length > 0) {
         onChangeTrib();
+	
+	// if there are tribunes defined already, hide the sidebar at startup
+	if(!$("#wrapper").hasClass("toggled")) {
+            $("#menu-toggle").trigger('click');
+        }
     }
 
     favicon.change(settings.value('favicon'), settings.value('window_title'));

@@ -82,6 +82,8 @@ img.totoz {
 }
 #popup DIV {
   background-image: url(../img/jaune.gif)!important;
+  max-height: 95vh;
+  overflow: hidden;
 }
 
 #popup .post {

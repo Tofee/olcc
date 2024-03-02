@@ -909,7 +909,9 @@ $(document).ready(function(){
 
     $("#form-message").on('submit', function(e){
         e.preventDefault();
-        sendPost();
+        if (!$("#message").hasClass('loading')) {
+            sendPost();
+        }
     });
 
     $("#filters a").on('click', function(e){

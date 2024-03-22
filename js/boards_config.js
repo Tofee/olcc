@@ -34,8 +34,8 @@ devnewton.color = '#F5D6CC';
 GlobalBoards['devnewton'] = devnewton;
 
 var euro = new Board('euromussels', false);
-euro.getUrl = 'http://faab.euromussels.eu:80//data/backend.xml';
-euro.postUrl = 'http://faab.euromussels.eu:80//add.php';
+euro.getUrl = 'https://faab.euromussels.eu:80//data/backend.xml';
+euro.postUrl = 'https://faab.euromussels.eu:80//add.php';
 euro.slip = SLIP_TAGS_RAW;
 euro.color = '#d0d0ff';
 euro.alias = "euro,euroxers";
@@ -49,8 +49,8 @@ gabu.slip = SLIP_TAGS_RAW;
 GlobalBoards['gabuzomeu'] = gabu;
 
 var moules = new Board('moules', false);
-moules.getUrl = 'http://moules.org/board/backend/xml';
-moules.postUrl = 'http://moules.org/board/add.php';
+moules.getUrl = 'https://moules.org/board/backend/xml';
+moules.postUrl = 'https://moules.org/board/add.php';
 moules.color = '#ffe3c9';
 moules.slip = SLIP_TAGS_RAW;
 GlobalBoards['moules'] = moules;

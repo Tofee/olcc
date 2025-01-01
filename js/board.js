@@ -280,7 +280,9 @@ function BoardProcessBackend(board, xhr) {
                     var postDiv = document.createElement('div');
                     // Construction de l'id interne du post au format MMDDhhmmssii@board
                     var postid = timestamp.substr(4, timestamp.length)+'99@'+board.name;
+                    var postYear = timestamp.substr(0, 4);
                     postDiv.setAttribute("id", postid);
+                    postDiv.setAttribute("year", postYear);
                     addClass(postDiv, "pinni-"+board.name);
                     addClass(postDiv, "newpost");
                     addClass(postDiv, "post-container");

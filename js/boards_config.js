@@ -28,8 +28,8 @@ dlfp.useOAuth = true;
 GlobalBoards['dlfp'] = dlfp;
 
 var devnewton = new Board('devnewton', false);
-devnewton.getUrl = 'https://b3.bci.im/legacy/xml';
-devnewton.postUrl = 'https://b3.bci.im/legacy/post';
+devnewton.getUrl = 'https://gb3.devnewton.fr/gb0/tsv';
+devnewton.postUrl = 'https://gb3.devnewton.fr/gb0/post';
 devnewton.color = '#F5D6CC';
 GlobalBoards['devnewton'] = devnewton;
 
@@ -42,8 +42,8 @@ euro.alias = "euro,euroxers";
 GlobalBoards['euromussels'] = euro;
 
 var gabu = new Board('gabuzomeu', false);
-gabu.getUrl = 'http://gabuzomeu.fr/tribune.xml';
-gabu.postUrl = 'http://gabuzomeu.fr/tribune/post';
+gabu.getUrl = 'https://gb3.plop.cc/gb0/tsv';
+gabu.postUrl = 'https://gb3.plop.cc/gb0/post';
 gabu.color = '#aaffbb';
 gabu.slip = SLIP_TAGS_RAW;
 GlobalBoards['gabuzomeu'] = gabu;

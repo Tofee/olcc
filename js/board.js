@@ -316,11 +316,9 @@ Board.prototype.process = function (xhr) { BoardProcessBackend(this, xhr); };
 function BoardGetBackend(board) {
     board.setState(STATE_HTTP);
     var xhr = new XMLHttpRequest();
-    // Le paramètre random est là pour IE6 qui ne tient pas compte des directives de cache
-    var get_url = 'backend.php?r='+Math.random();
+    var get_url = 'backend.php?url='+to_url(board.getUrl.replace("%i", board.lastId || ""));
     if (board.cookie) get_url += '&cookie='+escape(board.cookie);
     if (board.lastModified) get_url += '&lastModified=' + escape(board.lastModified);
-    get_url += '&url='+to_url(board.getUrl.replace("%i", board.lastId || ""));
     xhr.open('GET', get_url, true);
     xhr.onreadystatechange = function() {
         switch (xhr.readyState) {

@@ -16,9 +16,12 @@ Voici un exemple de redirection basique pour nginx:
 location /olcc-cache {
     alias /var/cache/olcc;
     default_type "text/tab-separated-values; charset=utf-8";
+    add_header Last-Modified $date_gmt;
 }
 ```
 
-Puis faire pointer le coincoin sur le tsv suivant: `https://moulingserver.org/olcc-cache/linuxfr.org.cache.tsv`
-
+Puis le fichier local_config.php de olcc, definir le cache suivant: 
+```php
+define("OLCC_CACHE_URL", array('linuxfr.org' => 'https://moulingserver.org/olcc-cache/linuxfr.org.cache.tsv'));
+```
 

@@ -16,7 +16,6 @@ Voici un exemple de redirection basique pour nginx:
 location /olcc-cache {
     alias /var/cache/olcc;
     default_type "text/tab-separated-values; charset=utf-8";
-    add_header Last-Modified $date_gmt;
 }
 ```
 

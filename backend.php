@@ -85,6 +85,11 @@
 			header( 'X-Olcc-' . trim($sName) . ':' . trim($sValue) );
 		}
 	}
+
+	if ( !isset($sLastModified) )
+	{
+		header( 'X-Olcc-Last-Modified:' .  gmdate('D, d M Y H:i:s T') );
+	}
         
         $sBody = substr( $sMessage, $iHeaderLen );
         

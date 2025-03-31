@@ -11,14 +11,16 @@ Olcc-me est une reprise du fabuleux OnlineCoinCoin fait par Chrisix< sur la base
 
 ## Pré-requis
 
-* PHP 5.6
+* PHP 7 (mais testé sur PHP 8.2 seulement)
 * Un navigateur moderne
 
 ## INSTALLATION
 
 * Récupérer les sources :
 
-`git clone https://github.com/BrunoSpy/olcc.git`
+`git clone https://github.com/Tofee/olcc.git`
+
+* Recopier local_config.php.example dans local_config.php, puis compléter la config si besoin
 
 * Configurer son serveur web préféré comme d'habitude
 

@@ -1,0 +1,14 @@
+<?php /* vim: set ts=4 sw=4 noet ai : */
+
+/* LinuxFr OAuth credentials */
+define("ACCESS_TOKEN_URL", array('linuxfr.org' => 'https://linuxfr.org/api/oauth/token'));
+/* define("CLIENT_ID", array('linuxfr.org' => 'my_client_id')); */
+/* define("CLIENT_SECRET", array('linuxfr.org' => 'my_client_secret')); */
+define("CLIENT_ID", array());
+define("CLIENT_SECRET", array());
+
+/* define cache server for some boards */
+/* define("OLCC_CACHE_URL", array('linuxfr.org' => 'https://cacheserver.org/olcc-cache/linuxfr.org.cache.tsv')); */
+define("OLCC_CACHE_URL", array());
+
+?>

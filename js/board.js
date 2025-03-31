@@ -163,7 +163,7 @@ function CheckLinuxFrOAuth(board) {
 
   if (!!board.oauthData.access_token && !!board.oauthData.refresh_token) {
     // refresh du token
-    $.getJSON('oauth_refresh.php?refresh_token=' + board.oauthData.refresh_token, function (data) {
+    $.getJSON('oauth_refresh.php?board=linuxfr.org&refresh_token=' + board.oauthData.refresh_token, function (data) {
       if (!!data.access_token && !!data.refresh_token) {
         // il est frais mon token !
         board.oauthData.access_token = data.access_token;

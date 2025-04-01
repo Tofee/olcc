@@ -1,4 +1,5 @@
 <?php /* vim: set ts=4 sw=4 noet ai : */
+	include('./local_config.php');
 
 	/* If $bDebug is true, append a line in the log file
 	to debug If-Modified-Since/Last-Modified handling. Do not
@@ -9,6 +10,7 @@
 	$sVersion = '1.0.0' ;
 	$aHeaders = array( 'Accept: text/xml', 'Cache-Control: no-cache, must-revalidate' );
 
+	$sTribuneUrl = $_REQUEST['url'];
 
         /* if (strpos($_REQUEST['url'], "bombefourchette")) die('[:kiki]'); */
 
@@ -20,12 +22,23 @@
 	{
 		$aHeaders[] = 'If-Modified-Since: ' . $_REQUEST['lastModified'] ;
 	}
+	else
+	{
+	  /* First load ? try to use a cached content with history
+	   * The url https://moulingserver.org:port/path/to/tribune.tsv will
+	   * become: https://cacheserver.me/olcc-cache/moulingserver.org.cache.tsv */
+	  $parsedUrl = parse_url($sTribuneUrl);
+	  if ( isset( OLCC_CACHE_URL[$parsedUrl['host']] ) )
+	  {
+		$sTribuneUrl = OLCC_CACHE_URL[$parsedUrl['host']];
+	  }
+	}
 
 	$rCurl = curl_init(
 		str_replace(
 			array( '{question}', '{amp}' ),
 			array(          '?',     '&' ),
-			$_REQUEST['url']
+			$sTribuneUrl
 		)
 	);
 	if( $rCurl === false ) 
@@ -71,6 +84,11 @@
 			}
 			header( 'X-Olcc-' . trim($sName) . ':' . trim($sValue) );
 		}
+	}
+
+	if ( !isset($sLastModified) )
+	{
+		header( 'X-Olcc-Last-Modified:' .  gmdate('D, d M Y H:i:s T') );
 	}
         
         $sBody = substr( $sMessage, $iHeaderLen );

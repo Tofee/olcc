@@ -1,0 +1,14 @@
+[Unit]
+Description=Caching of linuxfr.org tribune, last 3 days
+After=network.target
+
+[Service]
+Type=simple
+User=www-data
+WorkingDirectory=/var/cache/olcc
+ExecStart=cache_tribune.sh https://linuxfr.org/board/index.tsv 15
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+

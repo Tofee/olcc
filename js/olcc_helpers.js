@@ -182,7 +182,8 @@ function writeClocks(message, board, postid, post) {
 }
 
 function writePlonk(message, board, post, login, info) {
-    if (login && settings.value('plonk').split(",").contains(login)) {
+    var actualLogin = login || info
+    if (actualLogin && settings.value('plonk').split(",").contains(actualLogin)) {
         addClass(post, "plonk");
     }
     else {

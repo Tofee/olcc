@@ -67,11 +67,16 @@ function insertToPinni(post, postId, board, clock, login, info, message, realId)
     var allposts = GlobalPinni.getElementsByTagName("div") || [];
     var curDiv = null;
     var curId = null;
+    var curYear = null;
+    var postYear = post.getAttribute("year");
     for (var i=allposts.length; i--;) {
         curDiv = allposts[i];
         curId = curDiv.getAttribute("id");
-        if ((curId != "") && (curId < postId)) break;
+        curYear = curDiv.getAttribute("year") || "";
+        if ((curId != "" && curYear != "") && (curId < postId) && (curYear == postYear)) break;
+        if ((curId != "" && curYear != "") && (curYear < postYear)) break;
         curId = null;
+        curYear = null;
     }
     if (curId == null) {
         GlobalPinni.insertBefore(post, GlobalPinni.firstChild); //appendChild(post);
@@ -909,7 +914,9 @@ $(document).ready(function(){
 
     $("#form-message").on('submit', function(e){
         e.preventDefault();
-        sendPost();
+        if (!$("#message").hasClass('loading')) {
+            sendPost();
+        }
     });
 
     $("#filters a").on('click', function(e){

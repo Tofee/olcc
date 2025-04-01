@@ -163,7 +163,7 @@ function CheckLinuxFrOAuth(board) {
 
   if (!!board.oauthData.access_token && !!board.oauthData.refresh_token) {
     // refresh du token
-    $.getJSON('oauth_refresh.php?refresh_token=' + board.oauthData.refresh_token, function (data) {
+    $.getJSON('oauth_refresh.php?board=linuxfr.org&refresh_token=' + board.oauthData.refresh_token, function (data) {
       if (!!data.access_token && !!data.refresh_token) {
         // il est frais mon token !
         board.oauthData.access_token = data.access_token;
@@ -280,7 +280,9 @@ function BoardProcessBackend(board, xhr) {
                     var postDiv = document.createElement('div');
                     // Construction de l'id interne du post au format MMDDhhmmssii@board
                     var postid = timestamp.substr(4, timestamp.length)+'99@'+board.name;
+                    var postYear = timestamp.substr(0, 4);
                     postDiv.setAttribute("id", postid);
+                    postDiv.setAttribute("year", postYear);
                     addClass(postDiv, "pinni-"+board.name);
                     addClass(postDiv, "newpost");
                     addClass(postDiv, "post-container");
@@ -314,11 +316,9 @@ Board.prototype.process = function (xhr) { BoardProcessBackend(this, xhr); };
 function BoardGetBackend(board) {
     board.setState(STATE_HTTP);
     var xhr = new XMLHttpRequest();
-    // Le paramètre random est là pour IE6 qui ne tient pas compte des directives de cache
-    var get_url = 'backend.php?r='+Math.random();
+    var get_url = 'backend.php?url='+to_url(board.getUrl.replace("%i", board.lastId || ""));
     if (board.cookie) get_url += '&cookie='+escape(board.cookie);
     if (board.lastModified) get_url += '&lastModified=' + escape(board.lastModified);
-    get_url += '&url='+to_url(board.getUrl.replace("%i", board.lastId || ""));
     xhr.open('GET', get_url, true);
     xhr.onreadystatechange = function() {
         switch (xhr.readyState) {

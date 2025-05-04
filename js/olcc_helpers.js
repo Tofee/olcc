@@ -95,7 +95,7 @@ function writeClocks(message, board, postid, post) {
         var ref = 'ref'
         var refclass = "clockref";
         if (h[1]) {
-            if (h[1].substr(-1) == "T") {
+            if (h[1].substr(-1) == "T" || h[1].substr(-1) == " ") {
               // Norloges iso à la devnewton<
               ref += h[1].substr(5,2)+h[1].substr(8,2);
             } else {

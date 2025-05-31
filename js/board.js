@@ -320,6 +320,7 @@ function BoardGetBackend(board) {
     if (board.cookie) get_url += '&cookie='+escape(board.cookie);
     if (board.lastModified) get_url += '&lastModified=' + escape(board.lastModified);
     xhr.open('GET', get_url, true);
+    xhr.setRequestHeader("Cache-Control", "no-cache, no-store, max-age=0");
     xhr.onreadystatechange = function() {
         switch (xhr.readyState) {
           case 4:
